@@ -12,6 +12,10 @@
 <Type>%String</Type>
 </Property>
 
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
 <Property name="Address">
 <Type>%String</Type>
 <Parameter name="MAXLEN" value="200"/>
