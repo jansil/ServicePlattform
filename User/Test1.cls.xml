@@ -8,6 +8,10 @@
 <Type>%String</Type>
 </Property>
 
+<Property name="LastName">
+<Type>%String</Type>
+</Property>
+
 <Property name="Address">
 <Type>%String</Type>
 <Parameter name="MAXLEN" value="200"/>
