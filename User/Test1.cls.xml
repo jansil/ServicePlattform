@@ -41,6 +41,12 @@
 <Type>%String</Type>
 </Property>
 
+<Method name="Test">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[	w "Hello world", !
+]]></Implementation>
+</Method>
+
 <Storage name="Default">
 <Type>%Library.CacheStorage</Type>
 <DataLocation>^User.Test1D</DataLocation>
