@@ -29,6 +29,10 @@
 <Type>%String</Type>
 </Property>
 
+<Property name="Svenne2">
+<Type>%String</Type>
+</Property>
+
 <Storage name="Default">
 <Type>%Library.CacheStorage</Type>
 <DataLocation>^User.Test1D</DataLocation>
@@ -48,6 +52,18 @@
 </Value>
 <Value name="3">
 <Value>Address</Value>
+</Value>
+<Value name="4">
+<Value>LastName</Value>
+</Value>
+<Value name="5">
+<Value>City</Value>
+</Value>
+<Value name="6">
+<Value>Postcode</Value>
+</Value>
+<Value name="7">
+<Value>Svenne</Value>
 </Value>
 </Data>
 </Storage>
