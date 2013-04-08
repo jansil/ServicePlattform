@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Operation.CreateAlertReportOperation.v1.CreateAlertReportOperation">
+<Super>Ens.BusinessOperation</Super>
+<TimeCreated>62794,36306.7555</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.SOAP.OutboundAdapter</Default>
+</Parameter>
+
+<Property name="Adapter">
+<Type>EnsLib.SOAP.OutboundAdapter</Type>
+</Property>
+
+<Parameter name="INVOCATION">
+<Default>Queue</Default>
+</Parameter>
+
+<Method name="CreateAlertReport">
+<FormalSpec>pRequest:OLL.MonitoringService.AlertReportClient.Message.CreateAlertReport.v1.CreateAlertReportRequest,*pResponse:OLL.MonitoringService.AlertReportClient.Message.CreateAlertReport.v1.CreateAlertReportResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.CreateAlertReportResponderPort"
+ //Set any=pRequest.any
+ Set tSC = ..Adapter.InvokeMethod("CreateAlertReport",.ResultCode,pRequest.AlertReport,.comment,.any)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.ResultCode=ResultCode,pResponse.comment = comment,pResponse.any = any
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="OLL.MonitoringService.AlertReportClient.Message.CreateAlertReport.v1.CreateAlertReportRequest">
+		<Method>CreateAlertReport</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+</Export>

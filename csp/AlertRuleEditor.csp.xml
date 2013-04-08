@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<CSP name="AlertRuleEditor.CSP" application="/csp/monitoringsevice/" default="1"><![CDATA[
+<html>
+<head>
+
+<!-- Put your page Title here -->
+<title>	AlertRuleEditor </title>
+
+</head>
+
+<body>
+
+		
+
+<head>
+<title>Cache Server Page - OLL.MonitoringService.AlertHandling.AlertRule (MONITORINGSERVICE)</title>
+</head>
+<h1 align='center'>OLL.MonitoringService.AlertHandling.AlertRule</h1>
+<!-- This function is needed by the search button on the form -->
+<script language='javascript'>
+<!--
+function update(id)
+{
+     #server(..formLoad(id))#;
+     return true;
+}
+
+// -->
+</script>
+
+<!-- use CSP:OBJECT tag to create a reference to an instance of the class -->
+<csp:object name='objForm' classname='OLL.MonitoringService.AlertHandling.AlertRule' OBJID='#(%request.Get("OBJID"))#'>
+
+<!-- use csp:search tag to create a javascript function to invoke a search page --> 
+<csp:search name='form_search' classname='OLL.MonitoringService.AlertHandling.AlertRule' where='alertRuleId,matchNamespace,matchInstance,matchAlertLevel,rulePriority,ruleSendMail,ruleGenerateSNMPTrap,ruleMailReceivers' options='popup,clearbtn,predicates,sortbox' onselect='update'>
+
+<form name='form' cspbind='objForm' cspjs='All' onsubmit='return form_validate();'>
+<center>
+<table cellpadding='3'>
+	<tr>
+		<td><b><div align='right'>alertRuleId:</div></b></td>
+		<td><input type='text' name='alertRuleId' cspbind='alertRuleId' size='10'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchAlertLevel:<font color="#990000">(used in sql match)</font></div></b></td>
+		<!--<td><input type='text' name='matchAlertLevel' cspbind='matchAlertLevel' size='50'></td>-->
+		
+		<td><select name="matchAlertLevel" cspbind='matchAlertLevel' onchange="if (options[selectedIndex].value=='select') submit();">
+  		<option value="ERROR" >ERROR</option>
+  		<option value="CRITICAL" >CRITICAL</option>
+  		<option value="FATAL" selected>FATAL</option>
+  		<option value="WARNING" >WARNING</option>
+  		<option value="TRACE" >TRACE</option>
+  		<option value="DEBUG" >DEBUG</option>
+		</select></td>
+
+		
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchAlertMessage:</div></b></td>
+		<td><input type='text' name='matchAlertMessage' cspbind='matchAlertMessage' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchBusinessHost:</div></b></td>
+		<td><input type='text' name='matchBusinessHost' cspbind='matchBusinessHost' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchBusinessObjectId:</div></b></td>
+		<td><input type='text' name='matchBusinessObjectId' cspbind='matchBusinessObjectId' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchBusinessObjectType:</div></b></td>
+		<td><input type='text' name='matchBusinessObjectType' cspbind='matchBusinessObjectType' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>ruleSendMail:</div></b></td>
+		<!--<td><input type='text' name='ruleSendMail' cspbind='ruleSendMail' size='50'></td>-->
+		
+		<td><select name="ruleSendMail" cspbind='ruleSendMail' onchange="if (options[selectedIndex].value=='select') submit();">
+  		<option value="true" >true</option>
+  		<option value="false" >false</option>
+		</select></td>
+		
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchInstance:<font color="#990000">(used in sql match)</font></div></b></td>
+		<td><input type='text' name='matchInstance' cspbind='matchInstance' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchNamespace:<font color="#990000">(used in sql match)</font></div></b></td>
+		<td><input type='text' name='matchNamespace' cspbind='matchNamespace' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchSourceSystem:</div></b></td>
+		<td><input type='text' name='matchSourceSystem' cspbind='matchSourceSystem' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>matchTargetSystem:</div></b></td>
+		<td><input type='text' name='matchTargetSystem' cspbind='matchTargetSystem' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>ruleAdditionalMessage:</div></b></td>
+		<td><input type='text' name='ruleAdditionalMessage' cspbind='ruleAdditionalMessage' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>ruleDescription:</div></b></td>
+		<td><input type='text' name='ruleDescription' cspbind='ruleDescription' size='50'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>ruleGenerateSNMPTrap:</div></b></td>
+		<!--<td><input type='text' name='ruleGenerateSNMPTrap' cspbind='ruleGenerateSNMPTrap' size='50'></td>-->
+		
+		<td><select name="ruleGenerateSNMPTrap" cspbind='ruleGenerateSNMPTrap' onchange="if (options[selectedIndex].value=='select') submit();">
+  		<option value="true" >true</option>
+  		<option value="false" >false</option>
+		</select></td>
+		
+	</tr>
+	<tr>
+		<td><b><div align='right'>ruleMailReceivers:</div></b></td>
+		<td><input type='text' name='ruleMailReceivers' cspbind='ruleMailReceivers' size='100'></td>
+	</tr>
+	<tr>
+		<td><b><div align='right'>rulePriority:</div></b></td>
+		<td><input type='text' name='rulePriority' cspbind='rulePriority' size='10'></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><input type='button' name='btnClear' value='Clear' onclick='form_new();'>
+	<input type='button' name='btnSave' value='Save' onclick='form_save();'>
+	<input type='button' name='btnSearch' value='Search' onclick='form_search();'></td>
+	</tr>
+</table>
+</center>
+</form>
+
+
+</body>
+</html>]]></CSP>
+</Export>

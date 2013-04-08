@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.ReportHandling.AlertReportHandler">
+<Super>%RegisteredObject</Super>
+<TimeCreated>62544,55463.546742</TimeCreated>
+
+<Property name="AlertReports">
+<Type>OLL.MonitoringService.ReportHandling.ResultResponder</Type>
+<Collection>list</Collection>
+</Property>
+
+<Method name="GetUnProcessedAlerts">
+<Implementation><![CDATA[
+	Set rset = ##class(%ResultSet).%New()
+ 	Set rset.ClassName = "OLL.MonitoringService.ReportHandling.ResultResponder"
+ 	Set rset.QueryName = "GetUnProcessedAlerts"
+ 	
+ 	Do rset.Execute()
+ 	
+ 	Set id = -1 
+ 	
+ 	While (rset.Next(.sc))
+     {
+	 	Set id = rset.Data("ID")
+	 	
+	 	Set alertInstance = ##class(OLL.MonitoringService.ReportHandling.ResultResponder).%OpenId(id)
+	 	do ..AlertReports.Insert(alertInstance)
+     }
+]]></Implementation>
+</Method>
+
+<Method name="SetAsProcessed">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>alertGUID:%String</FormalSpec>
+<Implementation><![CDATA[
+	set sql = "UPDATE OLL_MonitoringService_ReportHandling.ResultResponder SET processed = 1 where alertGUID = ?"
+	Set statement = ##class(%SQL.Statement).%New()
+	set status = statement.%Prepare(sql)
+	set status = statement.%Execute(alertGUID)
+]]></Implementation>
+</Method>
+
+<Method name="SetAsUnProcessed">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>alertGUID:%String</FormalSpec>
+<Implementation><![CDATA[
+	set sql = "UPDATE OLL_MonitoringService_ReportHandling.ResultResponder SET processed = 0 where alertGUID = ?"
+	Set statement = ##class(%SQL.Statement).%New()
+	set status = statement.%Prepare(sql)
+	set status = statement.%Execute(alertGUID)
+]]></Implementation>
+</Method>
+
+<Method name="GetAlertReportsAsString">
+<Implementation><![CDATA[
+	set resultStr = ""
+	#dim tempAlert As OLL.MonitoringService.ReportHandling.ResultResponder;
+	
+	For i = 1 : 1 : ..AlertReports.Count()
+	{
+		set tempAlert = ..AlertReports.GetAt(i)
+    	set resultStr = resultStr _ "alertGUID: " _ tempAlert.alertGUID _ $C(13,10) _
+    								"alertLevel: " _ tempAlert.alertLevel _ $C(13,10) _
+    								"alertMessage: " _ tempAlert.alertMessage _ $C(13,10) _
+    								"alertTimeStamp: " _ tempAlert.alertTimeStamp _ $C(13,10) _
+    								"businessHost: " _ tempAlert.businessHost _ $C(13,10) _
+    								"businessObjectId: " _ tempAlert.businessObjectId _ $C(13,10) _
+    								"businessObjectType: " _ tempAlert.businessObjectType _ $C(13,10) _
+    								"jobId: " _ tempAlert.jobId _ $C(13,10) _
+    								"method: " _ tempAlert.method _ $C(13,10) _
+    								"namespace: " _ tempAlert.namespace _ $C(13,10) _
+    								"sessionId: " _ tempAlert.sessionId _ $C(13,10) _
+    								"source: " _ tempAlert.source _ $C(13,10) _
+    								"sourceSystem: " _ tempAlert.sourceSystem _ $C(13,10) _
+    								"targetSystem: " _ tempAlert.targetSystem _ $C(13,10) _
+    								"instance " _ tempAlert.instance _ $C(13,10) _
+    								"------------------------------------------" _ $C(13,10)
+ 	}
+
+	quit resultStr
+]]></Implementation>
+</Method>
+</Class>
+</Export>

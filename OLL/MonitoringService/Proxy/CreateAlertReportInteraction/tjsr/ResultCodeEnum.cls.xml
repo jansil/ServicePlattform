@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Proxy.CreateAlertReportInteraction.tjsr.ResultCodeEnum">
+<Description>
+Created from: d:/ensemble_instances/ensutv/db/monitoringservice/schemas/interactions/createalertreportinteraction/createalertreportresponder_1.0.xsd</Description>
+<ClassType>datatype</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%String</Super>
+<TimeCreated>62567,33037.313173</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="MAXLEN">
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:oll:itintegration:monitoring:CreateAlertReportResponder:1</Default>
+</Parameter>
+
+<Parameter name="VALUELIST">
+<Default>,OK,ERROR,INFO</Default>
+</Parameter>
+</Class>
+</Export>

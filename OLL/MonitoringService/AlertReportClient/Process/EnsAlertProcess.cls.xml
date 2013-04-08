@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Process.EnsAlertProcess">
+<ClassType>persistent</ClassType>
+<Super>Ens.BusinessProcess</Super>
+<TimeCreated>62795,45024.28216</TimeCreated>
+
+<Parameter name="SETTINGS">
+<Default>TargetConfigName</Default>
+</Parameter>
+
+<Property name="TargetConfigName">
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Method name="OnRequest">
+<FormalSpec>pRequest:Ens.AlertRequest,*pResponse:Ens.Response</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tAlert = ##class(OLL.MonitoringService.AlertReportClient.Message.Alert.AlertRequest).CreateAlertRequest("ERROR", pRequest.AlertText)
+	Set tSC=..SendRequestAsync(..TargetConfigName, tAlert, 0)
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>EnsAlertProcessDefaultData</DefaultData>
+<Data name="EnsAlertProcessDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"EnsAlertProcess"</Subscript>
+<Value name="1">
+<Value>TargetConfigName</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

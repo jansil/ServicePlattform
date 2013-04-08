@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertHandling.AlertRule">
+<Super>%Persistent</Super>
+<TimeCreated>62558,53432.324767</TimeCreated>
+
+<Property name="alertRuleId">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="rulePriority">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ruleDescription">
+<Type>%String</Type>
+</Property>
+
+<Property name="ruleAdditionalMessage">
+<Type>%String</Type>
+</Property>
+
+<Property name="ruleGenerateSNMPTrap">
+<Type>%String</Type>
+</Property>
+
+<Property name="ruleSendMail">
+<Type>%String</Type>
+</Property>
+
+<Property name="ruleMailReceivers">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="matchAlertLevel">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchInstance">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchAlertMessage">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchNamespace">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchBusinessHost">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchBusinessObjectId">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchBusinessObjectType">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchSourceSystem">
+<Type>%String</Type>
+</Property>
+
+<Property name="matchTargetSystem">
+<Type>%String</Type>
+</Property>
+
+<Property name="keyProperties">
+<Type>OLL.MonitoringService.Proxy.CreateAlertReportInteraction.core.KeyPropertiesType</Type>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* AND (IFNULL(matchAlertMessage,'',matchAlertMessage)) like (IFNULL(:pAlertMessage,'',:pAlertMessage))
+AND (IFNULL(matchBusinessHost,'',matchBusinessHost))= (IFNULL(:pBusinessHost,'',:pBusinessHost))
+		AND (IFNULL(matchBusinessObjectId,'',matchBusinessObjectId))= (IFNULL(:pBusinessObjectId,'',:pBusinessObjectId))
+		AND (IFNULL(matchBusinessObjectType,'',matchBusinessObjectType))= (IFNULL(:pBusinessObjectType,'',:pBusinessObjectType))
+		AND (IFNULL(matchSourceSystem,'',matchSourceSystem))= (IFNULL(:pSourceSystem,'',:pSourceSystem))
+		AND (IFNULL(matchTargetSystem,'',matchTargetSystem))= (IFNULL(:pTargetSystem,'',:pTargetSystem))*/
+]]></Content>
+</UDLText>
+
+<Query name="GetAlertRule">
+<Type>%SQLQuery</Type>
+<FormalSpec>pAlertLevel:%String,pInstance:%String,pAlertMessage:%String,pNamespace:%String,pBusinessHost:%String,pBusinessObjectId:%String,pBusinessObjectType:%String,pSourceSystem:%String,pTargetSystem:%String</FormalSpec>
+<SqlQuery>	SELECT %ID,alertRuleId,matchAlertLevel,matchAlertMessage,matchBusinessHost,matchBusinessObjectId,matchBusinessObjectType,matchInstance,matchNamespace,matchSourceSystem,matchTargetSystem,ruleAdditionalMessage,ruleDescription,ruleGenerateSNMPTrap,ruleMailReceivers,rulePriority,ruleSendMail
+ FROM OLL_MonitoringService_AlertHandling.AlertRule
+ WHERE (IFNULL(matchAlertLevel,'',matchAlertLevel)) = (IFNULL(:pAlertLevel,'',:pAlertLevel))
+ 		AND (IFNULL(matchInstance,'',matchInstance)) = (IFNULL(:pInstance,'',:pInstance))
+ 		AND (IFNULL(matchNamespace,'',matchNamespace)) = (IFNULL(:pNamespace,'',:pNamespace))
+ 		
+		
+ ORDER BY rulePriority</SqlQuery>
+<Parameter name="CONTAINID" value="2"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^OLL.MonitoringSe421E.AlertRuleD</DataLocation>
+<DefaultData>AlertRuleDefaultData</DefaultData>
+<IdLocation>^OLL.MonitoringSe421E.AlertRuleD</IdLocation>
+<IndexLocation>^OLL.MonitoringSe421E.AlertRuleI</IndexLocation>
+<StreamLocation>^OLL.MonitoringSe421E.AlertRuleS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="AlertRuleDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>alertRuleId</Value>
+</Value>
+<Value name="3">
+<Value>rulePriority</Value>
+</Value>
+<Value name="4">
+<Value>ruleDescription</Value>
+</Value>
+<Value name="5">
+<Value>ruleAdditionalMessage</Value>
+</Value>
+<Value name="6">
+<Value>ruleGenerateSNMPTrap</Value>
+</Value>
+<Value name="7">
+<Value>ruleSendMail</Value>
+</Value>
+<Value name="8">
+<Value>ruleMailReceivers</Value>
+</Value>
+<Value name="9">
+<Value>matchAlertLevel</Value>
+</Value>
+<Value name="10">
+<Value>matchInstance</Value>
+</Value>
+<Value name="11">
+<Value>matchAlertMessage</Value>
+</Value>
+<Value name="12">
+<Value>matchNamespace</Value>
+</Value>
+<Value name="13">
+<Value>matchBusinessHost</Value>
+</Value>
+<Value name="14">
+<Value>matchBusinessObjectId</Value>
+</Value>
+<Value name="15">
+<Value>matchBusinessObjectType</Value>
+</Value>
+<Value name="16">
+<Value>matchJobId</Value>
+</Value>
+<Value name="17">
+<Value>matchMethod</Value>
+</Value>
+<Value name="18">
+<Value>matchSessionId</Value>
+</Value>
+<Value name="19">
+<Value>matchSource</Value>
+</Value>
+<Value name="20">
+<Value>matchSourceSystem</Value>
+</Value>
+<Value name="21">
+<Value>matchTargetSystem</Value>
+</Value>
+<Value name="22">
+<Value>keyProperties</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

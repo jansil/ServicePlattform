@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.MonitoringProduction">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Production</Super>
+<TimeCreated>62539,51687.820568</TimeCreated>
+
+<XData name="ProductionDefinition">
+<Data><![CDATA[
+<Production Name="OLL.MonitoringService.MonitoringProduction" TestingEnabled="true" LogGeneralTraceEvents="false">
+  <Description></Description>
+  <ActorPoolSize>2</ActorPoolSize>
+  <Item Name="Ens.Alert" Category="Errorhandling" ClassName="OLL.MonitoringService.ErrorAlert.AlertOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="AlertOnError">0</Setting>
+    <Setting Target="Host" Name="ArchiveIO">0</Setting>
+    <Setting Target="Adapter" Name="SMTPServer">m1.orebroll.se</Setting>
+    <Setting Target="Adapter" Name="SMTPPort">25</Setting>
+    <Setting Target="Adapter" Name="Recipient">ensmail@orebroll.se</Setting>
+    <Setting Target="Adapter" Name="Cc">henrik.lindstrom@orebroll.se</Setting>
+    <Setting Target="Adapter" Name="From">enstest_Monitoringservice@orebroll.se</Setting>
+  </Item>
+  <Item Name="OLL.MonitoringService.Service.CreateAlertReportInteraction.CreateAlertReportService" Category="RecieveError" ClassName="OLL.MonitoringService.Service.CreateAlertReportInteraction.CreateAlertReportService" PoolSize="0" Enabled="true" Foreground="false" Comment="AlertReporting" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="AlertOnError">1</Setting>
+  </Item>
+  <Item Name="OLL.MonitoringService.Service.AlertProcessingTriggerService.ProcessingTriggerService" Category="Errorhandling" ClassName="OLL.MonitoringService.Service.AlertProcessingTriggerService.ProcessingTriggerService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="TargetConfigName">AlertProcessingProcess</Setting>
+    <Setting Target="Host" Name="AlertOnError">1</Setting>
+    <Setting Target="Adapter" Name="FilePath">D:\ensemble_instances\ENSUTV2012\productions\MONITORINGSERVICE\trans\work\</Setting>
+  </Item>
+  <Item Name="AlertProcessingProcess" Category="Errorhandling" ClassName="OLL.MonitoringService.Process.AlertProcessingProcess" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="InternalErrMailReceiver">henrik.lindstrom@orebroll.se</Setting>
+    <Setting Target="Host" Name="AlertOnError">1</Setting>
+  </Item>
+  <Item Name="SendAlertMailOperation" Category="Errorhandling" ClassName="OLL.MonitoringService.Operation.SendAlertMailOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="Send mail alert" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="AlertOnError">1</Setting>
+    <Setting Target="Adapter" Name="SMTPServer">m1.orebroll.se</Setting>
+    <Setting Target="Adapter" Name="SMTPPort">25</Setting>
+    <Setting Target="Adapter" Name="Recipient">ensmail@orebroll.se</Setting>
+    <Setting Target="Adapter" Name="From">enstest_monitoring@orebroll.se</Setting>
+  </Item>
+  <Item Name="SendSNMPOperation" Category="Errorhandling" ClassName="OLL.MonitoringService.Operation.SendSNMPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="Send SNMP alert" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="AlertOnError">1</Setting>
+  </Item>
+</Production>
+]]></Data>
+</XData>
+</Class>
+</Export>

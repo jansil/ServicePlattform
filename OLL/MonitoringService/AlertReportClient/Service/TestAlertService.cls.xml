@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Service.TestAlertService">
+<Super>Ens.BusinessService</Super>
+<TimeCreated>62794,38172.039436</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.File.InboundAdapter</Default>
+</Parameter>
+
+<Parameter name="SETTINGS">
+<Default>AlertTargetName</Default>
+</Parameter>
+
+<Property name="AlertTargetName">
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Method name="OnProcessInput">
+<FormalSpec>pInput:%Stream.Object,*pOutput:%RegisteredObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// Gör en division med 0 för att trigga ett undantag, fånga undantaget och logga.
+	try {
+		Set tFoo = 1/0
+	} catch myexc {
+		Set tAlert = ##class(OLL.MonitoringService.AlertReportClient.Message.Alert.AlertRequest).CreateAlertRequest("ERROR", $System.Status.GetOneStatusText(myexc.AsStatus()))
+		Set tSC=..SendRequestAsync(..AlertTargetName, tAlert)
+	}
+
+	// Gör en division med 0 för att trigga ett undantag som kan fångas av process Ens.Alert-process
+	Set tFoo = 1/0
+	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Operation.SendAlertMailOperation">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.BusinessOperation</Super>
+<TimeCreated>62552,49965.594234</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.EMail.OutboundAdapter</Default>
+</Parameter>
+
+<Property name="Adapter">
+<Type>EnsLib.EMail.OutboundAdapter</Type>
+</Property>
+
+<Parameter name="INVOCATION">
+<Default>Queue</Default>
+</Parameter>
+
+<Method name="SendAlertMail">
+<FormalSpec>pRequest:OLL.MonitoringService.Message.SendAlertRequest,*pResponse:Ens.Response</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tMailMessage=##class(%Net.MailMessage).%New()
+	Set tMailMessage.Subject="Ensemble alert i integration " _ pRequest.namespace
+	Set tMailMessage.Charset="iso-8859-1"
+	set pResponse = "ERROR"
+	
+	For i = 1 : 1 : pRequest.mailreceiver.Count()
+	{
+		Do tMailMessage.To.Insert(pRequest.mailreceiver.GetAt(i))
+	}
+
+	set msg = pRequest.body
+	
+	Set tSC=tMailMessage.TextData.Write(msg)  Quit:$$$ISERR(tSC) tSC
+	
+	set tSC = ..Adapter.SendMail(tMailMessage)
+	set pResponse = "OK"
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="OLL.MonitoringService.Message.SendAlertRequest"> 
+		<Method>SendAlertMail</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+</Export>
