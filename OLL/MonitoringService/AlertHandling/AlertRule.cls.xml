@@ -175,6 +175,9 @@ AND (IFNULL(matchBusinessHost,'',matchBusinessHost))= (IFNULL(:pBusinessHost,'',
 <Value name="22">
 <Value>keyProperties</Value>
 </Value>
+<Value name="23">
+<Value>ruleSendMail2</Value>
+</Value>
 </Data>
 </Storage>
 </Class>
