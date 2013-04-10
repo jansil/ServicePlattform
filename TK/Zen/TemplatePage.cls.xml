@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.TemplatePage">
+<Description>
+Created using the page template: Default</Description>
+<Super>%ZEN.Component.page</Super>
+<TimeCreated>62532,59047.659893</TimeCreated>
+
+<Parameter name="APPLICATION">
+<Description>
+Class name of application this page belongs to.</Description>
+<Default>TK.Zen.Application</Default>
+</Parameter>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>TK</Default>
+</Parameter>
+
+<Parameter name="DOMAIN">
+<Description>
+Domain used for localization.</Description>
+<Default>ServiceCatalog</Default>
+</Parameter>
+
+<Parameter name="CURRENTMENUITEM">
+<Description>
+Id of the menu item that should be current when displaying this page</Description>
+<Type>%String</Type>
+</Parameter>
+
+<Parameter name="TABLEPANES">
+<Description>
+List of table pane ids to apply preferences to</Description>
+<Type>%String</Type>
+</Parameter>
+
+<Property name="viewIDs">
+<Description>
+Preference: view column for object ids in table panes</Description>
+<Type>%ZEN.Datatype.boolean</Type>
+</Property>
+
+<Property name="currentMenuItem">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="userName">
+<Type>%String</Type>
+<InitialExpression>$username</InitialExpression>
+</Property>
+
+<XData name="Style">
+<Description>
+This Style block contains page-specific CSS style definitions.</Description>
+<Data><![CDATA[
+<style type='text/css'>
+	</style>
+]]></Data>
+</XData>
+
+<XData name="Contents">
+<Description>
+This XML block defines the contents of this page.</Description>
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<page xmlns="http://www.intersystems.com/zen"  xmlns:custom="http://www.intersystems.com/zen/custom" title="Service Catalog" dragAndDrop="true">
+<hgroup id="topForBanner">
+<hgroup id="banner">
+<pane paneName="bannerPane"/>
+</hgroup>
+</hgroup>
+<vgroup id="bottomForContent">
+<vgroup id="contentGroup">
+<label id="contentLabel" value="#(%page.%GetPageName())#" />
+<pane paneName="ContentPane"/>
+</vgroup>
+</vgroup>
+</page>
+]]></Data>
+</XData>
+
+<XData name="bannerPane">
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<pane>
+<hgroup>
+<label id="titleLabel" value="Tjänstekatalog" />
+<link id="titleUserName" caption="#(%page.userName)#" title="Logout" href="TK.Zen.Logout.cls"/>
+</hgroup>
+<hmenu id="menu">
+<menuItem id="menuItemRIVTA" caption="RIV-TA profile" link="TK.Zen.RIVTA.cls" title="Manage RIV-TA profiles" />
+<menuItem id="menuItemServiceContracts" caption="Contract" link="TK.Zen.Tjanstekontrakt.cls" title="Manage Service Contracts" />
+<menuItem id="menuItemServiceComponents" caption="Service components" link="TK.Zen.ServiceComponents.cls" title="Manage service components" />
+<menuItem id="menuItemLogicalAddressees" caption="Logical addressees" link="TK.Zen.LogicalAddressees.cls" title="Manage logical addressees" />
+<menuItem id="menuItemLogicalAddresses" caption="Logical addresses" link="TK.Zen.LogicalAddresses.cls" title="Manage logical addresses" />
+<menuItem id="menuItemAccessRights" caption="Access rights" link="TK.Zen.AccessRights.cls" title="Manage access rights" />
+<menuItem id="menuItemAbout" caption="About" link="TK.Zen.About.cls" title="About Service catalog" />
+</hmenu>
+</pane>
+]]></Data>
+</XData>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Event Handlers
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="%OnAfterCreatePage">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set ..viewIDs = 1 // ##class(SEA.Model.Preference).GetValueFor("viewIDs")
+	Set ..currentMenuItem = ..#CURRENTMENUITEM
+
+	If (..#TABLEPANES '= "") {
+		For i=1:1:$Length(..#TABLEPANES, ",") {
+			Do ..%ApplyPreferencesToTable($Piece($Piece(..#TABLEPANES, ",", i), ":", 1), $Piece($Piece(..#TABLEPANES, ",", i), ":", 2))
+		}
+	}
+
+	If ($Get(^SEA("Version"), 0) < 1.3) {
+		Do ..UpgradeTo13()
+		Set ^SEA("Version") = ##class(TK.Zen.Application).GetVersion()
+	}
+	
+	//Set appTitle = $$$Text("ID")
+
+	Quit ##super()
+]]></Implementation>
+</Method>
+
+<Method name="onloadHandler">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	var menuItem = this.getComponentById(this.currentMenuItem);
+	if (menuItem) {
+		var a = menuItem.findElement("a");
+		zenASSERT(a,"Unable to find anchor element",arguments);
+		a.className = "menuItemCurrent";
+	}
+	this.onresizeHandler();
+]]></Implementation>
+</Method>
+
+<Method name="updateMenu">
+<FormalSpec>currentMenuItem</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	var menuItem = this.getComponentById(currentMenuItem);
+	if (menuItem) {
+		var a = menuItem.findElement("a");
+		zenASSERT(a,"Unable to find anchor element",arguments);
+		a.className = "menuItemCurrent";
+	}
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Etc.
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="refreshContextLabel">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	/*
+	var text = this.GetCurrentVersionInfoText()
+	var label = zen('contextLabel')
+	label.setProperty('value', text)
+	*/
+]]></Implementation>
+</Method>
+
+<Method name="%ApplyPreferencesToTable">
+<FormalSpec>pTableId:%String,pTableSetup:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	#Dim tTable As %ZEN.Component.tablePane = %page.%GetComponentById(pTableId)
+	Do $ZObjMethod($this, pTableSetup, tTable)
+]]></Implementation>
+</Method>
+
+<Method name="setPropertySet">
+<Final>1</Final>
+<FormalSpec>pObj,pList</FormalSpec>
+<Private>1</Private>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[	Set tSep = $Extract(pList,1) For i=2:1:$Length(pList, tSep) Set tProp = $Piece(pList, tSep, i),tName=$Piece(tProp,"=",1),tVal=$Piece(tProp,"=",2),$Property(pObj,tName)=tVal
+]]></Implementation>
+</Method>
+
+<Method name="SetContext">
+<FormalSpec>pName:%String,pId:%String</FormalSpec>
+<ReturnType>%ZEN.Datatype.boolean</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+	#Dim tOk As %Boolean = 1
+	Do %application.SetContext(pName, pId)
+	Quit tOk
+]]></Implementation>
+</Method>
+
+<Method name="GetContext">
+<FormalSpec>pName:%String</FormalSpec>
+<ReturnType>%ZEN.Datatype.string</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[	Quit %application.GetContext(pName)
+]]></Implementation>
+</Method>
+
+<Method name="UpgradeTo13">
+<Implementation><![CDATA[	Kill ^SEA.Model.TypeD
+]]></Implementation>
+</Method>
+
+<Method name="MakeUserMessage">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pException:%Exception.AbstractException,pTextBefore:%String="",pTextAfter:%String=""</FormalSpec>
+<ReturnType>%String</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+	#Dim tText As %String = pException.DisplayString()
+	Set tText = $Replace(tText, "ERROR #5001: ", "")
+	Quit pTextBefore _ tText _ pTextAfter
+]]></Implementation>
+</Method>
+
+<Method name="doNothing">
+<FormalSpec>id</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+</Method>
+
+<Method name="onresizeHandler">
+<Description>
+This client event, if present, is fired when the page is resized.</Description>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	var menu = zen('menu');
+	var numberOfItems = menu.children.length;
+	var windowWidth = window.innerWidth;
+	var tabHeaderWidth = windowWidth / numberOfItems;
+	
+	if (tabHeaderWidth > 130) menu.setProperty('enclosingClass','zendiv');
+	if ((tabHeaderWidth <= 130) && (tabHeaderWidth > 75)) menu.setProperty('enclosingClass','zendiv small');
+	if (tabHeaderWidth <= 75) menu.setProperty('enclosingClass','zendiv tiny');
+]]></Implementation>
+</Method>
+
+<Method name="logout">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	document.location = 'TK.Zen.Logout.cls';
+	return false;
+]]></Implementation>
+</Method>
+
+<Parameter name="HTMLDTD">
+<Description>
+If true, draw an HTML Document Type Declaration at the start of this page.</Description>
+<Type>BOOLEAN</Type>
+<Default>1</Default>
+</Parameter>
+
+<Method name="%OnDetermineCSSLevel">
+<Description>
+This callback method determines lets a page specify level of CSS support is used by this page.
+The default is to return "", which indicates that the built-in ZEN CSS level
+detection is used. A page can override this and return 2 or 3.</Description>
+<CodeMode>expression</CodeMode>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA["3"
+]]></Implementation>
+</Method>
+</Class>
+</Export>

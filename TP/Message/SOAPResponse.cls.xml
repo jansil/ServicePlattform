@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Message.SOAPResponse">
+<Super>EnsLib.SOAP.GenericMessage</Super>
+<TimeCreated>62917,62717.08324</TimeCreated>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Anropsbehorighet">
+<Description>
+</Description>
+<ClassType>persistent</ClassType>
+<DdlAllowed>1</DdlAllowed>
+<Owner>UnknownUser</Owner>
+<ProcedureBlock>1</ProcedureBlock>
+<SqlRowIdPrivate>1</SqlRowIdPrivate>
+<SqlTableName>Anropsbehorighet</SqlTableName>
+<StorageStrategy>Default</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>62335,38346.128561</TimeCreated>
+
+<ForeignKey name="ANROPSBEHORIGHETFKey7">
+<Description>
+Foreign Key ANROPSBEHORIGHETFKey7 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>LogiskAdressatid</Properties>
+<ReferencedClass>TK.Logiskadressat</ReferencedClass>
+<ReferencedKey>LOGISKADRESSATPKey3</ReferencedKey>
+<SqlName>ANROPSBEHORIGHETFKey7</SqlName>
+</ForeignKey>
+
+<ForeignKey name="ANROPSBEHORIGHETFKey8">
+<Description>
+Foreign Key ANROPSBEHORIGHETFKey8 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>Tjanstekonsumentid</Properties>
+<ReferencedClass>TK.Tjanstekomponent</ReferencedClass>
+<ReferencedKey>TJANSTEKOMPONENTPKey3</ReferencedKey>
+<SqlName>ANROPSBEHORIGHETFKey8</SqlName>
+</ForeignKey>
+
+<ForeignKey name="ANROPSBEHORIGHETFKey9">
+<Description>
+Foreign Key ANROPSBEHORIGHETFKey9 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>Tjanstekontraktid</Properties>
+<ReferencedClass>TK.Tjanstekontrakt</ReferencedClass>
+<ReferencedKey>TJANSTEKONTRAKTPKey3</ReferencedKey>
+<SqlName>ANROPSBEHORIGHETFKey9</SqlName>
+</ForeignKey>
+
+<Index name="ANROPSBEHORIGHETPKey6">
+<Description>
+DDL Primary Key Specification</Description>
+<Type>index</Type>
+<PrimaryKey>1</PrimaryKey>
+<Properties>Id</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Id">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>2</SqlColumnNumber>
+<Identity>1</Identity>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="FromTidpunkt">
+<Type>%Library.Date</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>3</SqlColumnNumber>
+</Property>
+
+<Property name="Integrationsavtal">
+<Type>%Library.String</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>4</SqlColumnNumber>
+<Parameter name="MAXLEN" value="255"/>
+</Property>
+
+<Property name="TomTidpunkt">
+<Type>%Library.Date</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>5</SqlColumnNumber>
+</Property>
+
+<Property name="Version">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>6</SqlColumnNumber>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="LogiskAdressatid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>7</SqlColumnNumber>
+<SqlFieldName>LogiskAdressat_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="Tjanstekonsumentid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>8</SqlColumnNumber>
+<SqlFieldName>Tjanstekonsument_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="Tjanstekontraktid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>9</SqlColumnNumber>
+<SqlFieldName>Tjanstekontrakt_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^TK.AnropsbehorighetD</DataLocation>
+<DefaultData>AnropsbehorighetDefaultData</DefaultData>
+<IdLocation>^TK.AnropsbehorighetD</IdLocation>
+<IndexLocation>^TK.AnropsbehorighetI</IndexLocation>
+<StreamLocation>^TK.AnropsbehorighetS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="AnropsbehorighetDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>FromTidpunkt</Value>
+</Value>
+<Value name="3">
+<Value>Integrationsavtal</Value>
+</Value>
+<Value name="4">
+<Value>TomTidpunkt</Value>
+</Value>
+<Value name="5">
+<Value>Version</Value>
+</Value>
+<Value name="6">
+<Value>LogiskAdressatid</Value>
+</Value>
+<Value name="7">
+<Value>Tjanstekonsumentid</Value>
+</Value>
+<Value name="8">
+<Value>Tjanstekontraktid</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

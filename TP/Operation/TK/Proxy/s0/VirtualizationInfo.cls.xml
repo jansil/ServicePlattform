@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.TK.Proxy.s0.VirtualizationInfo">
+<Description><![CDATA[
+Created from: http://localhost:57773/csp/tp/TK.Service.SearchRoutingInfoService.CLS?WSDL=1&CacheUserName=_system&CachePassword=SYS]]></Description>
+<ClassType>serial</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeCreated>62341,82347.505575</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>VirtualizationInfo</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="virtualiseringsInfoId">
+<Type>%Integer</Type>
+<Parameter name="XMLNAME" value="virtualiseringsInfoId"/>
+</Property>
+
+<Property name="receiverId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="receiverId"/>
+</Property>
+
+<Property name="rivProfil">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="rivProfil"/>
+</Property>
+
+<Property name="tjansteKontrakt">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="tjansteKontrakt"/>
+</Property>
+
+<Property name="fromTidpunkt">
+<Type>%Date</Type>
+<Parameter name="XMLNAME" value="fromTidpunkt"/>
+</Property>
+
+<Property name="tomTidpunkt">
+<Type>%Date</Type>
+<Parameter name="XMLNAME" value="tomTidpunkt"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>VirtualizationInfoState</State>
+<StreamLocation>^TP.Operati895D.Virtualizat3CECS</StreamLocation>
+<Data name="VirtualizationInfoState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>virtualiseringsInfoId</Value>
+</Value>
+<Value name="2">
+<Value>receiverId</Value>
+</Value>
+<Value name="3">
+<Value>rivProfil</Value>
+</Value>
+<Value name="4">
+<Value>tjansteKontrakt</Value>
+</Value>
+<Value name="5">
+<Value>fromTidpunkt</Value>
+</Value>
+<Value name="6">
+<Value>tomTidpunkt</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

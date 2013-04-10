@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.FormTemplate">
+<Description>
+Created using the page template: Default</Description>
+<Super>TK.Zen.TemplatePage</Super>
+<TimeCreated>62536,48195.665282</TimeCreated>
+
+<Parameter name="TABLEPANES">
+<Description>
+List of table pane ids to apply preferences to</Description>
+<Type>%String</Type>
+</Parameter>
+
+<Property name="modelId">
+<Description>
+The actual ID of the persistent class being managed by the actual page.</Description>
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<Property name="modelClass">
+<Description>
+The actual classtype of the persistent class being managed by the actual page.
+It defaults to class parameter MODEELCLASS.</Description>
+<Type>%ZEN.Datatype.string</Type>
+<InitialExpression>..#MODELCLASS</InitialExpression>
+</Property>
+
+<Parameter name="MODELCLASS">
+<Description>
+The default classtype of the persistent class being managed by the actual page.</Description>
+<Type>STRING</Type>
+</Parameter>
+
+<Property name="tableSource">
+<Description>
+The data source of the table pane displayed by the page. If the pane works
+straight from the model class, there is no need to specify. It defaults either to
+parameter TABLESOURCE or when TABLESOURCE is kept blank to MODELCLASS.</Description>
+<Type>%ZEN.Datatype.string</Type>
+<Calculated>1</Calculated>
+</Property>
+
+<Parameter name="TABLESOURCE">
+<Description>
+The default data source of the table pane displayed by the page. If the pane works
+straight from the model class, there is no need to specify.</Description>
+</Parameter>
+
+<Method name="tableSourceGet">
+<Description>
+Call back method to determine data source.</Description>
+<ReturnType>%ZEN.Datatype.string</ReturnType>
+<Implementation><![CDATA[
+	Quit:..#TABLESOURCE'="" ..#TABLESOURCE
+	Throw:..modelClass="" ##class(%Exception.StatusException).CreateFromStatus($$$ERROR(5001))
+	Set model = ##class(%Dictionary.CompiledClass).%OpenId(..modelClass)
+	Throw:model=$$$NULLOREF ##class(%Exception.StatusException).CreateFromStatus($Get(%objlasterror))
+	Quit:(model.SqlTableName'="")||(model.SqlSchemaName'="") model.SqlSchemaName _"."_ model.SqlTableName
+	Quit ..modelClass
+]]></Implementation>
+</Method>
+
+<XData name="ContentPane">
+<Description>
+This XML block defines the contents of this page.</Description>
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<pane>
+<fieldSet id="fsRIVTAList" legend="#(%page.%GetPageName())#">
+<tableNavigator id="tableNavigator1" tablePaneId="RIVTATable"/>
+<pane paneName="TabularList"/>
+<button id="addSoftware" caption="Add new" onclick="zenPage.viewSoftware('');"  resource="TKAdministrator"/>
+</fieldSet>
+<fieldSet id="fsSoftware" legend="View and Edit the selected record" hidden="true">
+<form id="form">
+<pane paneName="FormContent"/>
+<hgroup>
+<button id="save" caption="Save" onclick="zenPage.onSave();" resource="TKAdministrator"/>
+<button id="delete" caption="Delete" onclick="zenPage.onDelete();" resource="TKAdministrator" />
+<button id="close" caption="Close" onclick="zenPage.onClose();" />
+</hgroup>
+</form>
+</fieldSet>
+</pane>
+]]></Data>
+</XData>
+
+<XData name="TabularList">
+<Description>
+This XML block defines the contents of this page.</Description>
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<pane>
+<tablePane
+width="550px"
+id="RIVTATable" 
+tableName="#(%page.tableSource)#"
+orderByClause="Namn"
+maxRows="1000" 
+pageSize="10" 
+showRowNumbers="false" 
+showRowSelector="false"
+showZebra="true" 
+useSnapshot="true"
+valueColumn="Id"
+rowSelect="1"
+showValueInTooltip="true">    
+<!--<column colName="ID" width="5%" hidden="false"/>>
+<column header="ID" width="10%" colName="Id" filterType="text"/>
+<column header="Name" width="25%" colName="Namn" filterType="text"/>
+<column header="Description" width="30%" colName="Beskrivning" filterType="text"/>
+<column header="Version" width="10%" colName="Version" filterType="text"/>
+<column header="" width="10%" linkCaption="Open" cellTitle="Open this RIV-TA profile for viewing and editing"
+link="javascript:zenPage.doNothing('#(%query.ID)#');"/-->
+</tablePane>
+</pane>
+]]></Data>
+</XData>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Event Handlers
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="onSelectRow">
+<FormalSpec>tablePane</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	try {
+		this.viewSoftware(tablePane.getValue())
+		
+	}
+	catch (ex) {
+		zenExceptionHandler(ex,arguments);
+	}
+]]></Implementation>
+</Method>
+
+<Method name="viewSoftware">
+<FormalSpec>softwareId</FormalSpec>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	try {
+		this.modelId = softwareId
+
+		var fsTitle = 'View and Edit the selected registry entry'
+		if (this.modelId == '') {
+			fsTitle = 'Define a New registry entry'
+		}
+
+		zenSetProp('fsRIVTAList','hidden', true);
+		
+		var fieldSet = this.getComponentById('fsSoftware');
+		fieldSet.setProperty('legend', fsTitle)
+		fieldSet.setProperty('hidden', false)
+
+		zenSetProp('delete', 'hidden', false)
+		if (this.modelId == '') {
+			zenSetProp('delete', 'hidden', true)
+		}
+
+		this.LoadModel(this.modelId)
+		var form = zen('form');
+		form.clearModified()
+	}
+	catch (ex) {
+		zenExceptionHandler(ex,arguments);
+	}
+]]></Implementation>
+</Method>
+
+<Method name="onSave">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	try {
+		this.SaveModel()
+
+		var softwareTable = this.getComponentById('RIVTATable');
+		softwareTable.executeQuery()
+
+		zenSetProp('delete', 'hidden', false)
+
+		var form = zen('form');
+		form.clearModified()
+		
+		this.close()
+	}
+	catch (ex) {
+		zenExceptionHandler(ex,arguments);
+	}
+]]></Implementation>
+</Method>
+
+<Method name="onDelete">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	try {
+		if (confirm("Do you really want to delete this entry?")) {
+			var ok = this.DeleteModel()
+			if (ok) {
+				alert('The entry was deleted')
+
+				var softwareTable = this.getComponentById('RIVTATable');
+				softwareTable.executeQuery()
+
+				this.close()
+			}
+		}
+	}
+	catch (ex) {
+		zenExceptionHandler(ex,arguments);
+	}
+]]></Implementation>
+</Method>
+
+<Method name="onClose">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	try {
+		var form = zen('form')
+		if (form.isModified() && !confirm("You have unsaved changes - do you really want to exit?")) {
+			return
+		}
+		this.close()
+	}
+	catch (ex) {
+		zenExceptionHandler(ex,arguments);
+	}
+]]></Implementation>
+</Method>
+
+<Method name="close">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	try {
+		zenSetProp('fsRIVTAList','hidden', false);
+		
+		zenSetProp('fsSoftware', 'hidden', true)
+	}
+	catch (ex) {
+		zenExceptionHandler(ex,arguments);
+	}
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Load & Save
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="%GetModel">
+<ReturnType>TK.Rivversion</ReturnType>
+<Implementation><![CDATA[
+	If (..modelId = "") {
+		Quit $ZObjClassmethod(..modelClass,"%New")
+	}
+	Else {
+		Quit $ZObjClassmethod(..modelClass,"%OpenId",..modelId)
+	}
+]]></Implementation>
+</Method>
+
+<Method name="toView">
+<Description>
+Signature of the model to view transformation. Each page must implement it.</Description>
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+</Method>
+
+<Method name="toModel">
+<Description>
+Signature of the view to model transformation. Each page must implement it.</Description>
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+</Method>
+
+<Method name="LoadModel">
+<ReturnType>%ZEN.Datatype.boolean</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+	#Dim tOk As %ZEN.Datatype.boolean = 1
+	Try {
+		#Dim tModel As TK.Rivversion = ..%GetModel()
+		
+		Do ..toView(%page, tModel)
+	}
+	Catch(ex) {
+		Set tOk = 0
+		&js<alert('Error in Server method:\n#($ZCVT(..MakeUserMessage(ex, "The entry was not saved because: "),"O","JS"))#');>
+	}
+
+	Quit tOk
+]]></Implementation>
+</Method>
+
+<Method name="SaveModel">
+<ReturnType>%ZEN.Datatype.boolean</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+	#Dim tOk As %ZEN.Datatype.boolean = 1
+	Try {
+		#Dim tModel As TK.Rivversion = ..%GetModel()
+		
+		Do ..toModel(%page, tModel)
+		
+		Set tStatus = tModel.%Save()
+		If $$$ISERR(tStatus) Throw ##class(%Exception.StatusException).CreateFromStatus(tStatus)
+		Set ..modelId = tModel.%Id()
+		Do ..LoadModel()
+	}
+	Catch(ex) {
+		Set tOk = 0
+		&js<alert('Error in Server method:\n#($ZCVT(ex.DisplayString(),"O","JS"))#');>
+	}
+	
+	Quit tOk
+]]></Implementation>
+</Method>
+
+<Method name="DeleteModel">
+<ReturnType>%ZEN.Datatype.boolean</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+	#Dim tOk As %ZEN.Datatype.boolean = 1
+	Try {
+		#Dim tModel As TK.Rivversion = ..%GetModel()
+		Set tStatus = tModel.%DeleteId(tModel.%Id())
+		If ($$$ISERR(tStatus)) Throw ##class(%Exception.StatusException).CreateFromStatus(tStatus)
+	}
+	Catch(ex) {
+		Set tOk = 0
+		&js<alert('Error in Server method:\n#($ZCVT(ex.DisplayString(),"O","JS"))#');>
+	}
+	
+	Quit tOk
+]]></Implementation>
+</Method>
+</Class>
+</Export>

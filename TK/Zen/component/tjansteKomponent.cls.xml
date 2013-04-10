@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.component.tjansteKomponent">
+<Description>
+TK.Zen.component.addressee</Description>
+<Super>%ZEN.Component.dataCombo</Super>
+<TimeCreated>62879,22100.887679</TimeCreated>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the XML namespace for this component.</Description>
+<Default>http://www.intersystems.com/zen/custom</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>tjansteKomponent</Default>
+</Parameter>
+
+<Property name="columnHeaders">
+<Description>
+If defined, this is a comma-delimited list of column
+headers displayed in the dropdown list.</Description>
+<Type>%ZEN.Datatype.csv</Type>
+<InitialExpression>"Name"</InitialExpression>
+<Parameter name="ZENLOCALIZE" value="1"/>
+</Property>
+
+<Property name="displayColumns">
+<Description>
+If there are multiple data columns displayed in the dropdown list,
+this optional property defines a comma-delimited list of the column numbers
+of the column that should be displayed.</Description>
+<Type>%ZEN.Datatype.csv</Type>
+<InitialExpression>"2"</InitialExpression>
+<Parameter name="ZENSETTING" value="0"/>
+</Property>
+
+<Property name="choiceColumn">
+<Description><![CDATA[
+If there are multiple data columns displayed within the dropdown list
+this is the column number (1-based) of the column that will provide the display
+value for this control.<br>
+If this value is greater than the number of columns in the query
+then the second column will be used.]]></Description>
+<Type>%ZEN.Datatype.integer</Type>
+<InitialExpression>2</InitialExpression>
+<Parameter name="MINVAL" value="1"/>
+<Parameter name="ZENSETTING" value="0"/>
+</Property>
+
+<Property name="sql">
+<Description><![CDATA[
+(optional) SQL statement that, if present, will be used to 
+create a <class>%ResultSet</class> object.<br>
+If defined, this takes precedence over 
+<property>queryClass</property> and <property>queryName</property>.]]></Description>
+<Type>%ZEN.Datatype.sql</Type>
+<InitialExpression>"SELECT Id, HsaId FROM TK.Tjanstekomponent"</InitialExpression>
+</Property>
+
+<Property name="sqlLookup">
+<Description><![CDATA[
+(optional) SQL statement that, given a value, finds a display
+value to show in the combo box. If present, this is used
+to find a display value for a given logical value.<br>
+The value of this property should be an SQL statement that
+returns a single row containing a display value for a given logical value.
+When this query is executed, a logical value is provided as a query
+input parameter (i.e., as a ? within the SQL statement.<br>
+For example:<br>
+<example language="html">
+sqlLookup="SELECT Name FROM MyApp.MyTable WHERE ID = ?" 
+</example>]]></Description>
+<Type>%ZEN.Datatype.sql</Type>
+<InitialExpression>"SELECT HsaId FROM TK.Tjanstekomponent WHERE Id = ?"</InitialExpression>
+<Parameter name="ZENSETTING" value="0"/>
+</Property>
+
+<Property name="cached">
+<Description><![CDATA[
+If true (the default is false) then the following behavior occurs:
+<ol>
+<li>When the page is first displayed, a query is executed to fetch the initial contents of the dropdown. The <property>itemCount</property> property
+will be set to the number of items within the dropdown.</li>
+<li>The client will use these results instead of going back to the server to fetch the contents of the dropdown.</li>
+</ol>
+The <method>clearCache</method will clear the dropdown cache, so will
+modifying the search parameters for the query.]]></Description>
+<Type>%ZEN.Datatype.boolean</Type>
+<InitialExpression>1</InitialExpression>
+</Property>
+
+<Property name="editable">
+<Description>
+If true, then this is an editable combobox (a user can directly edit the value within the input box).</Description>
+<Type>%ZEN.Datatype.boolean</Type>
+<InitialExpression>1</InitialExpression>
+</Property>
+
+<Property name="searchKeyLen">
+<Description><![CDATA[
+If non-zero, this is the maximum number of search characters
+taken from the combo input box and passed as a parameter to 
+the query (defined by <property>sql</property> that provides the contents of the dropdown box.<br>
+If zero, then the contents of the input box are not used as a parameter.]]></Description>
+<Type>%ZEN.Datatype.integer</Type>
+<InitialExpression>2</InitialExpression>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+</Class>
+</Export>

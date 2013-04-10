@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.LandingPage">
+<Super>TK.Zen.TemplatePage</Super>
+<TimeCreated>62878,43607.271727</TimeCreated>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>Welcome</Default>
+</Parameter>
+
+<Parameter name="CURRENTMENUITEM">
+<Description>
+Id of the menu item that should be current when displaying this page</Description>
+<Default>none</Default>
+</Parameter>
+
+<Property name="TKVersion">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<XData name="ContentPane">
+<Description>
+This XML block defines the contents of this pane.</Description>
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<pane xmlns="http://www.intersystems.com/zen"
+	xmlns:tk="http://www.intersystems.com/sweden/TK">
+<vgroup id="aboutGroup" width="480">
+<label id="lTK" label="Welcome to the house of fun..."/>
+</vgroup>
+</pane>
+]]></Data>
+</XData>
+</Class>
+</Export>

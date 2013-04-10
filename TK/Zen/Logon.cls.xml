@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.Logon">
+<Super>%CSP.Login</Super>
+<TimeCreated>62878,37935.580886</TimeCreated>
+
+<Method name="DrawSTYLE">
+<Description><![CDATA[
+Draw the style definitions for the login page.<br>
+Users can override this method to customize the login page.]]></Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+ 	&html<<style type="text/css">
+
+/*
+//----------------------------------------
+// Layout
+//----------------------------------------
+*/
+body {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		12px;
+	font-weight:	400;
+	color:			#202020;
+	background-color:	#F7F6F0;
+	margin-top:			0;
+	margin-right:		0;
+	margin-bottom:		0;
+	margin-left:		0;
+}
+
+.group {
+	background-color:	#FFFFFF;
+}
+
+.fieldSet {
+	margin-top:			5px;
+	margin-bottom:		5px;
+	margin-left:		2px;
+	margin-right:		2px;
+	padding-top:		5px;
+	padding-bottom:		5px;
+	padding-right:		7px;
+	padding-left:		7px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.fieldSet table {
+	border-width:	0px;
+	margin:			0px;
+	padding:		0px;
+}
+
+.fieldSet legend {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		11px;
+	font-weight:	700;
+	color:			#A43708;
+	font-style:		normal;
+	line-height:	14px;
+	text-align:		start;
+	vertical-align:	baseline;
+	direction:		ltr;
+	background-color:		#F7F6F0;
+	background-repeat:		repeat-x;
+	background-position:	0 50%;
+	background-attachment:	scroll;
+	opacity:				1;
+	margin-top:			0;
+	margin-right:		0;
+	margin-bottom:		5px;
+	margin-left:		0;
+	padding-top:		2px;
+	padding-bottom:		2px;
+	padding-left:		4px;
+	padding-right:		4px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+form {
+	margin-bottom:	0px;
+}
+
+.zenHint {
+	margin-top:		-2px;
+	margin-bottom:	4px;
+	margin-left:	3px;
+}
+
+.zenLabel, .labelText {
+	font-size:		12px;
+	margin-left:	2px;
+}
+
+.zenLabelDisabled {
+	font-size:		12px;
+	margin-left:	2px;
+	color:			cray;
+}
+
+.vtLabelLeft {
+	vertical-align:	middle;
+}
+
+.text, .comboboxInput, .textarea, .password, .textro {
+	font-size:		11px;
+	font-weight:	400;
+	color:			#000000;
+	margin-bottom:		5px;
+	margin-left:		3px;
+	margin-right:		3px;
+	padding:			3px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.text, .comboboxInput, .password {
+	background-color:		#FFFEFB;
+	background-repeat:		repeat-x;
+	background-position:	0 0;
+	background-attachment:	scroll;
+	opacity:				1;
+}
+
+.textro {
+	background-color:		#F7F6F0;
+}
+
+.textarea {
+	background-color:		#FFFEFB;
+	background-repeat:		repeat-x;
+	background-position:	0 0;
+	background-attachment:	scroll;
+}
+
+.button, .comboboxTextButton {
+	font-size:		11px;
+	font-weight:	800;
+	color:			#983500;
+	text-align:		center;
+	vertical-align:	middle;
+	background-repeat:		repeat-x;
+	background-position:	0 50%;
+	background-attachment:	scroll;
+	margin-bottom:		5px;
+	border-width:		2px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+p.button {
+	margin-left:		2px;
+	padding-top:		2px;
+	padding-bottom:		2px;
+	padding-right:		5px;
+	padding-left:		3px;
+}
+
+.comboboxTextButton {
+	margin-left:		-2px;
+	padding-top:		1px;
+	padding-bottom:		1px;
+	padding-right:		2px;
+	padding-left:		2px;
+}
+
+input[type=button].button {
+	height:22px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px 20px;	
+}
+
+table.portalTitle, table.portalTitle .portalTitleInfoLabel, table.portalTitle .portalTitleInfoVal {
+	line-height:	32px;
+	color:			#F7F6F0;
+	background-color:	#983500;
+}
+div.portalLogoBox {
+	position: static;
+	padding: 10px;
+	padding-bottom: 4px;
+	padding-right: 40px;
+	text-align: center;
+}
+div.portalLogoBox div.portalLogo, div.portalLogoBox div.portalLogoSub {
+	position: relative;
+}
+
+div.portalLogoBox div.portalLogo {
+	font-size: 12pt;
+	font-weight: bold;
+	top: 0px;
+	right: 0px;
+	padding: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+div.portalLogoBox div.portalLogoSub {
+	font-size: 8pt;
+	top: 3px;
+	right: 0px;
+}
+td.loginCaption {
+	color: #983500;
+}
+</style>>
+]]></Implementation>
+</Method>
+
+<Method name="DrawTitleSection">
+<Description><![CDATA[
+Draw the title section of the page.<br>
+<var>pTitle</var> is the title for the page.<br>
+Users can override this method to customize the page title section.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&msgs:%String]]></FormalSpec>
+<Implementation><![CDATA[
+	Set tLang = $$$SessionLanguage
+	Set cmdServer = $$$GetSysMessage(tLang,..#DOMAIN,"loginserver","Server")
+	Set cmdInstance = $$$GetSysMessage(tLang,..#DOMAIN,"logininstance","Instance")
+	Set msgServer = $$$GetSysMessage(tLang,..#DOMAIN,"loginmsgserver","Name of the machine this system is running on")
+	Set msgInstance = $ZCVT($ZV,"O","HTML")
+	Set msgFlag = $$$GetSysMessage(tLang,..#DOMAIN,"flag","")
+
+	Set ServerName = $zu(110)
+	Set InstanceName = $P($zu(86),"*",2)
+	Set ProductName = $$$TextHTML("Management Portal")
+	Set home = %request.URL
+	If home '= "" Set ProductName = ##class(%CSP.UI.Portal.Template).%GetProductName()
+	Set tPower = $$$TextHTML("Powered by Zen")
+	Set tBy = $$$TextHTML("by InterSystems")
+	&html<<table class="portalTitle" id="group_1" width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr valign="bottom">
+	<td width="99%" align="left">
+		<div class="portalTitleInfoBox">
+		<table border="0">
+		<tr>
+		<td class="portalTitleInfoLabel" title="#(msgServer)#">#(cmdServer)#:</td><td class="portalTitleInfoVal">#(ServerName)#&nbsp;</td>
+		<td class="portalTitleInfoLabel" title="#(msgInstance)#">#(cmdInstance)#:</td><td class="portalTitleInfoVal">#($P($zu(86),"*",2))#&nbsp;</td>
+		</tr>
+		</table>
+		</div>
+	</td>
+	<td>
+		<img alt="" src="data:image/png;base64,#(msgFlag)#" onclick='displayLanguageSelector()'/>>
+	Set lngs = ##class(%MessageDictionary).GetLanguages(..#DOMAIN,"s")
+	For i=1:1:lngs.Count() {
+		Set lng = lngs.GetAt(i)
+		Continue:(lng="")||(lng=tLang)
+		Set img=$$$GetSysMessage(lng,..#DOMAIN,"flag","")
+		Continue:img=""
+		Write "<img alt='' src='data:image/png;base64,"_img_"' hidden='true' onclick='changeSessionLanguage("""_lng_""")'/>"
+	}
+	&html<</td>
+	<td width="10%" align="right" valign="top">
+	<div class="portalLogoBox">
+	<div class="portalLogo" title="#(tPower)#">#(ProductName)#</div>
+	<div class="portalLogoSub">#(tBy)#</div>
+	</div>
+	</td>
+	</tr>
+	</table>>
+	Write "<script type='text/javascript'>",!
+	Write "function displayLanguageSelector() {	var list = document.querySelectorAll('img[hidden=true]'); var active = document.querySelector('img:not([hidden])'); for (var i=0;i<list.length;i++) { list[i].hidden = false; } active.hidden=true;}"
+	Write !,"function changeSessionLanguage(ln) { window.location = '?CacheSessionLanguage='+ln; }"
+	Write !,"</script>"
+]]></Implementation>
+</Method>
+
+<Method name="OnPreHTTP">
+<Description><![CDATA[
+Event handler for <b>PreHTTP</b> event: this is invoked before
+the HTTP headers for a CSP page have been sent.  All changes to the
+<class>%CSP.Response</class> class, such as adding cookies, HTTP headers,
+setting the content type etc. must be made from within the OnPreHTTP() method.
+Also changes to the state of the CSP application such as changing
+%session.EndSession or %session.AppTimeout must be made within the OnPreHTTP() method.
+It is prefered that changes to %session.Preserve are also made in the OnPreHTTP() method
+as this is more efficient, although it is supported in any section of the page.
+Return <b>0</b> to prevent <method>OnPage</method> from being called.]]></Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Boolean</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	If (%request.Get("CacheSessionLanguage") '= "") {
+		Set %session.Language = %request.Get("CacheSessionLanguage")
+		Set %response.Language = %session.Language
+	}
+	Quit 1
+]]></Implementation>
+</Method>
+</Class>
+</Export>

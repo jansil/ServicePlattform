@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Rivversion">
+<Description>
+</Description>
+<ClassType>persistent</ClassType>
+<DdlAllowed>1</DdlAllowed>
+<Owner>UnknownUser</Owner>
+<ProcedureBlock>1</ProcedureBlock>
+<SqlRowIdPrivate>1</SqlRowIdPrivate>
+<SqlTableName>Rivversion</SqlTableName>
+<StorageStrategy>Default</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>62335,38113.586514</TimeCreated>
+
+<Index name="RIVVERSIONPKey3">
+<Description>
+DDL Primary Key Specification</Description>
+<Type>index</Type>
+<PrimaryKey>1</PrimaryKey>
+<Properties>Id</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Id">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>2</SqlColumnNumber>
+<Identity>1</Identity>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="Beskrivning">
+<Type>%Library.String</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>3</SqlColumnNumber>
+<Parameter name="MAXLEN" value="255"/>
+</Property>
+
+<Property name="Namn">
+<Type>%Library.String</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>4</SqlColumnNumber>
+<Parameter name="MAXLEN" value="255"/>
+</Property>
+
+<Property name="Version">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>5</SqlColumnNumber>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^TK.RivversionD</DataLocation>
+<DefaultData>RivversionDefaultData</DefaultData>
+<IdLocation>^TK.RivversionD</IdLocation>
+<IndexLocation>^TK.RivversionI</IndexLocation>
+<StreamLocation>^TK.RivversionS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="RivversionDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Beskrivning</Value>
+</Value>
+<Value name="3">
+<Value>Namn</Value>
+</Value>
+<Value name="4">
+<Value>Version</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

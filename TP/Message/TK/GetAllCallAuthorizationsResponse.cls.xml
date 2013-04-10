@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Message.TK.GetAllCallAuthorizationsResponse">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeCreated>62341,82347.47917</TimeCreated>
+
+<Property name="GetAllCallAuthorizationsResult">
+<Type>TP.Operation.TK.Proxy.s0.CallAuthorizationInfoResponse</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>GetAllCallAuthorizationsResponseDefaultData</DefaultData>
+<Data name="GetAllCallAuthorizationsResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetAllCallAuthorizationsResponse"</Subscript>
+<Value name="1">
+<Value>GetAllCallAuthorizationsResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

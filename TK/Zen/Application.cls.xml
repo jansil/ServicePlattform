@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.Application">
+<Description>
+TK.Zen.Application</Description>
+<Super>%ZEN.application</Super>
+<TimeCreated>62536,48312.260299</TimeCreated>
+
+<Parameter name="APPLICATIONNAME">
+<Description>
+This is the name of this application.</Description>
+<Default>Service catalog</Default>
+</Parameter>
+
+<Parameter name="HOMEPAGE">
+<Description>
+This is the URL of the main starting page of this application.</Description>
+<Default>TK.Zen.LandingPage.cls</Default>
+</Parameter>
+
+<Parameter name="TKVERSION">
+<Type>%String</Type>
+<Default>0.9</Default>
+</Parameter>
+
+<XData name="Style">
+<Description>
+This Style block contains application-wide CSS style definitions.</Description>
+<Data><![CDATA[
+<style type="text/css">
+
+/*
+//----------------------------------------
+//	http://www.bloganje.com/admin_template/index.html
+//----------------------------------------
+// #FAFBFB;
+// Colors:
+//	#983500	Background of banner
+//	#F7F6F0	Background of body
+//	#FFFFFF	Background of group
+//	#BD3F09	Background of menuitem
+//	#FAFBFB	Background of even table rows
+//
+//	#F7F6F0	Title label, menuitem text, table caption
+//	#993400	Selected/current menuitem text, table row
+//	#A43708	Content label, Fieldset label, table caption
+//	#202020	Text (body,), text label in table cells
+//	#E03708 Button
+//	#000000	.text, .textarea, .password
+//	
+//	#E8E7E1	Border color (fieldSet, text, textarea, password, button, table caption)
+//
+*/
+
+/*
+//----------------------------------------
+//	Specific targets
+//----------------------------------------
+*/
+#topForBanner {
+	/* 152 53 0 = 98 35 00 */
+	background-color:	#983500;
+	float:	left;
+	width:	100%;
+}
+
+#topForBanner .group {
+	background-color:	transparent;
+}
+
+#banner {
+	margin-left:	16px;
+	margin-right:	0%;
+	margin-top:		0%;
+	margin-bottom:	0%;
+}
+
+#bottomForContent {
+	margin-left:		16px;
+	margin-right:		0%;
+	margin-top:			0%;
+	margin-bottom:		0%;
+}
+
+#contentGroup, #contentLabel {
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+#contentGroup {
+	margin-top:			5px;
+	margin-bottom:		5px;
+	margin-left:		4px;
+	margin-right:		4px;
+	padding-top			0px;
+	padding-bottom:		2px;
+	padding-right:		4px;
+	padding-left:		4px;
+}
+
+#contentLabel {
+	font-family:		Arial,Tahoma,Verdana;
+	font-size:			14px;
+	font-weight:		700;
+	font-style:			normal;
+	color:				#A43708;
+	margin-top:			-1px;
+	margin-left:		-5px;
+	margin-right:		-5px;
+	margin-bottom:		5px;
+	padding-top:		5px;
+	padding-bottom:		5px;
+	padding-right:		7px;
+	padding-left:		7px;
+	background-color:	#F7F6F0;
+}
+
+#headerGroup {
+	/* 152 53 0 = FC */
+	background-color:	#983500;
+}
+
+#titleLabel {
+	line-height:	32px;
+	color:			#F7F6F0;
+	background-color:	#983500;
+}
+#titleLabel .labeltext {
+	font-size:		16px;
+	font-weight:	600;
+}
+
+/*
+//----------------------------------------
+// Layout
+//----------------------------------------
+*/
+body {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		12px;
+	font-weight:	400;
+	color:			#202020;
+	background-color:	#F7F6F0;
+	margin-top:			0;
+	margin-right:		0;
+	margin-bottom:		0;
+	margin-left:		0;
+}
+
+.group {
+	background-color:	#FFFFFF;
+}
+
+.fieldSet {
+	margin-top:			5px;
+	margin-bottom:		5px;
+	margin-left:		2px;
+	margin-right:		2px;
+	padding-top:		5px;
+	padding-bottom:		5px;
+	padding-right:		7px;
+	padding-left:		7px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.fieldSet table {
+	border-width:	0px;
+	margin:			0px;
+	padding:		0px;
+}
+
+.fieldSet legend {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		11px;
+	font-weight:	700;
+	/*
+	font-size:		12px;
+	color:			#CC0000;
+	*/
+	color:			#A43708;
+	font-style:		normal;
+	line-height:	14px;
+	text-align:		start;
+	vertical-align:	baseline;
+	direction:		ltr;
+	background-color:		#F7F6F0;
+	/*
+	background-image:		url("sea/down_red.gif");
+	*/
+	background-repeat:		repeat-x;
+	background-position:	0 50%;
+	background-attachment:	scroll;
+	opacity:				1;
+	margin-top:			0;
+	margin-right:		0;
+	margin-bottom:		5px;
+	margin-left:		0;
+	padding-top:		2px;
+	padding-bottom:		2px;
+	padding-left:		4px;
+	padding-right:		4px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+/*
+//----------------------------------------
+// Menu
+//----------------------------------------
+*/
+.hmenuTable {
+	background-color:	#983500;
+    padding: 0;
+    margin: 0;
+    border-bottom: 0px none #983500;
+    align:	center;
+}
+
+a.menuItem, a.menuItemCurrent {
+ 	font-family:	Arial,Tahoma,Verdana;
+	font-size:		12px;
+	border:			medium none;
+    display:		block;
+    margin:			1px;
+    padding:		2px 3px;
+    text-decoration: none;
+    vertical-align:	middle;
+    white-space:	nowrap;
+    margin-top:		1;
+	margin-right:	2;
+	margin-bottom:	0;
+	margin-left:	2;
+	padding-top:	0px;
+	padding-right:	9px;
+	padding-bottom:	3px;
+	padding-left:	0px;
+    border-bottom: 1px solid #983500;
+}
+
+a.menuItem {
+	color:			#F7F6F0;
+	font-weight:	400;
+	background-color: #BD3F09;
+    border-bottom-color:	#983500;
+}
+
+a.menuItemCurrent, a.menuItem:hover {
+    color:			#993400;
+	font-weight:	700;
+	// background-image:		url("sea/up_red.jpg");
+	background-repeat:		repeat-x;
+	background-position:	50% 0;
+	background-attachment:	scroll;
+	background-color:		#F7F6F0;
+    border-bottom-color:	#FFFFFF;
+}
+
+/*
+//----------------------------------------
+// Forms
+//----------------------------------------
+*/
+form {
+	margin-bottom:	0px;
+}
+
+.zenHint {
+	margin-top:		-2px;
+	margin-bottom:	4px;
+	margin-left:	3px;
+}
+
+.zenLabel, .labelText {
+	font-size:		12px;
+	margin-left:	2px;
+}
+
+.zenLabelDisabled {
+	font-size:		12px;
+	margin-left:	2px;
+	color:			cray;
+}
+
+.vtLabelLeft {
+	vertical-align:	middle;
+}
+
+.text, .comboboxInput, .textarea, .password, .textro {
+	font-family:	Lucida Grande;
+	font-size:		11px;
+	font-weight:	400;
+	color:			#000000;
+	margin-bottom:		5px;
+	margin-left:		3px;
+	margin-right:		3px;
+	padding:			3px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.text, .comboboxInput, .password {
+	//background-color:		#F7F6F0;
+	background-color:		#FFFEFB;
+	//background-image:		url("sea/down_red.gif");
+	background-repeat:		repeat-x;
+	background-position:	0 0;
+	background-attachment:	scroll;
+	opacity:				1;
+}
+
+.textro {
+	background-color:		#F7F6F0;
+}
+
+.textarea {
+	//background-color:		#F7F6F0;
+	background-color:		#FFFEFB;
+	// background-image:		url("sea/up_red.jpg");
+	// background-image:		url("sea/down_red.gif");
+	background-repeat:		repeat-x;
+	//background-position:	0 bottom;
+	background-position:	0 0;
+	background-attachment:	scroll;
+	//opacity:				20%					;
+}
+
+.button, .comboboxTextButton {
+	font-size:		11px;
+	font-weight:	800;
+	color:			#983500;
+	text-align:		center;
+	vertical-align:	middle;
+	// background-image:		url("sea/down_red.gif");
+	background-repeat:		repeat-x;
+	background-position:	0 50%;
+	background-attachment:	scroll;
+	margin-bottom:		5px;
+	border-width:		2px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.button {
+	margin-left:		2px;
+	padding-top:		2px;
+	padding-bottom:		2px;
+	padding-right:		5px;
+	padding-left:		3px;
+}
+
+.comboboxTextButton {
+	margin-left:		-2px;
+	padding-top:		1px;
+	padding-bottom:		1px;
+	padding-right:		2px;
+	padding-left:		2px;
+}
+
+/*
+//----------------------------------------
+// Table Panes
+//----------------------------------------
+*/
+#tableNavigator1 .button, #tableNavigator2 .button, #tableNavigator3 .button {
+	margin-top:		2px;
+	margin-bottom:	0px;
+	margin-left:	2px;
+	margin-right:	2px;
+	padding-top:	0px;
+	padding-bottom:	2px;
+	padding-right:	3px;
+	padding-left:	3px;
+}
+
+#tableNavigator1 .text, #tableNavigator2 .text, #tableNavigator3 .text {
+	margin-top:		2px;
+	margin-bottom:	0px;
+	margin-left:	2px;
+	margin-right:	2px;
+	padding-top:	2px;
+	padding-bottom:	0px;
+	padding-right:	3px;
+	padding-left:	3px;
+}
+
+.tn-pageLabel {
+	color:			#202020;
+	font-size:		12px;
+}
+
+table.tpTable {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		12px;
+	font-weight:	400;
+	color:			#202020;
+	line-height:	14.4px;
+	text-align:		start;
+	vertical-align:	baseline;
+	background-color:		#FFFFFF;
+	margin-top:			4px;
+	margin-bottom:		6px;
+	margin-left:		2px;
+	margin-right:		5px;
+	padding:			0px;
+	border-style:		none;
+}
+
+table.tpTable caption {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		14px;
+	font-weight:	700;
+	font-style:		normal;
+	font-size-adjust: none;
+	color:			#A43708;
+	line-height:	16.45px;
+	text-align:		start;
+	vertical-align:	baseline;
+	direction:		ltr;
+	background-color:		#F7F6F0;
+	background-image:		none;
+	background-repeat:		repeat;
+	background-position:	0 0;
+	background-attachment:	scroll;
+	opacity:		1;
+	margin-bottom:		5px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+	padding:		5px;
+}
+
+table.tpTable th, table.tpTable th.tpHdrSelected {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		13px;
+	font-weight:	700;
+	color:			#A43708;
+	line-height:	16.45px;
+	text-align:		start;
+	vertical-align:	baseline;
+	background-color:		#F7F6F0;
+	background-image:		none;
+	opacity:		1;
+	padding-top:		4px;
+	padding-bottom:		4px;
+	padding-left:		3px;
+	padding-right:		3px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.tpHead {
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+thead.tpHead th {
+	padding-top:		1px;
+	padding-bottom:		1px;
+}
+
+table.tpTable td {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		12px;
+	font-weight:	400;
+	font-style:		normal;
+	font-size-adjust: none;
+	color:			#202020;
+	line-height:	14.4px;
+	text-align:		start;
+	vertical-align:	baseline;
+	direction:		ltr;
+	background-color:		transparent;
+	background-image:		none;
+	background-repeat:		repeat;
+	background-position:	0 0;
+	background-attachment:	scroll;
+	opacity:		1;
+	padding-top:		2px;
+	padding-bottom:		2px;
+	padding-left:		3px;
+	padding-right:		3px;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.tpNoResults {
+	background-color:	#FFFFFF;
+}
+
+table.tpFilterLayout td {
+	font-family:	Arial,Tahoma,Verdana;
+	font-size:		12px;
+	font-weight:	400;
+	font-style:		normal;
+	font-size-adjust: none;
+	line-height:	14.4px;
+	text-align:		start;
+	vertical-align:	baseline;
+	direction:		ltr;
+	background-color:		transparent;
+	background-image:		none;
+	background-repeat:		repeat;
+	background-position:	0 0;
+	background-attachment:	scroll;
+	opacity:		1;
+	padding:		0px;
+	border-style:	none;
+}
+
+table.tpTable tr.tpSelected {
+	/*
+	background-color:		#F7F6F0;
+	*/
+	background-color:		#FEFDFB;
+	// background-image:	url("sea/up_red.jpg");
+}
+
+table.tpTable tr.tpSelected td {
+    border-bottom:	1px solid #983500;
+    border-top:		1px solid #983500;
+    padding-bottom:	1px;
+    padding-top:	1px;
+    color:			#993400;
+}
+
+.tpFilter {
+	font-family:	Lucida Grande;
+	font-size:		11px;
+	font-weight:	400;
+	color:			#000000;
+	border-width:		1px;
+	border-color:		#E8E7E1;
+	border-style:		solid;
+}
+
+.tpEven {
+	background-color:		#FAFBFB;
+}
+
+.tpAction a:link {
+	text-decoration: none;
+	color:			#A43708;
+	//background-image: url(icon/light/appbar.book.open.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px 20px;
+	color: transparent;
+}
+input[type=button].button {
+	height:22px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px 20px;	
+}
+div#menu div[id^=menuItem] a, div#menu div[id^=menuItem] a.menuItemCurrent {
+	height:111px;
+	width:130px;
+	text-align: center;
+}
+div#menu div[id^=menuItem] a, div#menu div[id^=menuItem] a:hover  {
+	background-repeat: no-repeat;
+	background-position: center bottom;
+}
+div#menu.small div[id^=menuItem] a, div#menu.small div[id^=menuItem] a.menuItemCurrent {
+	height:72px;
+	width:72px;
+	background-size:60px 60px;
+	overflow-x:hidden;
+	font-size:-2;
+	text-overflow:ellipsis;
+}
+div#menu.tiny div[id^=menuItem] a, div#menu.tiny div[id^=menuItem] a.menuItemCurrent {
+	height:36px;
+	width:36px;
+	background-size:36px 36px;
+	color:transparent;
+}
+#menuItemRIVTA a {
+	background-image:url(icon/light/appbar.anchor.png);
+}
+#menuItemAbout a {
+	background-image:url(icon/light/appbar.uservoice.png);
+}
+#menuItemAccessRights a {
+	background-image:url(icon/light/appbar.user.tie.png);
+}
+#menuItemServiceContracts a {
+	background-image:url(icon/light/appbar.money.png);
+}
+#menuItemServiceComponents a {
+	background-image:url(icon/light/appbar.diagram.png);
+}
+#menuItemLogicalAddressees a {
+	background-image:url(icon/light/appbar.suitcase.png);
+}
+#menuItemLogicalAddresses a {
+	background-image:url(icon/light/appbar.stamp.at.png);
+}
+#addSoftware input {
+	
+	width: 140px;
+}
+#save input {
+	
+	width: 70px;
+}
+#delete input {
+	
+	width: 70px;
+}
+#close input {
+	
+	width: 70px;
+}
+#versions input {
+	
+	width: 120px;
+}
+div[id^=tableNavigator] input[type=button]{
+	color: transparent;
+	background-size: 32px 32px;
+}
+div[id^=tableNavigator] input[type=button]:disabled{
+	opacity:0.5;
+}
+div[id^=tableNavigator][id$=btnNext] input[type=button]{
+	//background-image:url(icon/light/appbar.list.reorder.down.png);
+}
+div[id^=tableNavigator][id$=btnPrev] input[type=button]{
+	//background-image:url(icon/light/appbar.list.reorder.up.png);
+}
+div[id^=tableNavigator][id$=btnFirst] input[type=button]{
+	//background-image:url(icon/light/appbar.list.one.png);
+}
+div[id^=tableNavigator][id$=btnLast] input[type=button]{
+	//background-image:url(icon/light/appbar.list.png);
+}
+table.tpTable th.tpHdrSelected {
+	background-size: 24px 24px;
+	background-image:url(icon/light/appbar.sort.alphabetical.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.modalGroup, table.calendar td.calendarSelected, table.calendar td.calendarSelected:hover {
+	background-color:#983500;
+}
+#titleUserName a {
+	position:absolute;
+	top:20px;
+	right:80px;
+	color:white;
+	text-decoration:none;
+	font-size:10px;
+}
+</style>
+]]></Data>
+</XData>
+
+<Method name="GetPreference">
+<FormalSpec>pName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[	Quit ##class(SEA.Model.Preference).GetValueFor(pName)
+]]></Implementation>
+</Method>
+
+<Method name="SetContext">
+<FormalSpec>pName:%String,pId:%String</FormalSpec>
+<Implementation><![CDATA[
+	If ((pName = "software") && (pId '= $Get(^SEA.UserContext($UserName, "software")))) {
+		Kill ^SEA.UserContext($UserName, "version")
+	}
+	If ((pName = "version") && (pId '= $Get(^SEA.UserContext($UserName, "version")))) {
+		#Dim tVersion As SEA.Model.Version = ##class(SEA.Model.Version).%OpenId(pId)
+		If $IsObject(tVersion) Set ^SEA.UserContext($UserName, "software") = tVersion.Software.%Id()
+	}
+	Set ^SEA.UserContext($UserName, pName) = pId
+]]></Implementation>
+</Method>
+
+<Method name="GetContext">
+<FormalSpec>pName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Quit $Get(^SEA.UserContext($UserName, pName))
+]]></Implementation>
+</Method>
+
+<Method name="GetVersion">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Quit ..#TKVERSION
+]]></Implementation>
+</Method>
+</Class>
+</Export>

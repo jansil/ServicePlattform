@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Message.VirtualizationInfo">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeCreated>62341,78243.530916</TimeCreated>
+
+<Property name="virtualiseringsInfoId">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="receiverId">
+<Type>%String</Type>
+</Property>
+
+<Property name="rivProfil">
+<Type>%String</Type>
+</Property>
+
+<Property name="tjansteKontrakt">
+<Type>%String</Type>
+</Property>
+
+<Property name="fromTidpunkt">
+<Type>%Date</Type>
+</Property>
+
+<Property name="tomTidpunkt">
+<Type>%Date</Type>
+</Property>
+</Class>
+</Export>

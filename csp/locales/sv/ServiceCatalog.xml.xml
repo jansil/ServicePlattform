@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<CSP name="locales/sv/ServiceCatalog.xml" application="/csp/tp/" default="1"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<MsgFile Language="sv">
+   <MsgDomain Domain="%UtilityLogin">
+     <Message Id="244842548">Management Portal</Message> 
+  <Message Id="324080297">Powered by Zen</Message> 
+  <Message Id="1360759182">by InterSystems</Message> 
+  <Message Id="login">Logga in</Message> 
+  <Message Id="loginalt">Login page</Message> 
+  <Message Id="loginclickhere">Please click here to log in.</Message> 
+  <Message Id="loginenter">Please login</Message> 
+  <Message Id="logininstance">Instance</Message> 
+  <Message Id="loginlogout">You are logged out.</Message> 
+  <Message Id="loginmsgserver">Name of the machine this system is running on</Message> 
+  <Message Id="loginpassword">Lösenord</Message> 
+  <Message Id="loginsecurityttoken">Security Token</Message> 
+  <Message Id="loginserver">Server</Message> 
+  <Message Id="logintitle">Login %1</Message> 
+  <Message Id="loginusername">Användarid</Message> 
+  <Message Id="sectok">Security Token</Message> 
+  <Message Id="sectokcancel">Cancel</Message> 
+  <Message Id="sectokenter">Please enter your security token</Message> 
+  <Message Id="sectoksubmit">Submit</Message> 
+  <Message Id="sectoktitle">Security Token %1</Message> 
+  <Message Id="flag">iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA3XAAAN1wFCKJt4AAAACXZwQWcAAAAgAAAAIACH+pydAAABGElEQVRYw+2VsUoDQRCGv3GPswrhSLzGMmkSH8POyuaK4Fv4IPY+gUWaVHb6ECIXCy3ThDuCpPJgHQujjeE2sMoG3Kn/nf34/2EGYv33Ei6u2xUqjPpLpuc3jPtLAMoqp5hNmFc5iHoBJMA4pAMJMA0NENSBg5CfR4C9AEhQaVeooFs0qoLz7S4Ao81yaQMYZDWpsXytnNRYhlmNgPciksf7E2eH1FiOO68cGgvAmzUs1l0aa7wdkPeHIyeAwo8YRBT/APZhCMsqd4r+MoKkmE3aFZshvDq9ZZDVACzWXS7vznhZ9fyv4dzlgAoKNNZ8Z95Yw/Oqx9OvnOMdGsgWjYh+fu4JEHwII0BwgAQoQwMUoQGCOhAr1gdaQ1oTx+Rl4QAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAwOS0xMi0xNlQyMjoxNzozMy0wNzowMNwMG04AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMDktMTItMTZUMjI6MTc6MzMtMDc6MDCtUaPyAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg==</Message> 
+</MsgDomain>
+   <MsgDomain Domain="ServiceCatalog">
+      <Message Id="858154">Den tjänste- rättan avtalar</Message>
+      <Message Id="71445658">Öppet</Message>
+      <Message Id="216363591">Välkomnande till huset av gyckel…,</Message>
+      <Message Id="261319605">Den tjänste- rättan avtalar</Message>
+      <Message Id="284772879">Avtala</Message>
+      <Message Id="292500706">Logga ut</Message>
+      <Message Id="299066170">LEGITIMATION</Message>
+      <Message Id="389272589">Öppna denna RIV-TA profilerar för visning och att redigera</Message>
+      <Message Id="435110628">Adressat</Message>
+      <Message Id="473005708">Rättan RIV-TA profilerar</Message>
+      <Message Id="474410875">Logiska adressater</Message>
+      <Message Id="563028834">Beskåda versioner</Message>
+      <Message Id="655025817">Logiska adressater</Message>
+      <Message Id="845213721">Logga ut</Message>
+      <Message Id="876165239">Om tjänste- katalog</Message>
+      <Message Id="1022533488">Känt:</Message>
+      <Message Id="1035893169">Borttagnings</Message>
+      <Message Id="1077515534">Datera till</Message>
+      <Message Id="1114883623">HsaID:</Message>
+      <Message Id="1134591727">Rättan RIV-TA profilerar</Message>
+      <Message Id="1216729676">Tjänste- delar</Message>
+      <Message Id="1521856262">Ta fram rätter</Message>
+      <Message Id="1622662457">Datera från</Message>
+      <Message Id="1807457897">Om</Message>
+      <Message Id="1889659487">Version</Message>
+      <Message Id="1949634023">Om</Message>
+      <Message Id="2015395798">Tjänste- avtalar</Message>
+      <Message Id="2017771587">Öppna detta tillträde för visning och att redigera</Message>
+      <Message Id="2362747163">Logiskt tilltalar</Message>
+      <Message Id="2450981451">Öppna detta rekord för visning och att redigera</Message>
+      <Message Id="2462259200">Beskåda och redigera en definition av en RIV-TA profilerar</Message>
+      <Message Id="2495609279">Tjänste- delar</Message>
+      <Message Id="2622050746">Tjänste- delar för rätta</Message>
+      <Message Id="2758620661">Rättan tar fram rätter</Message>
+      <Message Id="2793654326">Den logiska rättan tilltalar</Message>
+      <Message Id="3017813631">RIV-TA profilerar</Message>
+      <Message Id="3025604379">Tillfoga nytt</Message>
+      <Message Id="3104711326">Tjänste- avtala</Message>
+      <Message Id="3270727197">Tilltala</Message>
+      <Message Id="3364514957">Logiska adressater för rätta</Message>
+      <Message Id="3406767092">Del-</Message>
+      <Message Id="3509640277">Logiskt tilltalar</Message>
+      <Message Id="3524476142">LEGITIMATION:</Message>
+      <Message Id="3535843008">Nära</Message>
+      <Message Id="3623346821">HsaId:</Message>
+      <Message Id="3714440439">Har ID, från, till</Message>
+      <Message Id="3828250253">RIV-TA profilerar</Message>
+      <Message Id="3859158572">Namnrymd</Message>
+      <Message Id="3863874003">Tillfoga avtalar</Message>
+      <Message Id="3869304037">Tjänstekatalog</Message>
+      <Message Id="3916296975">Åtkomstskydd</Message>
+      <Message Id="3950563313">Beskrivning</Message>
+      <Message Id="3966179235">Adressat</Message>
+      <Message Id="4054128539">Riv version</Message>
+      <Message Id="4115961312">Räddning</Message>
+      <Message Id="4116323325">HsaId</Message>
+      <Message Id="4118623053">Definiera paketerar, som ett avskilt komma listar av början av paketerar namnger</Message>
+      <Message Id="4213110145">Beskåda och redigera det utvalda rekordet</Message>
+      <Message Id="4262580536">Känt</Message>
+   </MsgDomain>
+</MsgFile>
+]]></CSP>
+</Export>

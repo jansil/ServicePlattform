@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<CSP name="TK_Zen_component.js" application="/csp/tp/" default="1"><![CDATA[
+/*** Zen Module: TK_Zen_component ***/
+
+self._zenClassIdx['http://www.intersystems.com/zen/custom/addressee'] = 'TK_Zen_component_addressee';
+self.TK_Zen_component_addressee = function(index,id) {
+	if (index>=0) {TK_Zen_component_addressee__init(this,index,id);}
+}
+
+self.TK_Zen_component_addressee__init = function(o,index,id) {
+	('undefined' == typeof _ZEN_Component_dataCombo__init) ?zenMaster._ZEN_Component_dataCombo__init(o,index,id):_ZEN_Component_dataCombo__init(o,index,id);
+	o.OnCreateResultSet = '';
+	o.OnExecuteResultSet = '';
+	o.cached = true;
+	o.choiceColumn = '2';
+	o.columnHeaders = 'Name';
+	o.columnName = '';
+	o.countRows = '0';
+	o.displayColumns = '2';
+	o.editable = true;
+	o.groupByClause = '';
+	o.maxRows = '100';
+	o.orderByClause = '';
+	o.queryClass = '';
+	o.queryName = '';
+	o.searchKeyLen = '2';
+	o.sql = ''; // encrypted
+	o.sqlLookup = ''; // encrypted
+	o.tableName = '';
+	o.whereClause = '';
+}
+function TK_Zen_component_addressee_serialize(set,s)
+{
+	var o = this;s[0]='1558591301';s[1]=o.index;s[2]=o.id;s[3]=o.name;s[4]=set.addObject(o.parent,'parent');s[5]=set.addObject(o.composite,'composite');s[6]=o.OnCreateResultSet;s[7]=o.OnExecuteResultSet;s[8]=o.align;s[9]=o.aux;s[10]=o.auxColumn;s[11]=o.buttonCaption;s[12]=o.buttonImage;s[13]=o.buttonImageDown;s[14]=o.buttonTitle;s[15]=(o.cached?1:0);s[16]=o.choiceColumn;s[17]=(o.clearOnLoad?1:0);s[18]=o.clientType;s[19]=o.columnHeaders;s[20]=o.columnName;s[21]=o.comboType;s[22]=set.serializeList(o,o.conditions,true,'conditions');s[23]=o.containerStyle;s[24]=o.contentType;s[25]=o.controlClass;s[26]=o.controlStyle;s[27]=o.countRows;s[28]=o.dataBinding;s[29]=(o.dataLoaded?1:0);s[30]=o.delay;s[31]=(o.disabled?1:0);s[32]=o.displayColumns;s[33]=(o.dragEnabled?1:0);s[34]=(o.dropEnabled?1:0);s[35]=o.dropdownHeight;s[36]=o.dropdownWidth;s[37]=(o.dynamic?1:0);s[38]=(o.editable?1:0);s[39]=o.enclosingClass;s[40]=o.enclosingStyle;s[41]=o.error;s[42]=o.groupByClause;s[43]=o.height;s[44]=(o.hidden?1:0);s[45]=o.hint;s[46]=o.hintClass;s[47]=o.hintStyle;s[48]=(o.hzScroll?1:0);s[49]=(o.invalid?1:0);s[50]=o.invalidMessage;s[51]=(o.isDropdownVisible?1:0);s[52]=o.itemCount;s[53]=o.label;s[54]=o.labelClass;s[55]=o.labelDisabledClass;s[56]=o.labelStyle;s[57]=o.loadingMessage;s[58]=o.maxRows;s[59]=o.maxlength;s[60]=o.modelClass;s[61]=(o.multiColumn?1:0);s[62]=o.onafterdrag;s[63]=o.onbeforedrag;s[64]=o.onblur;s[65]=o.onchange;s[66]=o.onclick;s[67]=o.ondblclick;s[68]=o.ondrag;s[69]=o.ondrop;s[70]=o.onfocus;s[71]=o.onhide;s[72]=o.onkeydown;s[73]=o.onkeypress;s[74]=o.onkeyup;s[75]=o.onmousedown;s[76]=o.onmouseout;s[77]=o.onmouseover;s[78]=o.onmouseup;s[79]=o.onrefresh;s[80]=o.onshow;s[81]=o.onshowDropdown;s[82]=o.onsubmit;s[83]=o.onupdate;s[84]=o.onvalidate;s[85]=o.orderByClause;s[86]=o.originalValue;s[87]=o.overlayMode;s[88]=set.serializeList(o,o.parameters,true,'parameters');s[89]=o.queryClass;s[90]=o.queryName;s[91]=(o.readOnly?1:0);s[92]=o.renderFlag;s[93]=(o.required?1:0);s[94]=o.requiredMessage;s[95]=(o.scrollIntoView?1:0);s[96]=o.searchKeyLen;s[97]=o.selectedIndex;s[98]=(o.showEmpty?1:0);s[99]=(o.showLabel?1:0);s[100]=(o.showQuery?1:0);s[101]=o.size;s[102]=o.slice;s[103]=o.sql;s[104]=o.sqlLookup;s[105]=o.tabIndex;s[106]=o.tableName;s[107]=o.text;s[108]=o.title;s[109]=o.tuple;s[110]=(o.unrestricted?1:0);s[111]=o.valign;s[112]=('boolean'==typeof o.value?(o.value?1:0):o.value);s[113]=o.valueColumn;s[114]=(o.visible?1:0);s[115]=o.whereClause;s[116]=o.width;
+}
+function TK_Zen_component_addressee_getSettings(s)
+{
+	s['name'] = 'string';
+	s['cached'] = 'boolean';
+	s['columnHeaders'] = 'csv';
+	s['columnName'] = 'string';
+	s['countRows'] = 'integer';
+	s['editable'] = 'boolean';
+	s['groupByClause'] = 'string';
+	s['maxRows'] = 'integer';
+	s['orderByClause'] = 'string';
+	s['queryClass'] = 'className';
+	s['queryName'] = 'classMember:QUERY';
+	s['searchKeyLen'] = 'integer';
+	s['sql'] = 'sql';
+	s['tableName'] = 'string';
+	s['whereClause'] = 'string';
+	this.invokeSuper('getSettings',arguments);
+}
+
+self.TK_Zen_component_addressee_LoadDropDownContents = function(searchParm,cached) {
+	zenInstanceMethod(this,'LoadDropDownContents','L,B','',arguments);
+}
+
+self.TK_Zen_component_addressee_LookupDisplayValue = function(value) {
+	return zenInstanceMethod(this,'LookupDisplayValue','L','VARCHAR',arguments);
+}
+
+self.TK_Zen_component_addressee_ReallyRefreshContents = function() {
+	zenInstanceMethod(this,'ReallyRefreshContents','','',arguments);
+}
+self.TK_Zen_component_addressee__Loader = function() {
+	zenLoadClass('_ZEN_Component_dataCombo');
+	TK_Zen_component_addressee.prototype = zenCreate('_ZEN_Component_dataCombo',-1);
+	var p = TK_Zen_component_addressee.prototype;
+	if (null==p) {return;}
+	p.constructor = TK_Zen_component_addressee;
+	p.superClass = ('undefined' == typeof _ZEN_Component_dataCombo) ? zenMaster._ZEN_Component_dataCombo.prototype:_ZEN_Component_dataCombo.prototype;
+	p.__ZENcomponent = true;
+	p._serverClass = 'TK.Zen.component.addressee';
+	p._type = 'addressee';
+	p.serialize = TK_Zen_component_addressee_serialize;
+	p.getSettings = TK_Zen_component_addressee_getSettings;
+	p.LoadDropDownContents = TK_Zen_component_addressee_LoadDropDownContents;
+	p.LookupDisplayValue = TK_Zen_component_addressee_LookupDisplayValue;
+	p.ReallyRefreshContents = TK_Zen_component_addressee_ReallyRefreshContents;
+}
+
+self._zenClassIdx['http://www.intersystems.com/zen/custom/rivVersion'] = 'TK_Zen_component_rivVersion';
+self.TK_Zen_component_rivVersion = function(index,id) {
+	if (index>=0) {TK_Zen_component_rivVersion__init(this,index,id);}
+}
+
+self.TK_Zen_component_rivVersion__init = function(o,index,id) {
+	('undefined' == typeof _ZEN_Component_dataCombo__init) ?zenMaster._ZEN_Component_dataCombo__init(o,index,id):_ZEN_Component_dataCombo__init(o,index,id);
+	o.OnCreateResultSet = '';
+	o.OnExecuteResultSet = '';
+	o.cached = true;
+	o.choiceColumn = '2';
+	o.columnHeaders = 'Name';
+	o.columnName = '';
+	o.countRows = '0';
+	o.displayColumns = '2';
+	o.editable = true;
+	o.groupByClause = '';
+	o.maxRows = '100';
+	o.orderByClause = '';
+	o.queryClass = '';
+	o.queryName = '';
+	o.searchKeyLen = '2';
+	o.sql = ''; // encrypted
+	o.sqlLookup = ''; // encrypted
+	o.tableName = '';
+	o.whereClause = '';
+}
+function TK_Zen_component_rivVersion_serialize(set,s)
+{
+	var o = this;s[0]='1558591301';s[1]=o.index;s[2]=o.id;s[3]=o.name;s[4]=set.addObject(o.parent,'parent');s[5]=set.addObject(o.composite,'composite');s[6]=o.OnCreateResultSet;s[7]=o.OnExecuteResultSet;s[8]=o.align;s[9]=o.aux;s[10]=o.auxColumn;s[11]=o.buttonCaption;s[12]=o.buttonImage;s[13]=o.buttonImageDown;s[14]=o.buttonTitle;s[15]=(o.cached?1:0);s[16]=o.choiceColumn;s[17]=(o.clearOnLoad?1:0);s[18]=o.clientType;s[19]=o.columnHeaders;s[20]=o.columnName;s[21]=o.comboType;s[22]=set.serializeList(o,o.conditions,true,'conditions');s[23]=o.containerStyle;s[24]=o.contentType;s[25]=o.controlClass;s[26]=o.controlStyle;s[27]=o.countRows;s[28]=o.dataBinding;s[29]=(o.dataLoaded?1:0);s[30]=o.delay;s[31]=(o.disabled?1:0);s[32]=o.displayColumns;s[33]=(o.dragEnabled?1:0);s[34]=(o.dropEnabled?1:0);s[35]=o.dropdownHeight;s[36]=o.dropdownWidth;s[37]=(o.dynamic?1:0);s[38]=(o.editable?1:0);s[39]=o.enclosingClass;s[40]=o.enclosingStyle;s[41]=o.error;s[42]=o.groupByClause;s[43]=o.height;s[44]=(o.hidden?1:0);s[45]=o.hint;s[46]=o.hintClass;s[47]=o.hintStyle;s[48]=(o.hzScroll?1:0);s[49]=(o.invalid?1:0);s[50]=o.invalidMessage;s[51]=(o.isDropdownVisible?1:0);s[52]=o.itemCount;s[53]=o.label;s[54]=o.labelClass;s[55]=o.labelDisabledClass;s[56]=o.labelStyle;s[57]=o.loadingMessage;s[58]=o.maxRows;s[59]=o.maxlength;s[60]=o.modelClass;s[61]=(o.multiColumn?1:0);s[62]=o.onafterdrag;s[63]=o.onbeforedrag;s[64]=o.onblur;s[65]=o.onchange;s[66]=o.onclick;s[67]=o.ondblclick;s[68]=o.ondrag;s[69]=o.ondrop;s[70]=o.onfocus;s[71]=o.onhide;s[72]=o.onkeydown;s[73]=o.onkeypress;s[74]=o.onkeyup;s[75]=o.onmousedown;s[76]=o.onmouseout;s[77]=o.onmouseover;s[78]=o.onmouseup;s[79]=o.onrefresh;s[80]=o.onshow;s[81]=o.onshowDropdown;s[82]=o.onsubmit;s[83]=o.onupdate;s[84]=o.onvalidate;s[85]=o.orderByClause;s[86]=o.originalValue;s[87]=o.overlayMode;s[88]=set.serializeList(o,o.parameters,true,'parameters');s[89]=o.queryClass;s[90]=o.queryName;s[91]=(o.readOnly?1:0);s[92]=o.renderFlag;s[93]=(o.required?1:0);s[94]=o.requiredMessage;s[95]=(o.scrollIntoView?1:0);s[96]=o.searchKeyLen;s[97]=o.selectedIndex;s[98]=(o.showEmpty?1:0);s[99]=(o.showLabel?1:0);s[100]=(o.showQuery?1:0);s[101]=o.size;s[102]=o.slice;s[103]=o.sql;s[104]=o.sqlLookup;s[105]=o.tabIndex;s[106]=o.tableName;s[107]=o.text;s[108]=o.title;s[109]=o.tuple;s[110]=(o.unrestricted?1:0);s[111]=o.valign;s[112]=('boolean'==typeof o.value?(o.value?1:0):o.value);s[113]=o.valueColumn;s[114]=(o.visible?1:0);s[115]=o.whereClause;s[116]=o.width;
+}
+function TK_Zen_component_rivVersion_getSettings(s)
+{
+	s['name'] = 'string';
+	s['cached'] = 'boolean';
+	s['columnHeaders'] = 'csv';
+	s['columnName'] = 'string';
+	s['countRows'] = 'integer';
+	s['editable'] = 'boolean';
+	s['groupByClause'] = 'string';
+	s['maxRows'] = 'integer';
+	s['orderByClause'] = 'string';
+	s['queryClass'] = 'className';
+	s['queryName'] = 'classMember:QUERY';
+	s['searchKeyLen'] = 'integer';
+	s['sql'] = 'sql';
+	s['tableName'] = 'string';
+	s['whereClause'] = 'string';
+	this.invokeSuper('getSettings',arguments);
+}
+
+self.TK_Zen_component_rivVersion_LoadDropDownContents = function(searchParm,cached) {
+	zenInstanceMethod(this,'LoadDropDownContents','L,B','',arguments);
+}
+
+self.TK_Zen_component_rivVersion_LookupDisplayValue = function(value) {
+	return zenInstanceMethod(this,'LookupDisplayValue','L','VARCHAR',arguments);
+}
+
+self.TK_Zen_component_rivVersion_ReallyRefreshContents = function() {
+	zenInstanceMethod(this,'ReallyRefreshContents','','',arguments);
+}
+self.TK_Zen_component_rivVersion__Loader = function() {
+	zenLoadClass('_ZEN_Component_dataCombo');
+	TK_Zen_component_rivVersion.prototype = zenCreate('_ZEN_Component_dataCombo',-1);
+	var p = TK_Zen_component_rivVersion.prototype;
+	if (null==p) {return;}
+	p.constructor = TK_Zen_component_rivVersion;
+	p.superClass = ('undefined' == typeof _ZEN_Component_dataCombo) ? zenMaster._ZEN_Component_dataCombo.prototype:_ZEN_Component_dataCombo.prototype;
+	p.__ZENcomponent = true;
+	p._serverClass = 'TK.Zen.component.rivVersion';
+	p._type = 'rivVersion';
+	p.serialize = TK_Zen_component_rivVersion_serialize;
+	p.getSettings = TK_Zen_component_rivVersion_getSettings;
+	p.LoadDropDownContents = TK_Zen_component_rivVersion_LoadDropDownContents;
+	p.LookupDisplayValue = TK_Zen_component_rivVersion_LookupDisplayValue;
+	p.ReallyRefreshContents = TK_Zen_component_rivVersion_ReallyRefreshContents;
+}
+
+self._zenClassIdx['http://www.intersystems.com/zen/custom/tjansteKomponent'] = 'TK_Zen_component_tjansteKomponent';
+self.TK_Zen_component_tjansteKomponent = function(index,id) {
+	if (index>=0) {TK_Zen_component_tjansteKomponent__init(this,index,id);}
+}
+
+self.TK_Zen_component_tjansteKomponent__init = function(o,index,id) {
+	('undefined' == typeof _ZEN_Component_dataCombo__init) ?zenMaster._ZEN_Component_dataCombo__init(o,index,id):_ZEN_Component_dataCombo__init(o,index,id);
+	o.OnCreateResultSet = '';
+	o.OnExecuteResultSet = '';
+	o.cached = true;
+	o.choiceColumn = '2';
+	o.columnHeaders = 'Name';
+	o.columnName = '';
+	o.countRows = '0';
+	o.displayColumns = '2';
+	o.editable = true;
+	o.groupByClause = '';
+	o.maxRows = '100';
+	o.orderByClause = '';
+	o.queryClass = '';
+	o.queryName = '';
+	o.searchKeyLen = '2';
+	o.sql = ''; // encrypted
+	o.sqlLookup = ''; // encrypted
+	o.tableName = '';
+	o.whereClause = '';
+}
+function TK_Zen_component_tjansteKomponent_serialize(set,s)
+{
+	var o = this;s[0]='1558591301';s[1]=o.index;s[2]=o.id;s[3]=o.name;s[4]=set.addObject(o.parent,'parent');s[5]=set.addObject(o.composite,'composite');s[6]=o.OnCreateResultSet;s[7]=o.OnExecuteResultSet;s[8]=o.align;s[9]=o.aux;s[10]=o.auxColumn;s[11]=o.buttonCaption;s[12]=o.buttonImage;s[13]=o.buttonImageDown;s[14]=o.buttonTitle;s[15]=(o.cached?1:0);s[16]=o.choiceColumn;s[17]=(o.clearOnLoad?1:0);s[18]=o.clientType;s[19]=o.columnHeaders;s[20]=o.columnName;s[21]=o.comboType;s[22]=set.serializeList(o,o.conditions,true,'conditions');s[23]=o.containerStyle;s[24]=o.contentType;s[25]=o.controlClass;s[26]=o.controlStyle;s[27]=o.countRows;s[28]=o.dataBinding;s[29]=(o.dataLoaded?1:0);s[30]=o.delay;s[31]=(o.disabled?1:0);s[32]=o.displayColumns;s[33]=(o.dragEnabled?1:0);s[34]=(o.dropEnabled?1:0);s[35]=o.dropdownHeight;s[36]=o.dropdownWidth;s[37]=(o.dynamic?1:0);s[38]=(o.editable?1:0);s[39]=o.enclosingClass;s[40]=o.enclosingStyle;s[41]=o.error;s[42]=o.groupByClause;s[43]=o.height;s[44]=(o.hidden?1:0);s[45]=o.hint;s[46]=o.hintClass;s[47]=o.hintStyle;s[48]=(o.hzScroll?1:0);s[49]=(o.invalid?1:0);s[50]=o.invalidMessage;s[51]=(o.isDropdownVisible?1:0);s[52]=o.itemCount;s[53]=o.label;s[54]=o.labelClass;s[55]=o.labelDisabledClass;s[56]=o.labelStyle;s[57]=o.loadingMessage;s[58]=o.maxRows;s[59]=o.maxlength;s[60]=o.modelClass;s[61]=(o.multiColumn?1:0);s[62]=o.onafterdrag;s[63]=o.onbeforedrag;s[64]=o.onblur;s[65]=o.onchange;s[66]=o.onclick;s[67]=o.ondblclick;s[68]=o.ondrag;s[69]=o.ondrop;s[70]=o.onfocus;s[71]=o.onhide;s[72]=o.onkeydown;s[73]=o.onkeypress;s[74]=o.onkeyup;s[75]=o.onmousedown;s[76]=o.onmouseout;s[77]=o.onmouseover;s[78]=o.onmouseup;s[79]=o.onrefresh;s[80]=o.onshow;s[81]=o.onshowDropdown;s[82]=o.onsubmit;s[83]=o.onupdate;s[84]=o.onvalidate;s[85]=o.orderByClause;s[86]=o.originalValue;s[87]=o.overlayMode;s[88]=set.serializeList(o,o.parameters,true,'parameters');s[89]=o.queryClass;s[90]=o.queryName;s[91]=(o.readOnly?1:0);s[92]=o.renderFlag;s[93]=(o.required?1:0);s[94]=o.requiredMessage;s[95]=(o.scrollIntoView?1:0);s[96]=o.searchKeyLen;s[97]=o.selectedIndex;s[98]=(o.showEmpty?1:0);s[99]=(o.showLabel?1:0);s[100]=(o.showQuery?1:0);s[101]=o.size;s[102]=o.slice;s[103]=o.sql;s[104]=o.sqlLookup;s[105]=o.tabIndex;s[106]=o.tableName;s[107]=o.text;s[108]=o.title;s[109]=o.tuple;s[110]=(o.unrestricted?1:0);s[111]=o.valign;s[112]=('boolean'==typeof o.value?(o.value?1:0):o.value);s[113]=o.valueColumn;s[114]=(o.visible?1:0);s[115]=o.whereClause;s[116]=o.width;
+}
+function TK_Zen_component_tjansteKomponent_getSettings(s)
+{
+	s['name'] = 'string';
+	s['cached'] = 'boolean';
+	s['columnHeaders'] = 'csv';
+	s['columnName'] = 'string';
+	s['countRows'] = 'integer';
+	s['editable'] = 'boolean';
+	s['groupByClause'] = 'string';
+	s['maxRows'] = 'integer';
+	s['orderByClause'] = 'string';
+	s['queryClass'] = 'className';
+	s['queryName'] = 'classMember:QUERY';
+	s['searchKeyLen'] = 'integer';
+	s['sql'] = 'sql';
+	s['tableName'] = 'string';
+	s['whereClause'] = 'string';
+	this.invokeSuper('getSettings',arguments);
+}
+
+self.TK_Zen_component_tjansteKomponent_LoadDropDownContents = function(searchParm,cached) {
+	zenInstanceMethod(this,'LoadDropDownContents','L,B','',arguments);
+}
+
+self.TK_Zen_component_tjansteKomponent_LookupDisplayValue = function(value) {
+	return zenInstanceMethod(this,'LookupDisplayValue','L','VARCHAR',arguments);
+}
+
+self.TK_Zen_component_tjansteKomponent_ReallyRefreshContents = function() {
+	zenInstanceMethod(this,'ReallyRefreshContents','','',arguments);
+}
+self.TK_Zen_component_tjansteKomponent__Loader = function() {
+	zenLoadClass('_ZEN_Component_dataCombo');
+	TK_Zen_component_tjansteKomponent.prototype = zenCreate('_ZEN_Component_dataCombo',-1);
+	var p = TK_Zen_component_tjansteKomponent.prototype;
+	if (null==p) {return;}
+	p.constructor = TK_Zen_component_tjansteKomponent;
+	p.superClass = ('undefined' == typeof _ZEN_Component_dataCombo) ? zenMaster._ZEN_Component_dataCombo.prototype:_ZEN_Component_dataCombo.prototype;
+	p.__ZENcomponent = true;
+	p._serverClass = 'TK.Zen.component.tjansteKomponent';
+	p._type = 'tjansteKomponent';
+	p.serialize = TK_Zen_component_tjansteKomponent_serialize;
+	p.getSettings = TK_Zen_component_tjansteKomponent_getSettings;
+	p.LoadDropDownContents = TK_Zen_component_tjansteKomponent_LoadDropDownContents;
+	p.LookupDisplayValue = TK_Zen_component_tjansteKomponent_LookupDisplayValue;
+	p.ReallyRefreshContents = TK_Zen_component_tjansteKomponent_ReallyRefreshContents;
+}
+
+self._zenClassIdx['http://www.intersystems.com/zen/custom/tjansteKontrakt'] = 'TK_Zen_component_tjansteKontrakt';
+self.TK_Zen_component_tjansteKontrakt = function(index,id) {
+	if (index>=0) {TK_Zen_component_tjansteKontrakt__init(this,index,id);}
+}
+
+self.TK_Zen_component_tjansteKontrakt__init = function(o,index,id) {
+	('undefined' == typeof _ZEN_Component_dataCombo__init) ?zenMaster._ZEN_Component_dataCombo__init(o,index,id):_ZEN_Component_dataCombo__init(o,index,id);
+	o.OnCreateResultSet = '';
+	o.OnExecuteResultSet = '';
+	o.cached = true;
+	o.choiceColumn = '2';
+	o.columnHeaders = 'Name';
+	o.columnName = '';
+	o.countRows = '0';
+	o.displayColumns = '2';
+	o.editable = true;
+	o.groupByClause = '';
+	o.maxRows = '100';
+	o.orderByClause = '';
+	o.queryClass = '';
+	o.queryName = '';
+	o.searchKeyLen = '2';
+	o.sql = ''; // encrypted
+	o.sqlLookup = ''; // encrypted
+	o.tableName = '';
+	o.whereClause = '';
+}
+function TK_Zen_component_tjansteKontrakt_serialize(set,s)
+{
+	var o = this;s[0]='1558591301';s[1]=o.index;s[2]=o.id;s[3]=o.name;s[4]=set.addObject(o.parent,'parent');s[5]=set.addObject(o.composite,'composite');s[6]=o.OnCreateResultSet;s[7]=o.OnExecuteResultSet;s[8]=o.align;s[9]=o.aux;s[10]=o.auxColumn;s[11]=o.buttonCaption;s[12]=o.buttonImage;s[13]=o.buttonImageDown;s[14]=o.buttonTitle;s[15]=(o.cached?1:0);s[16]=o.choiceColumn;s[17]=(o.clearOnLoad?1:0);s[18]=o.clientType;s[19]=o.columnHeaders;s[20]=o.columnName;s[21]=o.comboType;s[22]=set.serializeList(o,o.conditions,true,'conditions');s[23]=o.containerStyle;s[24]=o.contentType;s[25]=o.controlClass;s[26]=o.controlStyle;s[27]=o.countRows;s[28]=o.dataBinding;s[29]=(o.dataLoaded?1:0);s[30]=o.delay;s[31]=(o.disabled?1:0);s[32]=o.displayColumns;s[33]=(o.dragEnabled?1:0);s[34]=(o.dropEnabled?1:0);s[35]=o.dropdownHeight;s[36]=o.dropdownWidth;s[37]=(o.dynamic?1:0);s[38]=(o.editable?1:0);s[39]=o.enclosingClass;s[40]=o.enclosingStyle;s[41]=o.error;s[42]=o.groupByClause;s[43]=o.height;s[44]=(o.hidden?1:0);s[45]=o.hint;s[46]=o.hintClass;s[47]=o.hintStyle;s[48]=(o.hzScroll?1:0);s[49]=(o.invalid?1:0);s[50]=o.invalidMessage;s[51]=(o.isDropdownVisible?1:0);s[52]=o.itemCount;s[53]=o.label;s[54]=o.labelClass;s[55]=o.labelDisabledClass;s[56]=o.labelStyle;s[57]=o.loadingMessage;s[58]=o.maxRows;s[59]=o.maxlength;s[60]=o.modelClass;s[61]=(o.multiColumn?1:0);s[62]=o.onafterdrag;s[63]=o.onbeforedrag;s[64]=o.onblur;s[65]=o.onchange;s[66]=o.onclick;s[67]=o.ondblclick;s[68]=o.ondrag;s[69]=o.ondrop;s[70]=o.onfocus;s[71]=o.onhide;s[72]=o.onkeydown;s[73]=o.onkeypress;s[74]=o.onkeyup;s[75]=o.onmousedown;s[76]=o.onmouseout;s[77]=o.onmouseover;s[78]=o.onmouseup;s[79]=o.onrefresh;s[80]=o.onshow;s[81]=o.onshowDropdown;s[82]=o.onsubmit;s[83]=o.onupdate;s[84]=o.onvalidate;s[85]=o.orderByClause;s[86]=o.originalValue;s[87]=o.overlayMode;s[88]=set.serializeList(o,o.parameters,true,'parameters');s[89]=o.queryClass;s[90]=o.queryName;s[91]=(o.readOnly?1:0);s[92]=o.renderFlag;s[93]=(o.required?1:0);s[94]=o.requiredMessage;s[95]=(o.scrollIntoView?1:0);s[96]=o.searchKeyLen;s[97]=o.selectedIndex;s[98]=(o.showEmpty?1:0);s[99]=(o.showLabel?1:0);s[100]=(o.showQuery?1:0);s[101]=o.size;s[102]=o.slice;s[103]=o.sql;s[104]=o.sqlLookup;s[105]=o.tabIndex;s[106]=o.tableName;s[107]=o.text;s[108]=o.title;s[109]=o.tuple;s[110]=(o.unrestricted?1:0);s[111]=o.valign;s[112]=('boolean'==typeof o.value?(o.value?1:0):o.value);s[113]=o.valueColumn;s[114]=(o.visible?1:0);s[115]=o.whereClause;s[116]=o.width;
+}
+function TK_Zen_component_tjansteKontrakt_getSettings(s)
+{
+	s['name'] = 'string';
+	s['cached'] = 'boolean';
+	s['columnHeaders'] = 'csv';
+	s['columnName'] = 'string';
+	s['countRows'] = 'integer';
+	s['editable'] = 'boolean';
+	s['groupByClause'] = 'string';
+	s['maxRows'] = 'integer';
+	s['orderByClause'] = 'string';
+	s['queryClass'] = 'className';
+	s['queryName'] = 'classMember:QUERY';
+	s['searchKeyLen'] = 'integer';
+	s['sql'] = 'sql';
+	s['tableName'] = 'string';
+	s['whereClause'] = 'string';
+	this.invokeSuper('getSettings',arguments);
+}
+
+self.TK_Zen_component_tjansteKontrakt_LoadDropDownContents = function(searchParm,cached) {
+	zenInstanceMethod(this,'LoadDropDownContents','L,B','',arguments);
+}
+
+self.TK_Zen_component_tjansteKontrakt_LookupDisplayValue = function(value) {
+	return zenInstanceMethod(this,'LookupDisplayValue','L','VARCHAR',arguments);
+}
+
+self.TK_Zen_component_tjansteKontrakt_ReallyRefreshContents = function() {
+	zenInstanceMethod(this,'ReallyRefreshContents','','',arguments);
+}
+self.TK_Zen_component_tjansteKontrakt__Loader = function() {
+	zenLoadClass('_ZEN_Component_dataCombo');
+	TK_Zen_component_tjansteKontrakt.prototype = zenCreate('_ZEN_Component_dataCombo',-1);
+	var p = TK_Zen_component_tjansteKontrakt.prototype;
+	if (null==p) {return;}
+	p.constructor = TK_Zen_component_tjansteKontrakt;
+	p.superClass = ('undefined' == typeof _ZEN_Component_dataCombo) ? zenMaster._ZEN_Component_dataCombo.prototype:_ZEN_Component_dataCombo.prototype;
+	p.__ZENcomponent = true;
+	p._serverClass = 'TK.Zen.component.tjansteKontrakt';
+	p._type = 'tjansteKontrakt';
+	p.serialize = TK_Zen_component_tjansteKontrakt_serialize;
+	p.getSettings = TK_Zen_component_tjansteKontrakt_getSettings;
+	p.LoadDropDownContents = TK_Zen_component_tjansteKontrakt_LoadDropDownContents;
+	p.LookupDisplayValue = TK_Zen_component_tjansteKontrakt_LookupDisplayValue;
+	p.ReallyRefreshContents = TK_Zen_component_tjansteKontrakt_ReallyRefreshContents;
+}
+/* EOF */]]></CSP>
+</Export>

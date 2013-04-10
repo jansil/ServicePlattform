@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<CSP name="locales/hu/ServiceCatalog.xml" application="/csp/tp/" default="1"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<MsgFile Language="hu">
+   <MsgDomain Domain="%UtilityLogin">
+     <Message Id="244842548">Management Portal</Message> 
+  <Message Id="324080297">Powered by Zen</Message> 
+  <Message Id="1360759182">by InterSystems</Message> 
+  <Message Id="login">Belépés</Message> 
+  <Message Id="loginalt">Kezdőlap</Message> 
+  <Message Id="loginclickhere">Please click here to log in.</Message> 
+  <Message Id="loginenter">Please login</Message> 
+  <Message Id="logininstance">Instance</Message> 
+  <Message Id="loginlogout">You are logged out.</Message> 
+  <Message Id="loginmsgserver">Name of the machine this system is running on</Message> 
+  <Message Id="loginpassword">Titkos jelszó</Message> 
+  <Message Id="loginsecurityttoken">Security Token</Message> 
+  <Message Id="loginserver">Server</Message> 
+  <Message Id="logintitle">Login %1</Message> 
+  <Message Id="loginusername">Belépési kód</Message> 
+  <Message Id="sectok">Security Token</Message> 
+  <Message Id="sectokcancel">Mégse</Message> 
+  <Message Id="sectokenter">Please enter your security token</Message> 
+  <Message Id="sectoksubmit">Elküld</Message> 
+  <Message Id="sectoktitle">Security Token %1</Message> 
+  <Message Id="flag">iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA3XAAAN1wFCKJt4AAAACXZwQWcAAAAgAAAAIACH+pydAAAAfElEQVRYw+2SwQ1FUBRE58rbfRaasNDPTxSlBWsLiQrUILHRhZWNEJ6FIo7EPQ3MycxIjvN1bMwLVCBIKmmBjhZAG0jI8KeBGFmBJP1dpIAtbb+jAjGyG+AndIHQTMNBClhWVyfawLpv6AxBZmT+C04oaaYF/rQA2oDjODfF4RaJfHrksgAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAwOS0xMi0xNlQyMjoxNzozMy0wNzowMNwMG04AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMDktMTItMTZUMjI6MTc6MzMtMDc6MDCtUaPyAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg==</Message> 
+ </MsgDomain>
+   <MsgDomain Domain="ServiceCatalog">
+      <Message Id="858154">Szervíz szerződések karbantartása</Message>
+      <Message Id="71445658">Open</Message>
+      <Message Id="216363591">Welcome to the house of fun...</Message>
+      <Message Id="261319605">Manage service contracts</Message>
+      <Message Id="284772879">Contract</Message>
+      <Message Id="292500706">Kilépés</Message>
+      <Message Id="299066170">ID</Message>
+      <Message Id="389272589">Open this RIV-TA profile for viewing and editing</Message>
+      <Message Id="435110628">Addressee</Message>
+      <Message Id="473005708">RIV-TA profilok kezelése</Message>
+      <Message Id="474410875">Logical addressees</Message>
+      <Message Id="563028834">View Versions</Message>
+      <Message Id="655025817">Logikai címzett</Message>
+      <Message Id="845213721">Logout</Message>
+      <Message Id="876165239">About Service catalog</Message>
+      <Message Id="1022533488">Name:</Message>
+      <Message Id="1035893169">Delete</Message>
+      <Message Id="1077515534">Date to</Message>
+      <Message Id="1114883623">HsaID:</Message>
+      <Message Id="1134591727">Manage RIV-TA profiles</Message>
+      <Message Id="1216729676">Service components</Message>
+      <Message Id="1521856262">Access rights</Message>
+      <Message Id="1622662457">Date from</Message>
+      <Message Id="1807457897">Info</Message>
+      <Message Id="1889659487">Version</Message>
+      <Message Id="1949634023">About</Message>
+      <Message Id="2015395798">Service contracts</Message>
+      <Message Id="2017771587">Open this entry for viewing and editing</Message>
+      <Message Id="2362747163">Logikai cím</Message>
+      <Message Id="2450981451">Open this record for viewing and editing</Message>
+      <Message Id="2462259200">View and Edit a Definition of a RIV-TA profile</Message>
+      <Message Id="2495609279">Szervíz komponens</Message>
+      <Message Id="2622050746">Manage service components</Message>
+      <Message Id="2758620661">Manage access rights</Message>
+      <Message Id="2793654326">Manage logical addresses</Message>
+      <Message Id="3017813631">RIV-TA profil</Message>
+      <Message Id="3025604379">Add new</Message>
+      <Message Id="3104711326">Szetződés</Message>
+      <Message Id="3270727197">Address</Message>
+      <Message Id="3364514957">Manage logical addressees</Message>
+      <Message Id="3406767092">Component</Message>
+      <Message Id="3509640277">Logical addresses</Message>
+      <Message Id="3524476142">ID:</Message>
+      <Message Id="3535843008">Close</Message>
+      <Message Id="3623346821">HsaId:</Message>
+      <Message Id="3714440439">Hsa Id,From,To</Message>
+      <Message Id="3828250253">RIV-TA profiles</Message>
+      <Message Id="3859158572">Namnrymd</Message>
+      <Message Id="3863874003">Add contract</Message>
+      <Message Id="3869304037">Szerviz Katalógus</Message>
+      <Message Id="3916296975">Hozzáférés</Message>
+      <Message Id="3950563313">Description</Message>
+      <Message Id="3966179235">Adressat</Message>
+      <Message Id="4054128539">Riv Version</Message>
+      <Message Id="4115961312">Save</Message>
+      <Message Id="4116323325">HsaId</Message>
+      <Message Id="4118623053">Define packages as a comma separated list of beginnings of package names</Message>
+      <Message Id="4213110145">View and Edit the selected record</Message>
+      <Message Id="4262580536">Name</Message>
+   </MsgDomain>
+</MsgFile>
+]]></CSP>
+</Export>

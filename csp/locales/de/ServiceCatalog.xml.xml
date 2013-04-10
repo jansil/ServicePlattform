@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<CSP name="locales/de/ServiceCatalog.xml" application="/csp/tp/" default="1"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<MsgFile Language="de">
+   <MsgDomain Domain="%UtilityLogin">
+      <Message Id="login">Anmeldung</Message>
+      <Message Id="loginalt">Anmelde-Seite</Message>
+      <Message Id="loginclickhere">Klicken Sie hier, um sich anzumelden.</Message>
+      <Message Id="loginenter">Anmeldung: Geben Sie den Benutzernamen und das Kennwort ein.</Message>
+      <Message Id="logininstance">Instanz</Message>
+      <Message Id="loginlogout">Sie sind abgemeldet.</Message>
+      <Message Id="loginmsgserver">Name des Rechners, auf dem dieses System installiert ist</Message>
+      <Message Id="loginpassword">Kennwort</Message>
+      <Message Id="loginsecurityttoken">Sicherheits-Token</Message>
+      <Message Id="loginserver">Server</Message>
+      <Message Id="logintitle">Anmeldung '%1'</Message>
+      <Message Id="loginusername">Benutzername</Message>
+      <Message Id="sectok">Sicherheits-Token</Message>
+      <Message Id="sectokcancel">Abbrechen</Message>
+      <Message Id="sectokenter">Geben Sie bitte Ihr Sicherheits-Token ein</Message>
+      <Message Id="sectoksubmit">Abschicken</Message>
+      <Message Id="sectoktitle">Sicherheits-Token %1</Message>
+     <Message Id="flag">iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAA3XAAAN1wFCKJt4AAAACXZwQWcAAAAgAAAAIACH+pydAAAAdUlEQVRYw+3WsQmAQBBE0VmZREzFgixRDKzEHsxsRhQE1zL+BTsN3OOYvT2pUoETknoasNKAjwYkCejIwwsgSZ5hQBxwCT3BN2D0EVADJcQB9sgC4lrYKYg84TFkd2EDJcQBZhsgOV9tJCCenf2U2oNuElCp/HviEqe9DMzKAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDA5LTEyLTE2VDIyOjE3OjMzLTA3OjAw3AwbTgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAwOS0xMi0xNlQyMjoxNzozMy0wNzowMK1Ro/IAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC</Message> 
+  </MsgDomain>
+   <MsgDomain Domain="ServiceCatalog">
+      <Message Id="858154">Handhaben Sie Service-Verträge</Message>
+      <Message Id="71445658">Geöffnet</Message>
+      <Message Id="216363591">Willkommen zum Haus des Spaßes…</Message>
+      <Message Id="261319605">Handhaben Sie Service-Verträge</Message>
+      <Message Id="284772879">Vertrag</Message>
+      <Message Id="292500706">Logout</Message>
+      <Message Id="299066170">Identifikation</Message>
+      <Message Id="389272589">Öffnen Sie dieses RIV-TA Profil für Betrachtung und das Redigieren</Message>
+      <Message Id="435110628">Empfänger</Message>
+      <Message Id="473005708">Handhaben Sie RIV-TA Profile</Message>
+      <Message Id="474410875">Logische Empfänger</Message>
+      <Message Id="563028834">Ansicht-Versionen</Message>
+      <Message Id="655025817">Logische Empfänger</Message>
+      <Message Id="845213721">Logout</Message>
+      <Message Id="876165239">Über Service-Katalog</Message>
+      <Message Id="1022533488">Name:</Message>
+      <Message Id="1035893169">Löschung</Message>
+      <Message Id="1077515534">Datum zu</Message>
+      <Message Id="1114883623">HsaID:</Message>
+      <Message Id="1134591727">Handhaben Sie RIV-TA Profile</Message>
+      <Message Id="1216729676">Halten Sie Bestandteile instand</Message>
+      <Message Id="1521856262">Auskunftsrechte</Message>
+      <Message Id="1622662457">Datum von</Message>
+      <Message Id="1807457897">Über</Message>
+      <Message Id="1889659487">Version</Message>
+      <Message Id="1949634023">Über</Message>
+      <Message Id="2015395798">Service-Verträge</Message>
+      <Message Id="2017771587">Öffnen Sie diese Eintragung für Betrachtung und das Redigieren</Message>
+      <Message Id="2362747163">Logische Adressen</Message>
+      <Message Id="2450981451">Öffnen Sie diese Aufzeichnung für Betrachtung und das Redigieren</Message>
+      <Message Id="2462259200">Sehen Sie an und redigieren Sie eine Definition eines RIV-TA Profils</Message>
+      <Message Id="2495609279">Halten Sie Bestandteile instand</Message>
+      <Message Id="2622050746">Handhaben Sie Service-Bestandteile</Message>
+      <Message Id="2758620661">Handhaben Sie Auskunftsrechte</Message>
+      <Message Id="2793654326">Handhaben Sie logische Adressen</Message>
+      <Message Id="3017813631">RIV-TA Profile</Message>
+      <Message Id="3025604379">Addieren Sie neues</Message>
+      <Message Id="3104711326">Service-Vertrag</Message>
+      <Message Id="3270727197">Adresse</Message>
+      <Message Id="3364514957">Handhaben Sie logische Empfänger</Message>
+      <Message Id="3406767092">Bestandteil</Message>
+      <Message Id="3509640277">Logische Adressen</Message>
+      <Message Id="3524476142">Identifikation:</Message>
+      <Message Id="3535843008">Ende</Message>
+      <Message Id="3623346821">HsaId:</Message>
+      <Message Id="3714440439">Hat Kennzeichnung, von, zu</Message>
+      <Message Id="3828250253">RIV-TA Profile</Message>
+      <Message Id="3859158572">Namnrymd</Message>
+      <Message Id="3863874003">Addieren Sie Vertrag</Message>
+      <Message Id="3869304037">Halten Sie Katalog instand</Message>
+      <Message Id="3916296975">Zugriffssteuerung</Message>
+      <Message Id="3950563313">Beschreibung</Message>
+      <Message Id="3966179235">Adressat</Message>
+      <Message Id="4054128539">Riv Version</Message>
+      <Message Id="4115961312">Außer</Message>
+      <Message Id="4116323325">HsaId</Message>
+      <Message Id="4118623053">Definieren Sie Pakete als Komma getrennte Liste von Anfängen der Paketnamen</Message>
+      <Message Id="4213110145">Sehen Sie an und redigieren Sie die vorgewählte Aufzeichnung</Message>
+      <Message Id="4262580536">Name</Message>
+   </MsgDomain>
+</MsgFile>
+]]></CSP>
+</Export>

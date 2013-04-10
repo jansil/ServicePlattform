@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.TPProductionDEV">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Production</Super>
+<TimeCreated>62342,36119.513948</TimeCreated>
+
+<XData name="ProductionDefinition">
+<Data><![CDATA[
+<Production Name="TP.TPProduction" LogGeneralTraceEvents="false">
+  <Description></Description>
+  <ActorPoolSize>2</ActorPoolSize>
+  <Item Name="TP.Service.VirtualService" Category="" ClassName="TP.Service.VirtualService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigName">TP.Process.Router</Setting>
+    <Setting Target="Adapter" Name="EnableStandardRequests">1</Setting>
+    <Setting Target="Adapter" Name="Port">9989</Setting>
+    <Setting Target="Adapter" Name="AdapterURL">/serviceplatform</Setting>
+  </Item>
+  <Item Name="TP.Operation.VirtualOperation" Category="" ClassName="TP.Operation.VirtualOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="TP.Process.Router" Category="" ClassName="TP.Process.Router" PoolSize="2" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigName">TP.Operation.VirtualOperation</Setting>
+  </Item>
+</Production>
+]]></Data>
+</XData>
+</Class>
+</Export>

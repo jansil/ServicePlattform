@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Util">
+<TimeCreated>62887,29601.529283</TimeCreated>
+
+<Method name="InstallMessageDictionary">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	Kill ^CacheMsg("ServiceCatalog")
+	Set ^CacheMsg("ServiceCatalog")="en"
+	Do $system.OBJ.Compile(##class(TK.Zen.TemplatePage).%ClassName(1),"ckb")
+	Set cspRoot = $system.Util.InstallDirectory() _"csp\"_$namespace_"\"
+	For ln="en","de","sv" {
+		d ##class(%MessageDictionary).Import(cspRoot_"locales\"_ln_"\ServiceCatalog.xml")
+	}
+]]></Implementation>
+</Method>
+</Class>
+</Export>

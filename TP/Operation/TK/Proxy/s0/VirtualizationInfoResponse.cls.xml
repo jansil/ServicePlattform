@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.TK.Proxy.s0.VirtualizationInfoResponse">
+<Description><![CDATA[
+Created from: http://localhost:57773/csp/tp/TK.Service.SearchRoutingInfoService.CLS?WSDL=1&CacheUserName=_system&CachePassword=SYS]]></Description>
+<ClassType>serial</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeCreated>62341,82347.508755</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>VirtualizationInfoResponse</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="VirtualizationInfos">
+<Type>TP.Operation.TK.Proxy.s0.VirtualizationInfo</Type>
+<Collection>list</Collection>
+<Parameter name="XMLITEMNAME" value="VirtualizationInfo"/>
+<Parameter name="XMLNAME" value="VirtualizationInfos"/>
+<Parameter name="XMLPROJECTION" value="COLLECTION"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>VirtualizationInfoResponseState</State>
+<StreamLocation>^TP.Operati895D.VirtualizatE790S</StreamLocation>
+<Data name="VirtualizationInfoResponseState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>VirtualizationInfos</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

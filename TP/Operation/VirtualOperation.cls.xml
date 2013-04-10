@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.VirtualOperation">
+<Super>EnsLib.SOAP.GenericOperation</Super>
+<TimeCreated>62922,57924.338597</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.HTTP.OutboundAdapter</Default>
+</Parameter>
+
+<Method name="OnMessage">
+<Description>
+Invoke a remote SOAP Service given a generic SOAP request</Description>
+<FormalSpec>pRequest:TP.Message.SOAPRequest,*pResponse:TP.Message.SOAPResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim tSC As %Status
+	#Dim tException As %Exception.SystemException
+	Set tSC=$$$OK
+	
+	Try {
+		Set ..%HttpRequest.Location=""  Do ..%HttpRequest.SetHeader("HOST",""), ..%HttpRequest.Reset()
+
+		#; Pass along selected HTTP headers
+		Set (tReq,tURL,tCT,tLen)="",tDoNotPassThrough=","_$ZCVT(..%ExcludeRequestHttpHeaders,"L")_",host,httprequest,url,version,content-length,content-type,"
+		Set tHeaderKey="" For { Set tHeaderKey=pRequest.HTTPHeaders.Next(tHeaderKey)  Quit:""=tHeaderKey  Set tHeaderLwr=$ZCVT(tHeaderKey,"L")
+			Do:tDoNotPassThrough'[(","_tHeaderLwr_",") ..%HttpRequest.SetHeader(tHeaderKey,pRequest.HTTPHeaders.GetAt(tHeaderKey)) ; no need to handle multiple on one line
+			Set:tHeaderLwr="httprequest" tReq=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+			Set:tHeaderLwr="url" tURL=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+			Set:tHeaderLwr="host" tHost=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+			Set:tHeaderLwr="port" tPort=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+			Set:tHeaderLwr="content-type" tCT=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+			Set:tHeaderLwr="content-length" tLen=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+		}
+		Set ..Adapter.HTTPServer = pRequest.Host
+		Set ..Adapter.HTTPPort = pRequest.Port
+		Set tURL = pRequest.URL
+	
+		Set ..%HttpRequest.ContentType=tCT
+		Set tSOAP12=tCT["application/soap+xml"
+		Set tSC=..constructHTTPRequest(pRequest,tLen,tCT,tSOAP12)
+		If ($$$ISERR(tSC)) { Quit }
+
+		#; Now send to the target address
+		#dim tHttpResponse As %Net.HttpResponse
+		Set tSC=..Adapter.SendFormDataArray(.tHttpResponse,$S(""=tReq:"POST",1:tReq),..%HttpRequest,,,$Case(..Adapter.URL,"":tURL,"*":tURL,:..Adapter.URL))
+	
+		If ($$$ISERR(tSC)) {
+			Set s = ""
+			Do ##class(%SYSTEM.Status).DecomposeStatus(tSC, .Err)
+			For i=1:1:$Get(Err) { set s = s _ "Err(" _ i _ ") = " _ Err(i) _ " / "}
+		 	$$$LOGERROR("Error: " _ tHttpResponse _ " / " _ s)
+		}
+	
+		#; Suppress HTTP status errors and just pass back the status, headers and body
+		Set:$$$ISERR(tSC)&&$$$StatusEquals(tSC,$$$EnsErrHTTPStatus) tSC=$$$OK
+
+		Set tSC = ..constructResponse(tHttpResponse,.pResponse)
+	}
+	Catch tException {
+		Set tSC = tException.AsStatus()
+	}
+	
+	Quit tSC
+]]></Implementation>
+</Method>
+</Class>
+</Export>

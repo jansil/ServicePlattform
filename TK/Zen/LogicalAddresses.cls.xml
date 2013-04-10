@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.LogicalAddresses">
+<Description>
+Created using the page template: Default</Description>
+<Super>TK.Zen.FormTemplate</Super>
+<TimeCreated>62536,48195.665282</TimeCreated>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>Logical Addresses</Default>
+</Parameter>
+
+<Parameter name="CURRENTMENUITEM">
+<Description>
+Id of the menu item that should be current when displaying this page</Description>
+<Default>menuItemLogicalAddresses</Default>
+</Parameter>
+
+<Parameter name="TABLEPANES">
+<Description>
+List of table pane ids to apply preferences to</Description>
+<Type>%String</Type>
+<Default>RIVTATable:tableSetup</Default>
+</Parameter>
+
+<Parameter name="MODELCLASS">
+<Default>TK.Logiskadress</Default>
+</Parameter>
+
+<Parameter name="TABLESOURCE">
+<Default>TK_Zen.LogicalAddressesView</Default>
+</Parameter>
+
+<Query name="LogicalAddressesView">
+<Type>%SQLQuery</Type>
+<SqlQuery>SELECT a.Id, a.FromTidpunkt,  a.TomTidpunkt, a.Version, l.HsaId LogiskAdressat, r.Namn RivVersion, cm.HsaId Tjansteproducentid, ct.Namnrymd Tjanstekontrakt
+ 			FROM TK.Logiskadress a
+ 			INNER JOIN TK.RivVersion r ON a.RivVersion_id = r.Id
+ 			INNER JOIN TK.Logiskadressat l ON a.LogiskAdressat_id = l.id
+ 			INNER JOIN TK.Tjanstekomponent cm ON a.Tjansteproducent_id = cm.Id
+ 			INNER JOIN TK.Tjanstekontrakt ct ON a.Tjanstekontrakt_id = ct.Id</SqlQuery>
+<SqlView>1</SqlView>
+</Query>
+
+<Method name="tableSetup">
+<FormalSpec>pTable:%ZEN.Component.tablePane</FormalSpec>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	Set pTable.orderByClause = "LogiskAdressat"
+
+	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Adressat")_"|width=25%|colName=LogiskAdressat|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Riv Version")_"|width=25%|colName=RivVersion|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=25%|colName=Version|filterType=text"
+	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this RIV-TA profile for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
+	
+	For i=1:1:tCols {
+		Set tColumn = ##class(%ZEN.Auxiliary.column).%New()
+		Do ..setPropertySet(tColumn, tCols(i))
+		Do pTable.columns.Insert(tColumn)
+		Do %page.%AddComponent(tColumn)
+	}
+]]></Implementation>
+</Method>
+
+<XData name="FormContent">
+<Data><![CDATA[
+<pane xmlns:c="http://www.intersystems.com/zen/custom">
+<hgroup>
+<text id="id" label="ID:" size="2" readOnly="true" controlClass="textro" />
+</hgroup>
+<hgroup>
+<dateText id="datefrom" label="Date from"/>
+<dateText id="dateto" label="Date to"/>
+</hgroup>
+<c:addressee id="addressee" label="Addressee" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:rivVersion id="rivversion" label="Riv Version" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:tjansteKontrakt id="tjanstekontrakt" label="Contract" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:tjansteKomponent id="tjansteproducent" label="Component" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
+<text id="version" label="Version" size="8" />
+</pane>
+]]></Data>
+</XData>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Load & Save
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="toView">
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+		Do pPage.%SetValueById("id", pModel.Id)
+		Do pPage.%SetValueById("datefrom", $ZD(pModel.FromTidpunkt,3))
+		Do pPage.%SetValueById("dateto", $ZD(pModel.TomTidpunkt,3))
+		Do pPage.%SetValueById("addressee", pModel.LogiskAdressatid)
+		Do pPage.%SetValueById("rivversion", pModel.RivVersionid)
+		Do pPage.%SetValueById("tjanstekontrakt", pModel.Tjanstekontraktid)
+		Do pPage.%SetValueById("tjansteproducent", pModel.Tjansteproducentid)
+		Do pPage.%SetValueById("version", pModel.Version)
+]]></Implementation>
+</Method>
+
+<Method name="toModel">
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+		Set:pPage.%GetValueById("id")="" pModel.Id = 0
+		Set pModel.FromTidpunkt = $ZDH(pPage.%GetValueById("datefrom"),3)
+		Set pModel.TomTidpunkt = $ZDH(pPage.%GetValueById("dateto"),3)
+		Set pModel.LogiskAdressatid = pPage.%GetValueById("addressee")
+		Set pModel.RivVersionid = pPage.%GetValueById("rivversion")
+		Set pModel.Tjanstekontraktid = pPage.%GetValueById("tjanstekontrakt")
+		Set pModel.Tjansteproducentid = pPage.%GetValueById("tjansteproducent")
+		Set pModel.Version = pPage.%GetValueById("version")
+]]></Implementation>
+</Method>
+</Class>
+</Export>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Process.Router">
+<ClassType>persistent</ClassType>
+<Super>Ens.BusinessProcess</Super>
+<TimeCreated>62917,27822.123236</TimeCreated>
+
+<Property name="TargetConfigName">
+<Description>
+Configuration item to which to send messages</Description>
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>TargetConfigName</Default>
+</Parameter>
+
+<Method name="OnRequest">
+<FormalSpec>pRequest:TP.Message.SOAPRequest,*pResponse:TP.Message.SOAPResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim tSC As %Status
+	#Dim tException As %Exception.SystemException
+	Set tSC = $$$OK
+	
+	Try {
+		#Dim tAddressURL As %String
+		#Dim pos As %Integer
+		#Dim serverAddr As %String
+		#Dim tHost As %String
+		#Dim tPort As %String
+		#Dim tURL As %String
+		#Dim url As %String
+		
+		//Get URL from service catalog
+		Set tAddressURL = ##class(TK.Service.SearchService).GetAddress(pRequest.To)
+	
+		$$$TRACE("URL from Service Catalog: " _ tAddressURL)
+	
+		//Set URL
+		//Example: https://localhost:19000/vardgivare-b/tjanst1
+		Set serverAddr = $PIECE(tAddressURL, "/", 3)
+		Set pos = $FIND(tAddressURL, "/")
+		Set pos = $FIND(tAddressURL, "/", pos)
+		Set pos = $FIND(tAddressURL, "/", pos)
+		Set url = $EXTRACT(tAddressURL, pos, *)
+		Set tHost = $PIECE(serverAddr, ":", 1)
+		Set tPort = $PIECE(serverAddr, ":", 2)
+		Set tURL = url
+	
+		//Put address information into message
+		Set pRequest.Host = tHost
+		Set pRequest.Port = tPort
+		Set pRequest.URL = tURL
+	
+		$$$TRACE("Info from Service Catalog split:" _ $Char(13) _ $Char(10) _ "Host: " _ tHost _ "/Port: " _ tPort _ "/URL: " _ tURL)
+	
+		Set tSC = ..SendRequestSync(..TargetConfigName, pRequest, .pResponse)
+	}
+	Catch tException {
+		Set tSC = tException.AsStatus()
+	}
+	
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>RouterDefaultData</DefaultData>
+<Data name="RouterDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"Router"</Subscript>
+<Value name="1">
+<Value>TargetConfigName</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

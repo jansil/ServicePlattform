@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Message.CallAuthorizationInfo">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeCreated>62341,78299.76122</TimeCreated>
+
+<Property name="anropsBehorighetsInfoId">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="receiverId">
+<Type>%String</Type>
+</Property>
+
+<Property name="senderId">
+<Type>%String</Type>
+</Property>
+
+<Property name="tjansteKontrakt">
+<Type>%String</Type>
+</Property>
+
+<Property name="fromTidpunkt">
+<Type>%Date</Type>
+</Property>
+
+<Property name="tomTidpunkt">
+<Type>%Date</Type>
+</Property>
+</Class>
+</Export>

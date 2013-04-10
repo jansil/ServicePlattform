@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Message.CallAuthorizationInfoResponse">
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeCreated>62341,79651.825208</TimeCreated>
+
+<Property name="CallAuthorizationInfos">
+<Type>TK.Message.CallAuthorizationInfo</Type>
+<Collection>list</Collection>
+</Property>
+</Class>
+</Export>

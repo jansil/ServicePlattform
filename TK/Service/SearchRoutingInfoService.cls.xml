@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.SearchRoutingInfoService">
+<Description>
+TK.Service.SearchRoutingInfoService</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebService</Super>
+<TimeCreated>62341,77945.412461</TimeCreated>
+
+<Parameter name="SERVICENAME">
+<Description>
+Name of the WebService.</Description>
+<Default>SearchRoutingInfoService</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+TODO: change this to actual SOAP namespace.
+SOAP Namespace for the WebService</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="USECLASSNAMESPACES">
+<Description>
+Namespaces of referenced classes will be used in the WSDL.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Method name="GetAllCallAuthorizations">
+<Description>
+GetAllCallAuthorizations
+Gets all call authorizations</Description>
+<ReturnType>TK.Message.CallAuthorizationInfoResponse</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[
+	Set ret = ##class(TK.Message.CallAuthorizationInfoResponse).%New()
+	&sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id)
+	&sql(OPEN C1)
+	&sql(FETCH C1)
+	
+	While (SQLCODE = 0) {
+    	
+    	Set auth = ##class(TK.Message.CallAuthorizationInfo).%New()
+    	Set auth.anropsBehorighetsInfoId = anropsBehorighetsInfoId
+    	Set auth.fromTidpunkt = fromTidpunkt
+    	Set auth.receiverId = receiverId
+    	Set auth.senderId = senderId
+    	Set auth.tjansteKontrakt = tjansteKontrakt
+    	Set auth.tomTidpunkt = tomTidpunkt
+    	Do ret.CallAuthorizationInfos.Insert(auth)
+    	
+    	&sql(FETCH C1)
+ 	}
+    
+ 	&sql(CLOSE C1)
+	
+	Quit ret
+]]></Implementation>
+</Method>
+
+<Method name="GetAllVirtualizations">
+<Description>
+GetAllVirtualizations
+Gets all virtualizations</Description>
+<ReturnType>TK.Message.VirtualizationInfoResponse</ReturnType>
+<WebMethod>1</WebMethod>
+<Implementation><![CDATA[
+	Set ret = ##class(TK.Message.VirtualizationInfoResponse).%New()
+	
+	&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :rivProfil, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id)
+	&sql(OPEN C2)
+	&sql(FETCH C2)
+	
+	While (SQLCODE = 0) {
+    	
+    	Set virt = ##class(TK.Message.VirtualizationInfo).%New()
+    	Set virt.fromTidpunkt = fromTidpunkt
+    	Set virt.receiverId = receiverId
+    	Set virt.rivProfil = rivProfil
+    	Set virt.tjansteKontrakt = tjansteKontrakt
+    	Set virt.tomTidpunkt = tomTidpunkt
+    	Set virt.virtualiseringsInfoId = virtualiseringsInfoId
+    	Do ret.VirtualizationInfos.Insert(virt)
+    	
+    	&sql(FETCH C2)
+ 	}
+    
+ 	&sql(CLOSE C2)
+	
+	Quit ret
+]]></Implementation>
+</Method>
+</Class>
+</Export>

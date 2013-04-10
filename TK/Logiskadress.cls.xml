@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Logiskadress">
+<Description>
+</Description>
+<ClassType>persistent</ClassType>
+<DdlAllowed>1</DdlAllowed>
+<Owner>UnknownUser</Owner>
+<ProcedureBlock>1</ProcedureBlock>
+<SqlRowIdPrivate>1</SqlRowIdPrivate>
+<SqlTableName>Logiskadress</SqlTableName>
+<StorageStrategy>Default</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>62335,38392.028632</TimeCreated>
+
+<ForeignKey name="LOGISKADRESSFKey10">
+<Description>
+Foreign Key LOGISKADRESSFKey10 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>Tjanstekontraktid</Properties>
+<ReferencedClass>TK.Tjanstekontrakt</ReferencedClass>
+<ReferencedKey>TJANSTEKONTRAKTPKey3</ReferencedKey>
+<SqlName>LOGISKADRESSFKey10</SqlName>
+</ForeignKey>
+
+<ForeignKey name="LOGISKADRESSFKey11">
+<Description>
+Foreign Key LOGISKADRESSFKey11 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>Tjansteproducentid</Properties>
+<ReferencedClass>TK.Tjanstekomponent</ReferencedClass>
+<ReferencedKey>TJANSTEKOMPONENTPKey3</ReferencedKey>
+<SqlName>LOGISKADRESSFKey11</SqlName>
+</ForeignKey>
+
+<ForeignKey name="LOGISKADRESSFKey8">
+<Description>
+Foreign Key LOGISKADRESSFKey8 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>LogiskAdressatid</Properties>
+<ReferencedClass>TK.Logiskadressat</ReferencedClass>
+<ReferencedKey>LOGISKADRESSATPKey3</ReferencedKey>
+<SqlName>LOGISKADRESSFKey8</SqlName>
+</ForeignKey>
+
+<ForeignKey name="LOGISKADRESSFKey9">
+<Description>
+Foreign Key LOGISKADRESSFKey9 created via DDL</Description>
+<OnDelete>noaction</OnDelete>
+<OnUpdate>noaction</OnUpdate>
+<Properties>RivVersionid</Properties>
+<ReferencedClass>TK.Rivversion</ReferencedClass>
+<ReferencedKey>RIVVERSIONPKey3</ReferencedKey>
+<SqlName>LOGISKADRESSFKey9</SqlName>
+</ForeignKey>
+
+<Index name="LOGISKADRESSPKey7">
+<Description>
+DDL Primary Key Specification</Description>
+<Type>index</Type>
+<PrimaryKey>1</PrimaryKey>
+<Properties>Id</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Id">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>2</SqlColumnNumber>
+<Identity>1</Identity>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="FromTidpunkt">
+<Type>%Library.Date</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>3</SqlColumnNumber>
+</Property>
+
+<Property name="TomTidpunkt">
+<Type>%Library.Date</Type>
+<Collection/>
+<Required>0</Required>
+<SqlColumnNumber>4</SqlColumnNumber>
+</Property>
+
+<Property name="Version">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>5</SqlColumnNumber>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="LogiskAdressatid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>6</SqlColumnNumber>
+<SqlFieldName>LogiskAdressat_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="RivVersionid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>7</SqlColumnNumber>
+<SqlFieldName>RivVersion_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="Tjanstekontraktid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>8</SqlColumnNumber>
+<SqlFieldName>Tjanstekontrakt_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="Tjansteproducentid">
+<Type>%Library.Integer</Type>
+<Collection/>
+<Required>1</Required>
+<SqlColumnNumber>9</SqlColumnNumber>
+<SqlFieldName>Tjansteproducent_id</SqlFieldName>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^TK.LogiskadressD</DataLocation>
+<DefaultData>LogiskadressDefaultData</DefaultData>
+<IdLocation>^TK.LogiskadressD</IdLocation>
+<IndexLocation>^TK.LogiskadressI</IndexLocation>
+<StreamLocation>^TK.LogiskadressS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="LogiskadressDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>FromTidpunkt</Value>
+</Value>
+<Value name="3">
+<Value>TomTidpunkt</Value>
+</Value>
+<Value name="4">
+<Value>Version</Value>
+</Value>
+<Value name="5">
+<Value>LogiskAdressatid</Value>
+</Value>
+<Value name="6">
+<Value>RivVersionid</Value>
+</Value>
+<Value name="7">
+<Value>Tjanstekontraktid</Value>
+</Value>
+<Value name="8">
+<Value>Tjansteproducentid</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

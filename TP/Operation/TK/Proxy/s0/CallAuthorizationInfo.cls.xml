@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.TK.Proxy.s0.CallAuthorizationInfo">
+<Description><![CDATA[
+Created from: http://localhost:57773/csp/tp/TK.Service.SearchRoutingInfoService.CLS?WSDL=1&CacheUserName=_system&CachePassword=SYS]]></Description>
+<ClassType>serial</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeCreated>62341,82347.491688</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>CallAuthorizationInfo</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="anropsBehorighetsInfoId">
+<Type>%Integer</Type>
+<Parameter name="XMLNAME" value="anropsBehorighetsInfoId"/>
+</Property>
+
+<Property name="receiverId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="receiverId"/>
+</Property>
+
+<Property name="senderId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="senderId"/>
+</Property>
+
+<Property name="tjansteKontrakt">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="tjansteKontrakt"/>
+</Property>
+
+<Property name="fromTidpunkt">
+<Type>%Date</Type>
+<Parameter name="XMLNAME" value="fromTidpunkt"/>
+</Property>
+
+<Property name="tomTidpunkt">
+<Type>%Date</Type>
+<Parameter name="XMLNAME" value="tomTidpunkt"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>CallAuthorizationInfoState</State>
+<StreamLocation>^TP.Operati895D.CallAuthoriBF7BS</StreamLocation>
+<Data name="CallAuthorizationInfoState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>anropsBehorighetsInfoId</Value>
+</Value>
+<Value name="2">
+<Value>receiverId</Value>
+</Value>
+<Value name="3">
+<Value>senderId</Value>
+</Value>
+<Value name="4">
+<Value>tjansteKontrakt</Value>
+</Value>
+<Value name="5">
+<Value>fromTidpunkt</Value>
+</Value>
+<Value name="6">
+<Value>tomTidpunkt</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

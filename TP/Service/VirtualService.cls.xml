@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Service.VirtualService">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>EnsLib.SOAP.GenericService</Super>
+<TimeCreated>62341,81962.678718</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.SOAP.InboundAdapter</Default>
+</Parameter>
+
+<Parameter name="SETTINGS">
+<Default>Validation</Default>
+</Parameter>
+
+<Method name="OnProcessInput">
+<FormalSpec><![CDATA[pRequestBody:%CharacterStream,pResponseBody:%CharacterStream,&pAction:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim tSC As %Status
+	#Dim tException As %Exception.SystemException
+	
+	Set tSC = $$$OK
+	
+	Try {
+	 	#Dim tResponse As GenericMessage
+
+		Set pResponseBody=$$$NULLOREF
+		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
+		Set tSC=..resolveAndIndex(tRequest)
+		If ($$$ISERR(tSC)) { Quit }
+	
+		//Get SOAP Header
+		//TODO: Check which RIV-TA version
+		#Dim txPath As %XML.XPATH.Document
+		#Dim txPathRes As %XML.XPATH.ValueResult
+		#Dim tList As %ListOfObjects
+	
+		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.EnvelopeStream, .txPath)
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/To", "text()", .tList)
+		Set txPathRes = tList.GetAt(1)
+		Set tRequest.To = txPathRes.Value
+		
+		$$$TRACE("Value from SOAP Header To: " _ tRequest.To)
+		
+		If (..OneWay) {
+			Set tSC = ..SendRequestAsync(..TargetConfigName,tRequest)
+			Quit
+		}
+		
+		Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)
+		If ($$$ISERR(tSC)) { Quit }
+		
+		#; Adapter will reassemble response stream from message envelope/header and body streams; here we prepare the streams
+		If $IsObject(tResponse.EnvelopeDoc) && ('$IsObject(tResponse.EnvelopeStream) || 'tResponse.EnvelopeStream.Size) {
+			Set tEnvelopeStream=##class(%GlobalBinaryStream).%New()
+			Set tSC=tResponse.EnvelopeDoc.OutputToLibraryStream(tEnvelopeStream,..%VDocFormat)
+			Do:$$$ISERR(tSC) ..ReturnMethodStatusFault(tSC)
+		} Else {
+			Set tEnvelopeStream=tResponse.EnvelopeStream
+		}
+		If $IsObject(tResponse.Doc) && ('$IsObject(tResponse.Stream) || 'tResponse.Stream.Size) {
+			Set pResponseBody=##class(%GlobalCharacterStream).%New()
+			Set tSC=tResponse.EnvelopeDoc.OutputToLibraryStream(pResponseBody,..%VDocFormat)
+			Do:$$$ISERR(tSC) ..ReturnMethodStatusFault(tSC)
+		} Else {
+			Set pResponseBody=tResponse.Stream
+			Set:'$IsObject(pResponseBody) pResponseBody=##class(%GlobalCharacterStream).%New()
+		}
+		If ""'=tEnvelopeStream { Set pResponseBody.Attributes("EnvelopeStream")=tEnvelopeStream }
+		Else { Set tEnvelopeStream=pResponseBody } ; just to attach headers to
+
+		#; Pass along Status line and selected response HTTP headers
+		Set tSL="",tDoNotPassThrough=","_$ZCVT(..%ExcludeResponseHttpHeaders,"L")_",content-length,"
+		Set tHeaderKey="" For { Set tHeaderKey=tResponse.HTTPHeaders.Next(tHeaderKey)  Quit:""=tHeaderKey  Set tHeaderLwr=$ZCVT(tHeaderKey,"L")
+			Set:tDoNotPassThrough'[(","_tHeaderLwr_",") tEnvelopeStream.Attributes("HttpHeaders",tHeaderKey)=tResponse.HTTPHeaders.GetAt(tHeaderKey) ; no need to handle multiple on one line
+			Set:tHeaderLwr="statusline" tSL=tResponse.HTTPHeaders.GetAt(tHeaderKey)
+		}
+		Set:tDoNotPassThrough'["statusline" tEnvelopeStream.Attributes("StatusLine")=tSL
+	}
+	Catch tException {
+		Set tSC = tException.AsStatus()
+	}
+	
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<Method name="OnValidate">
+<Description>
+Override this method to implement your own custom method for validating an incoming Document
+Return non-zero to prevent default validation of the message (if any);</Description>
+<FormalSpec>pMsg:EnsLib.SOAP.GenericMessage,pValSpec:%String,*pStatus:%Status</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	If (..Validation = "WSDL") {
+		
+	}
+	ElseIf (..Validation = "Body") {
+		
+	}
+	
+	Quit 0
+]]></Implementation>
+</Method>
+</Class>
+</Export>

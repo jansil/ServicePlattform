@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.TK.Proxy.SearchRoutingInfoServiceSoap">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebClient</Super>
+<TimeCreated>62341,82347.412283</TimeCreated>
+
+<Method name="GetAllCallAuthorizations">
+<Final>1</Final>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>TP.Operation.TK.Proxy.s0.CallAuthorizationInfoResponse</ReturnType>
+<WebMethod>1</WebMethod>
+<SoapBindingStyle>document</SoapBindingStyle>
+<SoapBodyUse>literal</SoapBodyUse>
+<Implementation><![CDATA[ Quit ..WebMethod("GetAllCallAuthorizations").Invoke($this,"http://tempuri.org/TK.Service.SearchRoutingInfoService.GetAllCallAuthorizations")
+]]></Implementation>
+</Method>
+
+<Method name="GetAllVirtualizations">
+<Final>1</Final>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>TP.Operation.TK.Proxy.s0.VirtualizationInfoResponse</ReturnType>
+<WebMethod>1</WebMethod>
+<SoapBindingStyle>document</SoapBindingStyle>
+<SoapBodyUse>literal</SoapBodyUse>
+<Implementation><![CDATA[ Quit ..WebMethod("GetAllVirtualizations").Invoke($this,"http://tempuri.org/TK.Service.SearchRoutingInfoService.GetAllVirtualizations")
+]]></Implementation>
+</Method>
+
+<Parameter name="LOCATION">
+<Description>
+This is the URL used to access the web service.</Description>
+<Default>http://localhost:57773/csp/tp/TK.Service.SearchRoutingInfoService.cls</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the namespace used by the Service</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="OUTPUTTYPEATTRIBUTE">
+<Description>
+Use xsi:type attribute for literal types.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="SERVICENAME">
+<Description>
+This is the name of the Service</Description>
+<Default>SearchRoutingInfoService</Default>
+</Parameter>
+
+<Parameter name="SOAPVERSION">
+<Description>
+This is the SOAP version supported by the service.</Description>
+<Default>1.1</Default>
+</Parameter>
+</Class>
+</Export>

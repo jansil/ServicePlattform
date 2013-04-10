@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.About">
+<Description>
+Created using the page template: TK.Zen.TemplatePage</Description>
+<Super>TK.Zen.TemplatePage</Super>
+<TimeCreated>62536,49182.277799</TimeCreated>
+
+<Parameter name="APPLICATION">
+<Description>
+Class name of application this page belongs to.</Description>
+<Default>TK.Zen.Application</Default>
+</Parameter>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>About Service Catalog</Default>
+</Parameter>
+
+<Parameter name="CURRENTMENUITEM">
+<Description>
+Id of the menu item that should be current when displaying this page</Description>
+<Default>menuItemAbout</Default>
+</Parameter>
+
+<Property name="TKVersion">
+<Type>%ZEN.Datatype.string</Type>
+</Property>
+
+<XData name="Style">
+<Description>
+This Style block contains page-specific CSS style definitions.</Description>
+<Data><![CDATA[
+<style type="text/css">
+
+#aboutGroup div {
+	text-align:		center;
+	margin-top: 	4px;
+	margin-bottom:	4px;
+}
+
+#aboutGroup span {
+	font-size:		14px;
+}
+
+div#lSEA {
+	margin-top:	12px;
+}
+
+#lSEA span {
+	font-size:		18px;
+}
+
+div#lDisclaimer {
+	text-align:		justify;
+	margin-left:	6px;
+}
+
+#lDisclaimer span {
+	margin-left:	0px;
+	font-size:		12px;
+}
+
+</style>
+]]></Data>
+</XData>
+
+<XData name="ContentPane">
+<Description>
+This XML block defines the contents of this pane.</Description>
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<pane xmlns="http://www.intersystems.com/zen"
+	xmlns:tk="http://www.intersystems.com/sweden/TK">
+<vgroup id="aboutGroup" width="480">
+<label id="lTK" />
+<label id="lBrowsers1" />
+<label id="lBrowsers2" />
+<label id="lDisclaimer" />
+<label id="lBlames" />
+</vgroup>
+</pane>
+]]></Data>
+</XData>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Event Handlers
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="onloadHandler">
+<Description>
+Loads the actual About box content. All these guys are translatable.</Description>
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	zenSetProp('lTK', 'value', 'Service Catalog<br>Version ' + this.TKVersion)
+	zenSetProp('lBrowsers1', 'value', 'The visual appearance of this software<br>has been developed with the following browsers:<br>Safari 5.1<br>Firefox 8.0')
+	zenSetProp('lBrowsers2', 'value', 'It is known, that this software does not look as intended with Internet Explorer.')
+	zenSetProp('lDisclaimer', 'value', 'Disclaimer: Please make sure that you understand that this specific software, SEA - Storage Evolution Analyzer, is being provided freely, and that no kind of agreement or contract is created between you and the developers of this software and anyone else who is in any way connected with this software subject to your claims against them directly. Granting a rigth to use this software does not create or imply any contractual or extracontractual liability on the part of the developers of this software.')
+	zenSetProp('lBlames', 'value', 'All blames about this software may be addressed to janne.sillanpaa@intersystems.com')
+	this.invokeSuper('onloadHandler');
+]]></Implementation>
+</Method>
+</Class>
+</Export>

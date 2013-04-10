@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.ServiceComponents">
+<Description>
+Created using the page template: Default</Description>
+<Super>TK.Zen.FormTemplate</Super>
+<TimeCreated>62536,48195.665282</TimeCreated>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>Service Components</Default>
+</Parameter>
+
+<Parameter name="CURRENTMENUITEM">
+<Description>
+Id of the menu item that should be current when displaying this page</Description>
+<Default>menuItemServiceComponents</Default>
+</Parameter>
+
+<Parameter name="TABLEPANES">
+<Description>
+List of table pane ids to apply preferences to</Description>
+<Type>%String</Type>
+<Default>RIVTATable:tableSetup</Default>
+</Parameter>
+
+<Parameter name="MODELCLASS">
+<Default>TK.Tjanstekomponent</Default>
+</Parameter>
+
+<Method name="tableSetup">
+<FormalSpec>pTable:%ZEN.Component.tablePane</FormalSpec>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	Set pTable.orderByClause = "HsaId"
+
+	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("HsaId")_"|width=25%|colName=HsaId|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Description")_"|width=30%|colName=Beskrivning|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=10%|colName=Version|filterType=text"
+	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this record for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
+	
+	For i=1:1:tCols {
+		Set tColumn = ##class(%ZEN.Auxiliary.column).%New()
+		Do ..setPropertySet(tColumn, tCols(i))
+		Do pTable.columns.Insert(tColumn)
+		Do %page.%AddComponent(tColumn)
+	}
+]]></Implementation>
+</Method>
+
+<XData name="FormContent">
+<Data><![CDATA[
+<pane>
+<hgroup>
+<text id="id" label="ID:" size="2" readOnly="true" controlClass="textro" />
+<text id="hsaid" label="HsaId:" size="58" />
+</hgroup>
+<text id="description" label="Description" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
+<text id="adress" label="Address" size="64" title="Address"/>
+<text id="version" label="Version" size="8" />
+</pane>
+]]></Data>
+</XData>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Load & Save
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="toView">
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+		Do pPage.%SetValueById("id", pModel.Id)
+		Do pPage.%SetValueById("hsaid", pModel.HsaId)
+		Do pPage.%SetValueById("description", pModel.Beskrivning)
+		Do pPage.%SetValueById("adress", pModel.Adress)
+		Do pPage.%SetValueById("version", pModel.Version)
+]]></Implementation>
+</Method>
+
+<Method name="toModel">
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+		Set:pPage.%GetValueById("id")="" pModel.Id = 0
+		Set pModel.HsaId = pPage.%GetValueById("hsaid")
+		Set pModel.Beskrivning = pPage.%GetValueById("description")
+		Set pModel.Adress = pPage.%GetValueById("adress")
+		Set pModel.Version = pPage.%GetValueById("version")
+]]></Implementation>
+</Method>
+</Class>
+</Export>

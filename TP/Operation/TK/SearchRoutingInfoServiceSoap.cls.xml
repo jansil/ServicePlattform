@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.TK.SearchRoutingInfoServiceSoap">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.BusinessOperation</Super>
+<TimeCreated>62341,82347.464057</TimeCreated>
+
+<Method name="GetAllCallAuthorizations">
+<FormalSpec>pRequest:TP.Message.TK.GetAllCallAuthorizationsRequest,*pResponse:TP.Message.TK.GetAllCallAuthorizationsResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "TP.Operation.TK.Proxy.SearchRoutingInfoServiceSoap"
+ Set tSC = ..Adapter.InvokeMethod("GetAllCallAuthorizations",.GetAllCallAuthorizationsResult)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.GetAllCallAuthorizationsResult=GetAllCallAuthorizationsResult
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetAllVirtualizations">
+<FormalSpec>pRequest:TP.Message.TK.GetAllVirtualizationsRequest,*pResponse:TP.Message.TK.GetAllVirtualizationsResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "TP.Operation.TK.Proxy.SearchRoutingInfoServiceSoap"
+ Set tSC = ..Adapter.InvokeMethod("GetAllVirtualizations",.GetAllVirtualizationsResult)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.GetAllVirtualizationsResult=GetAllVirtualizationsResult
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.SOAP.OutboundAdapter</Default>
+</Parameter>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="TP.Message.TK.GetAllCallAuthorizationsRequest">
+		<Method>GetAllCallAuthorizations</Method>
+	</MapItem>
+	<MapItem MessageType="TP.Message.TK.GetAllVirtualizationsRequest">
+		<Method>GetAllVirtualizations</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+</Export>

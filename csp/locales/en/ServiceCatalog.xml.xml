@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<CSP name="locales/en/ServiceCatalog.xml" application="/csp/tp/" default="1"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<MsgFile Language="en">
+   <MsgDomain Domain="%UtilityLogin">
+      <Message Id="244842548">Management Portal</Message>
+      <Message Id="324080297">Powered by Zen</Message>
+      <Message Id="1360759182">by InterSystems</Message>
+      <Message Id="login">Login</Message>
+      <Message Id="loginalt">Login page</Message>
+      <Message Id="loginclickhere">Please click here to log in.</Message>
+      <Message Id="loginenter">Please login</Message>
+      <Message Id="logininstance">Instance</Message>
+      <Message Id="loginlogout">You are logged out.</Message>
+      <Message Id="loginmsgserver">Name of the machine this system is running on</Message>
+      <Message Id="loginpassword">Password</Message>
+      <Message Id="loginsecurityttoken">Security Token</Message>
+      <Message Id="loginserver">Server</Message>
+      <Message Id="logintitle">Login %1</Message>
+      <Message Id="loginusername">User Name</Message>
+      <Message Id="sectok">Security Token</Message>
+      <Message Id="sectokcancel">Cancel</Message>
+      <Message Id="sectokenter">Please enter your security token</Message>
+      <Message Id="sectoksubmit">Submit</Message>
+      <Message Id="sectoktitle">Security Token %1</Message>
+    <Message Id="flag">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</Message> 
+ </MsgDomain>
+   <MsgDomain Domain="ServiceCatalog">
+      <Message Id="858154">Manage Service Contracts</Message>
+      <Message Id="71445658">Open</Message>
+      <Message Id="216363591">Welcome to the house of fun...</Message>
+      <Message Id="261319605">Manage service contracts</Message>
+      <Message Id="284772879">Contract</Message>
+      <Message Id="292500706">Logout</Message>
+      <Message Id="299066170">ID</Message>
+      <Message Id="389272589">Open this RIV-TA profile for viewing and editing</Message>
+      <Message Id="435110628">Addressee</Message>
+      <Message Id="473005708">Manage RIV-TA profiles</Message>
+      <Message Id="474410875">Logical addressees</Message>
+      <Message Id="563028834">View Versions</Message>
+      <Message Id="655025817">Logical addressees</Message>
+      <Message Id="845213721">Logout</Message>
+      <Message Id="876165239">About Service catalog</Message>
+      <Message Id="1022533488">Name:</Message>
+      <Message Id="1035893169">Delete</Message>
+      <Message Id="1077515534">Date to</Message>
+      <Message Id="1114883623">HsaID:</Message>
+      <Message Id="1134591727">Manage RIV-TA profiles</Message>
+      <Message Id="1216729676">Service components</Message>
+      <Message Id="1521856262">Access rights</Message>
+      <Message Id="1622662457">Date from</Message>
+      <Message Id="1807457897">About</Message>
+      <Message Id="1889659487">Version</Message>
+      <Message Id="1949634023">About</Message>
+      <Message Id="2015395798">Service contracts</Message>
+      <Message Id="2017771587">Open this entry for viewing and editing</Message>
+      <Message Id="2362747163">Logical addresses</Message>
+      <Message Id="2450981451">Open this record for viewing and editing</Message>
+      <Message Id="2462259200">View and Edit a Definition of a RIV-TA profile</Message>
+      <Message Id="2495609279">Service components</Message>
+      <Message Id="2622050746">Manage service components</Message>
+      <Message Id="2758620661">Manage access rights</Message>
+      <Message Id="2793654326">Manage logical addresses</Message>
+      <Message Id="3017813631">RIV-TA profiles</Message>
+      <Message Id="3025604379">Add new</Message>
+      <Message Id="3104711326">Service Contract</Message>
+      <Message Id="3270727197">Address</Message>
+      <Message Id="3364514957">Manage logical addressees</Message>
+      <Message Id="3406767092">Component</Message>
+      <Message Id="3509640277">Logical addresses</Message>
+      <Message Id="3524476142">ID:</Message>
+      <Message Id="3535843008">Close</Message>
+      <Message Id="3623346821">HsaId:</Message>
+      <Message Id="3714440439">Hsa Id,From,To</Message>
+      <Message Id="3828250253">RIV-TA profiles</Message>
+      <Message Id="3859158572">Namnrymd</Message>
+      <Message Id="3863874003">Add contract</Message>
+      <Message Id="3869304037">Service Catalog</Message>
+      <Message Id="3916296975">Access Control</Message>
+      <Message Id="3950563313">Description</Message>
+      <Message Id="3966179235">Adressat</Message>
+      <Message Id="4054128539">Riv Version</Message>
+      <Message Id="4115961312">Save</Message>
+      <Message Id="4116323325">HsaId</Message>
+      <Message Id="4118623053">Define packages as a comma separated list of beginnings of package names</Message>
+      <Message Id="4213110145">View and Edit the selected record</Message>
+      <Message Id="4262580536">Name</Message>
+   </MsgDomain>
+</MsgFile>
+]]></CSP>
+</Export>
