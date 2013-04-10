@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Scheduling.AlertProcessingTrigger">
+<Super>%SYS.Task.Definition</Super>
+<TimeCreated>62544,60565.614841</TimeCreated>
+
+<Method name="OnTask">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+		Set tSC = ##class(Ens.Director).CreateBusinessService("OLL.MonitoringService.Service.AlertProcessingTriggerService.ProcessingTriggerService",.tService)
+
+		If ($IsObject(tService)) {
+  			Set tSC = tService.ProcessInput()
+		}
+		
+		Quit tSC
+]]></Implementation>
+</Method>
+</Class>
+</Export>

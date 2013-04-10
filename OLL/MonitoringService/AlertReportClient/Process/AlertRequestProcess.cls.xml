@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Process.AlertRequestProcess">
+<ClassType>persistent</ClassType>
+<Super>Ens.BusinessProcess</Super>
+<TimeCreated>62794,34817.846479</TimeCreated>
+
+<Parameter name="SETTINGS">
+<Default>TargetConfigName</Default>
+</Parameter>
+
+<Property name="TargetConfigName">
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Method name="OnRequest">
+<FormalSpec>pRequest:OLL.MonitoringService.AlertReportClient.Message.Alert.AlertRequest,*pResponse:Ens.Response</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tCARRequest = ##class(OLL.MonitoringService.AlertReportClient.Message.CreateAlertReport.v1.CreateAlertReportRequest).%New()
+	Set tCARRequest.AlertReport = ##class(OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.core.AlertReportType).%New()
+	Set tCARRequest.AlertReport.AlertGUID = pRequest.AlertGUID
+	Set tCARRequest.AlertReport.AlertLevel = pRequest.AlertLevel
+	Set tCARRequest.AlertReport.AlertMessage = pRequest.AlertMessage
+	Set tCARRequest.AlertReport.AlertTimeStamp = pRequest.AlertTimeStamp
+	Set tCARRequest.AlertReport.BusinessHost = "" // pRequest.SourceConfigName
+	Set tCARRequest.AlertReport.BusinessObjectId = pRequest.BusinessObjectId
+	Set tCARRequest.AlertReport.BusinessObjectType = pRequest.BusinessObjectType
+	Set tCARRequest.AlertReport.Instance = $SYSTEM
+	Set tCARRequest.AlertReport.JobId = pRequest.JobId
+	Set tCARRequest.AlertReport.Method = ""
+	Set tCARRequest.AlertReport.Namespace = ##class(%SYSTEM.SYS).NameSpace()
+	Set tCARRequest.AlertReport.SessionId = ..%SessionId
+	Set tCARRequest.AlertReport.Source = ""
+	Set tCARRequest.AlertReport.SourceSystem = pRequest.SourceSystem
+	Set tCARRequest.AlertReport.TargetSystem = pRequest.TargetSystem
+
+	For i=1:1:pRequest.KeyProperties.Count()
+	{
+		Set tCARProperty = ##class(OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.core.KeyPropertiesType).%New()
+		Set tCARProperty.Name = pRequest.KeyProperties.GetAt(i).Name
+		Set tCARProperty.Value = pRequest.KeyProperties.GetAt(i).Value
+		Do tCARRequest.AlertReport.KeyProperties.Insert(tCARProperty)
+	}
+	
+	Set tSC = ..SendRequestAsync(..TargetConfigName, tCARRequest, 0)
+
+	Set pResponse = ##class(Ens.Response).%New()
+
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>AlertRequestProcessDefaultData</DefaultData>
+<Data name="AlertRequestProcessDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"AlertRequestProcess"</Subscript>
+<Value name="1">
+<Value>TargetConfigName</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

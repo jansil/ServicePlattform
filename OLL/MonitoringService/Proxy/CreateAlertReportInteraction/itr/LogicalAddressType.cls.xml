@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Proxy.CreateAlertReportInteraction.itr.LogicalAddressType">
+<Description>
+Defines the type for logical address according to national reference architecture.
+Superseeds wsa:To as type for logical address header in RIVTA 2.1.
+Created from: d:/ensemble_instances/ensutv/db/monitoringservice/schemas/core_components/itintegration_registry_1.0.xsd</Description>
+<ClassType>datatype</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%String</Super>
+<TimeCreated>62567,33037.078289</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="MAXLEN">
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:riv:itintegration:registry:1</Default>
+</Parameter>
+</Class>
+</Export>

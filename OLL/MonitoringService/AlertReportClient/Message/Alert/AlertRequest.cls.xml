@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Message.Alert.AlertRequest">
+<Super>Ens.Request</Super>
+<TimeCreated>62794,37961.309701</TimeCreated>
+
+<Property name="AlertGUID">
+<Type>%String</Type>
+<InitialExpression>$SYSTEM.Util.CreateGUID()</InitialExpression>
+<ReadOnly>1</ReadOnly>
+</Property>
+
+<Property name="JobId">
+<Type>%String</Type>
+<InitialExpression>##class(%SYSTEM.SYS).ProcessID()</InitialExpression>
+<ReadOnly>1</ReadOnly>
+</Property>
+
+<Property name="AlertTimeStamp">
+<Type>%String</Type>
+<InitialExpression>##class(%TimeStamp).DisplayToLogical($ZDATETIME($ZTIMESTAMP,3,1,6))</InitialExpression>
+<ReadOnly>1</ReadOnly>
+</Property>
+
+<Property name="AlertLevel">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="AlertMessage">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="BusinessObjectType">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="BusinessObjectId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="SourceSystem">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="TargetSystem">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="KeyProperties">
+<Type>OLL.MonitoringService.AlertReportClient.Message.Alert.KeyProperty</Type>
+<Collection>list</Collection>
+</Property>
+
+<Method name="AddKeyProperty">
+<FormalSpec>pName:%String(MAXLEN=""),pValue:%String(MAXLEN="")</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tKeyProperty = ##class(OLL.MonitoringService.AlertReportClient.Message.Alert.KeyProperty).%New()
+	Set tKeyProperty.Name = pName
+	Set tKeyProperty.Value = pValue
+	DO ..KeyProperties.Insert(tKeyProperty)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="CreateAlertRequest">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pAlertLevel:%String="ERROR",pAlertMessage:%String(MAXLEN="")="",pBusinessObjectType:%String(MAXLEN="")="",pBusinessObjectId:%String(MAXLEN="")="",pSourceSystem:%String(MAXLEN="")="",pTargetSystem:%String(MAXLEN="")=""</FormalSpec>
+<ReturnType>OLL.MonitoringService.AlertReportClient.Message.Alert.AlertRequest</ReturnType>
+<Implementation><![CDATA[
+	Set tAlertRequest = ##class(OLL.MonitoringService.AlertReportClient.Message.Alert.AlertRequest).%New()	 
+	Set tAlertRequest.AlertLevel = pAlertLevel
+	Set tAlertRequest.AlertMessage = pAlertMessage
+	Set tAlertRequest.BusinessObjectType = pBusinessObjectType
+	Set tAlertRequest.BusinessObjectId = pBusinessObjectId
+	Set tAlertRequest.SourceSystem = pSourceSystem
+	Set tAlertRequest.TargetSystem = pTargetSystem
+	Quit tAlertRequest
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>AlertRequestDefaultData</DefaultData>
+<Data name="AlertRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"AlertRequest"</Subscript>
+<Value name="1">
+<Value>Alert</Value>
+</Value>
+<Value name="2">
+<Value>AlertLevel</Value>
+</Value>
+<Value name="3">
+<Value>AlertMessage</Value>
+</Value>
+<Value name="4">
+<Value>SourceSystem</Value>
+</Value>
+<Value name="5">
+<Value>TargetSystem</Value>
+</Value>
+<Value name="6">
+<Value>BusinessObjectType</Value>
+</Value>
+<Value name="7">
+<Value>BusinessObjectId</Value>
+</Value>
+<Value name="8">
+<Value>KeyProperties</Value>
+</Value>
+<Value name="9">
+<Value>AlertGUID</Value>
+</Value>
+<Value name="10">
+<Value>AlertJobId</Value>
+</Value>
+<Value name="11">
+<Value>JobId</Value>
+</Value>
+<Value name="12">
+<Value>AlertTimeStamp</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

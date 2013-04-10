@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.CreateAlertReportResponderPort">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebClient</Super>
+<TimeCreated>62552,46040.705376</TimeCreated>
+
+<Parameter name="LOCATION">
+<Description>
+This is the URL used to access the web service.</Description>
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the namespace used by the Service</Description>
+<Default>urn:oll:itintegration:monitoring:CreateAlertReport:1:rivtabp21</Default>
+</Parameter>
+
+<Parameter name="OUTPUTTYPEATTRIBUTE">
+<Description>
+Use xsi:type attribute for literal types.</Description>
+<Default>0</Default>
+</Parameter>
+
+<Parameter name="SERVICENAME">
+<Description>
+This is the name of the Service</Description>
+<Default>CreateAlertReportResponderService</Default>
+</Parameter>
+
+<Parameter name="SOAPVERSION">
+<Description>
+This is the SOAP version supported by the service.</Description>
+<Default>1.1</Default>
+</Parameter>
+
+<Parameter name="TYPENAMESPACE">
+<Description>
+This is the namespace used for types by the Service</Description>
+<Default>urn:oll:itintegration:monitoring:CreateAlertReportResponder:1</Default>
+</Parameter>
+
+<Method name="CreateAlertReport">
+<Final>1</Final>
+<FormalSpec><![CDATA[AlertReport:OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.core.AlertReportType,*comment:%String,&any:%ListOfDataTypes(ELEMENTTYPE="%XML.String",XMLNAME="any",XMLPROJECTION="any")]]></FormalSpec>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.tjsr.ResultCodeEnum</ReturnType>
+<WebMethod>1</WebMethod>
+<SoapBindingStyle>document</SoapBindingStyle>
+<SoapBodyUse>literal</SoapBodyUse>
+<Implementation><![CDATA[ Quit ..WebMethod("CreateAlertReport").Invoke($this,"urn:oll:itintegration:monitoring:CreateAlertReportResponder:1:CreateAlertReport",.AlertReport,.comment,.any)
+]]></Implementation>
+</Method>
+</Class>
+</Export>

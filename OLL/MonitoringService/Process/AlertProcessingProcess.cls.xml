@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Process.AlertProcessingProcess">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.BusinessProcessBPL</Super>
+<TimeCreated>62549,54885.032637</TimeCreated>
+
+<XData name="BPL">
+<Description>
+BPL Definition</Description>
+<XMLNamespace>http://www.intersystems.com/bpl</XMLNamespace>
+<Data><![CDATA[
+<process language='objectscript' request='Ens.Request' response='Ens.Response' height='2000' width='2000' >
+<context>
+<property name='unProcessedAlerts' type='OLL.MonitoringService.ReportHandling.ResultResponder' collection='list' >
+</property>
+<property name='i' type='%Integer' >
+</property>
+<property name='currentAlert' type='OLL.MonitoringService.ReportHandling.ResultResponder' >
+</property>
+<property name='alertRequest' type='OLL.MonitoringService.Message.SendAlertRequest' >
+</property>
+<property name='alertRule' type='OLL.MonitoringService.AlertHandling.AlertRule' >
+</property>
+</context>
+<sequence xend='550' yend='750' >
+<scope name='scope16' xpos='550' ypos='200' xend='550' yend='550' >
+<code name='Get Unprocessed Alerts' xpos='550' ypos='300' >
+<annotation>Selecting all unprocessed alerts</annotation>
+<![CDATA[	Set alertHandler = ##class(OLL.MonitoringService.ReportHandling.AlertReportHandler).%New()
+
+	do alertHandler.GetUnProcessedAlerts()
+	set context.unProcessedAlerts = alertHandler.AlertReports
+	]]]]><![CDATA[>
+</code>
+<faulthandlers>
+<catchall name='Handle error' xpos='550' ypos='400' xend='550' yend='500' >
+<code name='Handle error' xpos='550' ypos='200' >
+<![CDATA[	Set aReq = ##class(OLL.MonitoringService.Message.SendAlertRequest).%New()
+	
+	set aReq.body = "Fel i integration MONITORINGSERVICE | " _ $System.Status.GetErrorCodes(..%Context.%LastError) _ 
+															" : "_
+            												$System.Status.GetOneStatusText(..%Context.%LastError)
+	set aReq.alertLevel = 3
+	set aReq.namespace = "MONITORINGSERVICE"
+	set aReq.mailreceiver = process.InternalErrMailReceiver
+	
+	Set context.alertRequest = aReq]]]]><![CDATA[>
+</code>
+<call name='Send Alert mail' target='SendAlertMailOperation' async='1' xpos='550' ypos='300' >
+<request type='OLL.MonitoringService.Message.SendAlertRequest' >
+<assign property="callrequest" value="context.alertRequest" action="set" />
+</request>
+<response type='Ens.Response' />
+</call>
+<call name='Send SNMP Alert' target='SendSNMPOperation' async='1' xpos='550' ypos='400' >
+<request type='OLL.MonitoringService.Message.SendAlertRequest' >
+<assign property="callrequest" value="context.alertRequest" action="set" />
+</request>
+<response type='Ens.Response' />
+</call>
+</catchall>
+</faulthandlers>
+</scope>
+<foreach name='Alerthandling' property='context.unProcessedAlerts' key='context.i' xpos='550' ypos='650' xend='550' yend='1550' >
+<annotation>Loop all unprocessed alerts</annotation>
+<scope name='scope23' xpos='550' ypos='200' xend='550' yend='1450' >
+<assign name="Get current Alert" property="context.currentAlert" value="context.unProcessedAlerts.GetAt(context.i)" action="set" xpos='550' ypos='300' >
+<annotation><![CDATA[Get current alert in list]]]]><![CDATA[></annotation>
+</assign>
+<code name='Evaluate alert rules' xpos='550' ypos='400' >
+<annotation>Evaluate rules &amp; creates alertRequest for mail and/or HPOV</annotation>
+<![CDATA[	//#dim alertRule As OLL.MonitoringService.AlertHandling.AlertRuleHandler
+	Set alertRule = ##class(OLL.MonitoringService.AlertHandling.AlertRuleHandler).GetAlertRule(context.currentAlert)
+	set context.alertRule = alertRule
+
+	if (alertRule = "")
+	{
+		$$$LOGINFO("alertRule är tom")
+	}
+	else
+	{
+	// skapa textmeddelande för alert
+	Set alertStr = 					 $C(13,10) _ "EnsAlert: " _ alertRule.ruleAdditionalMessage _ $C(13,10) _
+    								"AlertLevel: " _ context.currentAlert.alertLevel _ $C(13,10) _
+    								"Namespace: " _ context.currentAlert.namespace _ $C(13,10) _
+    								"AlertMessage: " _ context.currentAlert.alertMessage _ $C(13,10) _
+    								"AlertGUID: " _ context.currentAlert.alertGUID _ $C(13,10) _
+    								"AlertTimeStamp: " _ context.currentAlert.alertTimeStamp _ $C(13,10) _
+    								"BusinessHost: " _ context.currentAlert.businessHost _ $C(13,10) _
+    								"BusinessObjectId: " _ context.currentAlert.businessObjectId _ $C(13,10) _
+    								"BusinessObjectType: " _ context.currentAlert.businessObjectType _ $C(13,10) _
+    								"JobId: " _ context.currentAlert.jobId _ $C(13,10) _
+    								"Method: " _ context.currentAlert.method _ $C(13,10) _
+    								"SessionId: " _ context.currentAlert.sessionId _ $C(13,10) _
+    								"Source: " _ context.currentAlert.source _ $C(13,10) _
+    								"SourceSystem: " _ context.currentAlert.sourceSystem _ $C(13,10) _
+    								"TargetSystem: " _ context.currentAlert.targetSystem _ $C(13,10)
+									
+	// skapa alertRequest i context
+		Set aReq = ##class(OLL.MonitoringService.Message.SendAlertRequest).%New()
+	
+		Set aReq.body = alertStr
+		Set mailList = $LISTFROMSTRING(alertRule.ruleMailReceivers)
+		do aReq.mailreceiver.InsertList(mailList)
+		set aReq.additionalMessage = alertRule.ruleAdditionalMessage
+		set aReq.namespace = context.currentAlert.namespace
+		
+		set alertLevel = 0
+
+		if (context.currentAlert.alertLevel = "INFO")
+		{
+			set alertLevel = 0
+		}
+		elseif (context.currentAlert.alertLevel = "DEBUG")
+		{
+			set alertLevel = 0
+		}
+		elseif (context.currentAlert.alertLevel = "TRACE")
+		{
+			set alertLevel = 0
+		}
+		elseif (context.currentAlert.alertLevel = "WARNING")
+		{
+			set alertLevel = 1
+		}
+		elseif (context.currentAlert.alertLevel = "ERROR")
+		{
+			set alertLevel = 2
+		}
+		elseif (context.currentAlert.alertLevel = "FATAL")
+		{
+			set alertLevel = 3
+		}
+		elseif (context.currentAlert.alertLevel = "CRITICAL")
+		{
+			set alertLevel = 3
+		}
+	
+		set aReq.alertLevel = alertLevel
+		Set context.alertRequest = aReq
+		
+	}
+
+	// var ska vi sätta denna
+	// do ##class(OLL.MonitoringService.ReportHandling.AlertReportHandler).SetAsProcessed(context.currentAlert.alertGUID)
+
+]]]]><![CDATA[>
+</code>
+<if name='Mail Alert' condition='context.alertRule.ruleSendMail="true"' xpos='550' ypos='500' xend='550' yend='750' >
+<true>
+<call name='Send Mail Alert' target='SendAlertMailOperation' async='1' xpos='685' ypos='650' >
+<annotation>Sends alert by mail</annotation>
+<request type='OLL.MonitoringService.Message.SendAlertRequest' >
+<assign property="callrequest" value="context.alertRequest" action="set" />
+</request>
+<response type='Ens.StringResponse' >
+<assign property="context.SendMailStatus" value="callresponse.StringValue" action="set" />
+</response>
+</call>
+</true>
+</if>
+<if name='Send HPOV Alert' condition='context.alertRule.ruleGenerateSNMPTrap="true"' xpos='550' ypos='850' xend='550' yend='1100' >
+<true>
+<call name='Send HPOV Alert' target='SendSNMPOperation' async='1' xpos='685' ypos='1000' >
+<annotation>Sends alert by HPOV trap</annotation>
+<request type='OLL.MonitoringService.Message.SendAlertRequest' >
+<assign property="callrequest" value="context.alertRequest" action="set" />
+</request>
+<response type='Ens.Response' />
+</call>
+</true>
+</if>
+<code name='Set Alert as Processed' xpos='550' ypos='1200' >
+<annotation>Marks current alert as processed (done)</annotation>
+<![CDATA[	do ##class(OLL.MonitoringService.ReportHandling.AlertReportHandler).SetAsProcessed(context.currentAlert.alertGUID)]]]]><![CDATA[>
+</code>
+<faulthandlers>
+<catchall name='Handle error' xpos='550' ypos='1300' xend='550' yend='500' >
+<code name='Handle error' xpos='550' ypos='200' >
+<![CDATA[	Set aReq = ##class(OLL.MonitoringService.Message.SendAlertRequest).%New()
+	
+	set aReq.body = "Fel i integration MONITORINGSERVICE | " _ $System.Status.GetErrorCodes(..%Context.%LastError) _ 
+															" : "_
+            												$System.Status.GetOneStatusText(..%Context.%LastError)
+	set aReq.alertLevel = 3
+	set aReq.namespace = "MONITORINGSERVICE"
+	set aReq.mailreceiver = process.InternalErrMailReceiver
+	
+	Set context.alertRequest = aReq
+]]]]><![CDATA[>
+</code>
+<call name='Send Alert mail' target='SendAlertMailOperation' async='1' xpos='550' ypos='300' >
+<request type='OLL.MonitoringService.Message.SendAlertRequest' >
+<assign property="callrequest" value="context.alertRequest" action="set" />
+</request>
+<response type='Ens.Response' />
+</call>
+<call name='Send SNMP Alert' target='SendSNMPOperation' async='1' xpos='550' ypos='400' >
+<request type='OLL.MonitoringService.Message.SendAlertRequest' >
+<assign property="callrequest" value="context.alertRequest" action="set" />
+</request>
+<response type='Ens.Response' />
+</call>
+</catchall>
+</faulthandlers>
+</scope>
+</foreach>
+</sequence>
+</process>
+]]></Data>
+</XData>
+
+<Property name="InternalErrMailReceiver">
+<Type>%String</Type>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>InternalErrMailReceiver</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>AlertProcessingProcessDefaultData</DefaultData>
+<Data name="AlertProcessingProcessDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"AlertProcessingProcess"</Subscript>
+<Value name="1">
+<Value>InternalErrMailReceiver</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
