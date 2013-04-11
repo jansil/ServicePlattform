@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Vagval.tns.virtualiseringsInfoType">
+<Description>
+Created from: D:\TrainingProjects\TP\SokVagvalsInfo_1.wsdl</Description>
+<CompileAfter>TK.Service.Vagval.tns.virtualiseringsInfoIdType</CompileAfter>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor</Super>
+<TimeCreated>62536,43263.28471</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:skl:tp:vagvalsinfo:v1</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>virtualiseringsInfoType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="virtualiseringsInfoId">
+<Type>TK.Service.Vagval.tns.virtualiseringsInfoIdType</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="virtualiseringsInfoId"/>
+</Property>
+
+<Property name="receiverId">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="receiverId"/>
+</Property>
+
+<Property name="rivProfil">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="rivProfil"/>
+</Property>
+
+<Property name="tjansteKontrakt">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="tjansteKontrakt"/>
+</Property>
+
+<Property name="fromTidpunkt">
+<Type>%TimeStamp</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="fromTidpunkt"/>
+</Property>
+
+<Property name="tomTidpunkt">
+<Type>%TimeStamp</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="tomTidpunkt"/>
+</Property>
+
+<Property name="adress">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="adress"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^TK.Service578F.virtualiser4406D</DataLocation>
+<DefaultData>virtualiseringsInfoTypeDefaultData</DefaultData>
+<IdLocation>^TK.Service578F.virtualiser4406D</IdLocation>
+<IndexLocation>^TK.Service578F.virtualiser4406I</IndexLocation>
+<StreamLocation>^TK.Service578F.virtualiser4406S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="virtualiseringsInfoTypeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>virtualiseringsInfoId</Value>
+</Value>
+<Value name="3">
+<Value>receiverId</Value>
+</Value>
+<Value name="4">
+<Value>rivProfil</Value>
+</Value>
+<Value name="5">
+<Value>tjansteKontrakt</Value>
+</Value>
+<Value name="6">
+<Value>fromTidpunkt</Value>
+</Value>
+<Value name="7">
+<Value>tomTidpunkt</Value>
+</Value>
+<Value name="8">
+<Value>adress</Value>
+</Value>
+<Value name="9">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

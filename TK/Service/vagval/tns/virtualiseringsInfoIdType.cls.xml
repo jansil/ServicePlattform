@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Vagval.tns.virtualiseringsInfoIdType">
+<Description>
+Created from: D:\TrainingProjects\TP\SokVagvalsInfo_1.wsdl</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%String</Super>
+<TimeCreated>62536,43263.279913</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="MAXLEN">
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:skl:tp:vagvalsinfo:v1</Default>
+</Parameter>
+</Class>
+</Export>
