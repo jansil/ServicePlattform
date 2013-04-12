@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Vagval.SokVagval">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%RegisteredObject</Super>
+<TimeCreated>62536,43263.048712</TimeCreated>
+
+<Method name="hamtaAllaAnropsBehorigheter">
+<FormalSpec>hamtaAllaAnropsBehorigheter:%String</FormalSpec>
+<ReturnType>%ListOfObjects</ReturnType>
+<ReturnTypeParams>ELEMENTTYPE="TK.Service.Vagval.tns.anropsBehorighetsInfoType",XMLPROJECTION="element",XMLNAME="anropsBehorighetsInfo"</ReturnTypeParams>
+<Implementation><![CDATA[
+ // Web Service Method Implementation Goes Here.
+ #Dim tException As %Exception.SystemException
+ #Dim tStatus, tmpStatus As %Status
+ Set tStatus = $$$OK
+ 
+ Try
+ 	{
+ 	#Dim ret As %ListOfObjects
+ 	Set ret = ##class(%ListOfObjects).%New()
+ 	#Dim auth As TK.Service.Vagval.tns.anropsBehorighetsInfoType
+ 	Set auth = ##class(TK.Service.Vagval.tns.anropsBehorighetsInfoType).%New()
+ 
+ 
+	&sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id)
+	&sql(OPEN C1)
+	&sql(FETCH C1)
+	
+	While (SQLCODE = 0) {
+    	
+    	Set auth = ##class(TK.Service.Vagval.tns.anropsBehorighetsInfoType).%New()
+    	Set auth.anropsBehorighetsInfoId = anropsBehorighetsInfoId
+    	Set auth.fromTidpunkt = fromTidpunkt
+    	Set auth.receiverId = receiverId
+    	Set auth.senderId = senderId
+    	Set auth.tjansteKontrakt = tjansteKontrakt
+    	Set auth.tomTidpunkt = tomTidpunkt
+    	Do ret.Insert(auth)
+    	&sql(FETCH C1)
+ 	}
+    
+ 	&sql(CLOSE C1)
+ 	}
+ 	Catch(tException) {
+	 	Set tStatus = $$$ERROR($$$GeneralError, " An error has occurred in TK.Service.Vagval.SokVagvalsSoap11LitDocPort " _ tException.AsStatus())	
+		//$$$LOGERROR("An error has occurred in TK.Service.Vagval.SokVagvalsSoap11LitDocPort, method hamtaAllaVirtualiseringar")
+		Quit
+		
+ 	}
+ 
+ Quit ret
+]]></Implementation>
+</Method>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Method hamtaAllaVirtualiseringar(hamtaAllaVirtualiseringar As %String) As %ListOfObjects(ELEMENTTYPE="TK.Service.Vagval.tns.virtualiseringsInfoType",XMLPROJECTION="element",XMLNAME="virtualiseringsInfo")
+
+]]></Content>
+</UDLText>
+
+<Method name="hamtaAllaVirtualiseringar">
+<FormalSpec>sServiceContract:%String,sSenderId:%String,sReceiverId:%String</FormalSpec>
+<ReturnType>%ListOfObjects</ReturnType>
+<ReturnTypeParams>ELEMENTTYPE="TK.Service.Vagval.tns.virtualiseringsInfoType",XMLPROJECTION="element",XMLNAME="virtualiseringsInfo"</ReturnTypeParams>
+<Implementation><![CDATA[
+ // Web Service Method Implementation Goes Here.
+ //Input may look like this contract=urn:riv:crm:scheduling:CancelBooking:1:rivtabp20;ReceiverId=SE2321000172-2B4D;RIVTA=RIVTABP20
+ 
+ #Dim tException As %Exception.SystemException
+ #Dim tStatus, tmpStatus As %Status
+ Set tStatus = $$$OK
+ 
+ Try
+ 	{
+ 	#Dim ret As %ListOfObjects
+	Set ret = ##class(%ListOfObjects).%New()
+ 
+ 	#Dim virt As TK.Service.Vagval.tns.virtualiseringsInfoType
+ 	//Set virt = ##class(TK.Service.Vagval.tns.virtualiseringsInfoType).%New()
+	
+	//Orginal utan where villkor för contrakt,SenderId och ReceiverId
+	//&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :rivProfil, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id)
+	//Ny sql  med where villkor för contrakt,SenderId och ReceiverId
+	
+	&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :rivProfil, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id and k.namnrymd = :sServiceContract and la.HsaId = :sReceiverId)
+	&sql(OPEN C2)
+	&sql(FETCH C2)
+	
+	While (SQLCODE = 0) {
+    	
+    	Set virt = ##class(TK.Service.Vagval.tns.virtualiseringsInfoType).%New()
+    	Set virt.fromTidpunkt = fromTidpunkt
+    	Set virt.receiverId = receiverId
+    	Set virt.rivProfil = rivProfil
+    	Set virt.tjansteKontrakt = tjansteKontrakt
+    	Set virt.tomTidpunkt = tomTidpunkt
+    	Set virt.virtualiseringsInfoId = virtualiseringsInfoId
+    	Do ret.Insert(virt)
+    	
+    	
+    	&sql(FETCH C2)
+ 	}
+    
+ 	&sql(CLOSE C2)
+ 	}
+ 	Catch(tException) {
+	 	Set tStatus = $$$ERROR($$$GeneralError, " An error has occurred in TK.Service.Vagval.SokVagvalsSoap11LitDocPort " _ tException.AsStatus())	
+		//$$$LOGERROR("An error has occurred in TK.Service.Vagval.SokVagvalsSoap11LitDocPort, method hamtaAllaVirtualiseringar")
+		Quit
+		
+ 	}
+	Quit ret
+]]></Implementation>
+</Method>
+</Class>
+</Export>
