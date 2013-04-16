@@ -28,9 +28,9 @@
  	Set ret = ##class(%ListOfObjects).%New()
  	#Dim auth As TK.Service.Vagval.tns.anropsBehorighetsInfoType
  	Set auth = ##class(TK.Service.Vagval.tns.anropsBehorighetsInfoType).%New()
- 
- 
-	&sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and la.HsaId = :sReceiverId)
+    
+    &sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and la.HsaId = :sReceiverId)
+	    
 	&sql(OPEN C1)
 	&sql(FETCH C1)
 	
@@ -91,7 +91,7 @@
 	//&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :rivProfil, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id)
 	//Ny sql  med where villkor för contrakt,SenderId och ReceiverId
 	
-	&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :rivProfil, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id and k.namnrymd = :sServiceContract and la.HsaId = :sReceiverId)
+	&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :adress, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id and k.namnrymd = :sServiceContract and la.HsaId = :sReceiverId)
 	&sql(OPEN C2)
 	&sql(FETCH C2)
 	
@@ -100,9 +100,9 @@
     	Set virt = ##class(TK.Service.Vagval.tns.virtualiseringsInfoType).%New()
     	Set virt.fromTidpunkt = fromTidpunkt
     	Set virt.receiverId = receiverId
-    	Set virt.rivProfil = rivProfil
     	Set virt.tjansteKontrakt = tjansteKontrakt
     	Set virt.tomTidpunkt = tomTidpunkt
+    	Set virt.adress = adress
     	Set virt.virtualiseringsInfoId = virtualiseringsInfoId
     	Do ret.Insert(virt)
     	

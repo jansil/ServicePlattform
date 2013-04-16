@@ -27,7 +27,7 @@
  #Dim tStatus, tmpStatus As %Status
  Set tStatus = $$$OK
  
- Try
+  Try
  	{
  	#Dim ret As %ListOfObjects
  	Set ret = ##class(%ListOfObjects).%New()
