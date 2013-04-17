@@ -33,8 +33,19 @@ Configuration item to which to send messages</Description>
 		#Dim url As %String
 		
 		//Get URL from service catalog
-		Set tAddressURL = ##class(TK.Service.SearchService).GetAddress(pRequest.To)
-	
+		
+		//Set tAddressURL = ##class(TK.Service.SearchService).GetAddress(pRequest.To)
+		
+		// New code. Stefan Kundel
+		#Dim oList As %ListOfObjects
+		#Dim oVagval As TK.Service.Vagval.SokVagval
+		Set oList = ##class(%ListOfObjects).%New()
+ 		Set oVagval =##class(TK.Service.Vagval.SokVagval).%New()
+ 		Set oList = oVagval.hamtaAllaVirtualiseringar(pRequest.To)
+ 		Set tAddressURL = oList.GetAt(1).adress
+		//
+		
+		
 		$$$TRACE("URL from Service Catalog: " _ tAddressURL)
 	
 		//Set URL
