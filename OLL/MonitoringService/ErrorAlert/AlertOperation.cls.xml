@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.ErrorAlert.AlertOperation">
+<Super>EnsLib.EMail.AlertOperation</Super>
+<TimeCreated>62543,41862.014987</TimeCreated>
+
+<Method name="OnMessage">
+<FormalSpec>pRequest:Ens.AlertRequest,*pResponse:Ens.Response</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tMailMessage=##class(%Net.MailMessage).%New()
+	Set tMailMessage.Subject="Ensemble alert from "_$$$SystemName_":"_pRequest.SourceConfigName
+	Set tMailMessage.Charset="iso-8859-1"
+	
+	If (pRequest.AlertDestination && pRequest.AlertDestination'="") {
+		#; if the Ens.AlertRequest supplied an AlertDestination, then add it to the list of configured Recipients
+		Set tSC=..Adapter.AddRecipients(tMailMessage, pRequest.AlertDestination)  Quit:$$$ISERR(tSC) tSC
+		
+	}
+	
+	set id = pRequest.%Id()
+	set idx = ..Adapter.BusinessHost.%SessionId
+	Set namespace = ##class(%SYSTEM.SYS).NameSpace()
+	set tid = $ZDATETIME($HOROLOG)
+		
+	set msg = "Fel i Ensemble! " _ $C(13,10) _ $C(13,10) _ "Id:" _ id _ $C(13,10) _ "Namespace : " _ 
+	namespace _ $C(13,10) _ "Tid: " _ tid _ $C(13,10) _  "SessionID: " _ idx _ $C(13,10) _ $C(13,10) _
+	"Felmeddelande: " _ pRequest.AlertText _ $C(13,10) _ "Felmeddelande slut"
+	
+	Set tSC=tMailMessage.TextData.Write(msg)  Quit:$$$ISERR(tSC) tSC
+
+	
+	Quit ..Adapter.SendMail(tMailMessage)
+]]></Implementation>
+</Method>
+</Class>
+</Export>

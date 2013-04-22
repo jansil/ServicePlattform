@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Service.CreateAlertReportInteraction.CreateAlertReportService">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>EnsLib.SOAP.Service</Super>
+<TimeCreated>62567,33036.249245</TimeCreated>
+
+<Parameter name="ADAPTER">
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the namespace used by the Service</Description>
+<Default>urn:oll:itintegration:monitoring:CreateAlertReport:1:rivtabp21</Default>
+</Parameter>
+
+<Parameter name="OUTPUTTYPEATTRIBUTE">
+<Description>
+Use xsi:type attribute for literal types.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="SERVICENAME">
+<Description>
+This is the name of the Service</Description>
+<Default>CreateAlertReportResponderService</Default>
+</Parameter>
+
+<Parameter name="SOAPVERSION">
+<Description>
+This is the SOAP version supported by the service.</Description>
+<Default>1.1</Default>
+</Parameter>
+
+<Parameter name="TYPENAMESPACE">
+<Description>
+This is the namespace used for types by the Service</Description>
+<Default>urn:oll:itintegration:monitoring:CreateAlertReportResponder:1</Default>
+</Parameter>
+
+<Parameter name="USECLASSNAMESPACES">
+<Description>
+Namespaces of referenced classes will be used in the WSDL.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Method name="CreateAlertReport">
+<Final>1</Final>
+<FormalSpec><![CDATA[AlertReport:OLL.MonitoringService.Proxy.CreateAlertReportInteraction.core.AlertReportType,&any:%ListOfDataTypes(ELEMENTTYPE="%XML.String",XMLNAME="any",XMLPROJECTION="any"),*comment:%String]]></FormalSpec>
+<ProcedureBlock>1</ProcedureBlock>
+<ReturnType>OLL.MonitoringService.Proxy.CreateAlertReportInteraction.tjsr.ResultCodeEnum</ReturnType>
+<WebMethod>1</WebMethod>
+<SoapBindingStyle>document</SoapBindingStyle>
+<SoapBodyUse>literal</SoapBodyUse>
+<SoapAction>urn:oll:itintegration:monitoring:CreateAlertReportResponder:1:CreateAlertReport</SoapAction>
+<Implementation><![CDATA[
+ 	/*$$$LOGINFO("alertGUID: " _ AlertReport.AlertGUID)
+	$$$LOGINFO("alertLevel: " _ AlertReport.AlertLevel)
+	$$$LOGINFO("alertMessage: " _ AlertReport.AlertMessage)
+	$$$LOGINFO("alertTimeStamp: " _ AlertReport.AlertTimeStamp)
+	$$$LOGINFO("businessHost: " _ AlertReport.BusinessHost)
+	$$$LOGINFO("businessObjectId: " _ AlertReport.BusinessObjectId)
+	$$$LOGINFO("businessObjectType: " _ AlertReport.BusinessObjectType)
+	$$$LOGINFO("jobId: " _ AlertReport.JobId)
+	$$$LOGINFO("method: " _ AlertReport.Method)
+	$$$LOGINFO("namespace: " _ AlertReport.Namespace)
+	$$$LOGINFO("sessionId: " _ AlertReport.SessionId)
+	$$$LOGINFO("source: " _ AlertReport.Source)
+	$$$LOGINFO("sourceSystem: " _ AlertReport.SourceSystem)
+	$$$LOGINFO("targetSystem: " _ AlertReport.TargetSystem)
+	$$$LOGINFO("instance " _ AlertReport.Instance)*/
+	$$$TRACE("Incoming call in CreateAlerReport")
+	Set Respond = ##class(OLL.MonitoringService.ReportHandling.ResultResponder).%New()
+
+	quit Respond.SaveReport(AlertReport,.comment)
+]]></Implementation>
+</Method>
+</Class>
+</Export>

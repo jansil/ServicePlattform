@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Message.SendAlertRequest">
+<Super>Ens.Request</Super>
+<TimeCreated>62552,49733.69975</TimeCreated>
+
+<Property name="body">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="mailreceiver">
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="namespace">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="additionalMessage">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="alertLevel">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>SendAlertRequestDefaultData</DefaultData>
+<Data name="SendAlertRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"SendAlertRequest"</Subscript>
+<Value name="1">
+<Value>body</Value>
+</Value>
+<Value name="2">
+<Value>mailreceiver</Value>
+</Value>
+<Value name="3">
+<Value>namespace</Value>
+</Value>
+<Value name="4">
+<Value>additionalMessage</Value>
+</Value>
+<Value name="5">
+<Value>alertLevel</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

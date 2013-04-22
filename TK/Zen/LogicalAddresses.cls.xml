@@ -49,10 +49,11 @@ List of table pane ids to apply preferences to</Description>
 <ServerOnly>1</ServerOnly>
 <Implementation><![CDATA[
 	Set pTable.orderByClause = "LogiskAdressat"
-	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=5%|colName=Id|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Adressat")_"|width=25%|colName=LogiskAdressat|filterType=text"
-	//Tillägg för namnrymd/tjänstekontrakt
-	Set tCols($Increment(tCols))="|header="_$$$Text("Tjänstekontrakt")_"|width=40%|colName=Tjanstekontrakt|filterType=text"
+
+	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Addressee")_"|width=20%|colName=LogiskAdressat|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Contract")_"|width=20%|colName=Tjanstekontrakt|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Component")_"|width=20%|colName=Tjansteproducentid|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Riv Version")_"|width=10%|colName=RivVersion|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=10%|colName=Version|filterType=text"
 	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this RIV-TA profile for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"

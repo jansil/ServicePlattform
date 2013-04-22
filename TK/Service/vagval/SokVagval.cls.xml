@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Export generator="Cache" version="25">
 <Class name="TK.Service.Vagval.SokVagval">
+<IncludeCode>Ensemble</IncludeCode>
 <ProcedureBlock>1</ProcedureBlock>
 <Super>%RegisteredObject</Super>
 <TimeCreated>62536,43263.048712</TimeCreated>
@@ -13,7 +14,7 @@
 </UDLText>
 
 <Method name="hamtaAllaAnropsBehorigheter">
-<FormalSpec>sReceiverId:%String</FormalSpec>
+<FormalSpec>sNameSpace:%String,sSenderId:%String,sReceiverId:%String</FormalSpec>
 <ReturnType>%ListOfObjects</ReturnType>
 <ReturnTypeParams>ELEMENTTYPE="TK.Service.Vagval.tns.anropsBehorighetsInfoType",XMLPROJECTION="element",XMLNAME="anropsBehorighetsInfo"</ReturnTypeParams>
 <Implementation><![CDATA[
@@ -24,12 +25,20 @@
  
  Try
  	{
+	$$$TRACE("Namespace=" _ sNameSpace)
+	$$$TRACE("SenderId=" _ sSenderId)
+	$$$TRACE("ReceiverId=" _ sReceiverId)
  	#Dim ret As %ListOfObjects
  	Set ret = ##class(%ListOfObjects).%New()
  	#Dim auth As TK.Service.Vagval.tns.anropsBehorighetsInfoType
  	Set auth = ##class(TK.Service.Vagval.tns.anropsBehorighetsInfoType).%New()
     
-    &sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and la.HsaId = :sReceiverId)
+    &sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into 
+    :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from 
+    TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where 
+    a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and 
+    t.HsaId = :sSenderId and k.Namnrymd = :sNameSpace and la.HsaId = :sReceiverId and 
+    a.FromTidpunkt <= CURRENT_DATE and a.TomTidpunkt >= CURRENT_DATE)
 	    
 	&sql(OPEN C1)
 	&sql(FETCH C1)
@@ -45,6 +54,7 @@
     	Set auth.tomTidpunkt = tomTidpunkt
     	Do ret.Insert(auth)
     	&sql(FETCH C1)
+    	
  	}
     
  	&sql(CLOSE C1)

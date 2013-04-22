@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Message.Alert.KeyProperty">
+<Super>%Persistent,%XML.Adaptor</Super>
+<TimeCreated>62794,34542.900608</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="Value">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^OLL.MonitoringA992.KeyPropertyD</DataLocation>
+<DefaultData>KeyPropertyDefaultData</DefaultData>
+<IdLocation>^OLL.MonitoringA992.KeyPropertyD</IdLocation>
+<IndexLocation>^OLL.MonitoringA992.KeyPropertyI</IndexLocation>
+<StreamLocation>^OLL.MonitoringA992.KeyPropertyS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="KeyPropertyDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Value</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
