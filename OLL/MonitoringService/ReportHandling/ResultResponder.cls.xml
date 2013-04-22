@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.ReportHandling.ResultResponder">
+<ClassType>persistent</ClassType>
+<Super>%Persistent</Super>
+<TimeCreated>62542,47881.634204</TimeCreated>
+
+<Property name="alertGUID">
+<Type>%String</Type>
+</Property>
+
+<Property name="alertLevel">
+<Type>%String</Type>
+</Property>
+
+<Property name="alertMessage">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="alertTimeStamp">
+<Type>%Date</Type>
+</Property>
+
+<Property name="businessHost">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="businessObjectId">
+<Type>%String</Type>
+</Property>
+
+<Property name="businessObjectType">
+<Type>%String</Type>
+</Property>
+
+<Property name="jobId">
+<Type>%String</Type>
+</Property>
+
+<Property name="instance">
+<Type>%String</Type>
+</Property>
+
+<Property name="keyProperties">
+<Type>OLL.MonitoringService.Proxy.CreateAlertReportInteraction.core.KeyPropertiesType</Type>
+</Property>
+
+<Property name="method">
+<Type>%String</Type>
+</Property>
+
+<Property name="namespace">
+<Type>%String</Type>
+</Property>
+
+<Property name="sessionId">
+<Type>%String</Type>
+</Property>
+
+<Property name="source">
+<Type>%String</Type>
+</Property>
+
+<Property name="sourceSystem">
+<Type>%String</Type>
+</Property>
+
+<Property name="targetSystem">
+<Type>%String</Type>
+</Property>
+
+<Property name="processed">
+<Type>%Boolean</Type>
+</Property>
+
+<Method name="SaveReport">
+<FormalSpec>AlertReport:OLL.MonitoringService.Proxy.CreateAlertReportInteraction.core.AlertReportType,*comment:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	try 
+	{
+	Set ..alertGUID = AlertReport.AlertGUID
+	Set ..alertLevel = AlertReport.AlertLevel
+	Set ..alertMessage = AlertReport.AlertMessage
+	Set ..alertTimeStamp = AlertReport.AlertTimeStamp
+	Set ..businessHost = AlertReport.BusinessHost
+	Set ..businessObjectId = AlertReport.BusinessObjectId
+	Set ..businessObjectType = AlertReport.BusinessObjectType
+	Set ..jobId = AlertReport.JobId
+	Set ..keyProperties = AlertReport.KeyProperties
+	Set ..method = AlertReport.Method
+	Set ..namespace = AlertReport.Namespace
+	Set ..sessionId = AlertReport.SessionId
+	Set ..source = AlertReport.Source
+	Set ..sourceSystem = AlertReport.SourceSystem
+	Set ..targetSystem = AlertReport.TargetSystem
+	Set ..instance = AlertReport.Instance
+	Set ..processed = 0
+	
+	Set resultCode =  "OK"
+	Set comment =  ""
+	Do ..%SaveData()
+	
+		
+	}
+	catch (tException) 
+	{
+		set resultCode = "ERROR"
+	    set comment = "SaveReport Error! " _ $System.Status.GetOneStatusText(tException.AsStatus()) 	
+	}
+	
+		
+	
+	quit resultCode
+]]></Implementation>
+</Method>
+
+<Query name="GetUnProcessedAlerts">
+<Type>%SQLQuery</Type>
+<SqlQuery>SELECT * FROM ResultResponder
+ WHERE (processed = 0)
+ ORDER BY alertLevel</SqlQuery>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^OLL.Monito3DA4.ResultRespoBF8AD</DataLocation>
+<DefaultData>ResultResponderDefaultData</DefaultData>
+<IdLocation>^OLL.Monito3DA4.ResultRespoBF8AD</IdLocation>
+<IndexLocation>^OLL.Monito3DA4.ResultRespoBF8AI</IndexLocation>
+<StreamLocation>^OLL.Monito3DA4.ResultRespoBF8AS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="ResultResponderDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>alertGUID</Value>
+</Value>
+<Value name="3">
+<Value>alertLevel</Value>
+</Value>
+<Value name="4">
+<Value>alertMessage</Value>
+</Value>
+<Value name="5">
+<Value>alertTimeStamp</Value>
+</Value>
+<Value name="6">
+<Value>businessHost</Value>
+</Value>
+<Value name="7">
+<Value>businessObjectId</Value>
+</Value>
+<Value name="8">
+<Value>businessObjectType</Value>
+</Value>
+<Value name="9">
+<Value>jobId</Value>
+</Value>
+<Value name="10">
+<Value>keyProperties</Value>
+</Value>
+<Value name="11">
+<Value>method</Value>
+</Value>
+<Value name="12">
+<Value>namespace</Value>
+</Value>
+<Value name="13">
+<Value>sessionId</Value>
+</Value>
+<Value name="14">
+<Value>source</Value>
+</Value>
+<Value name="15">
+<Value>sourceSystem</Value>
+</Value>
+<Value name="16">
+<Value>targetSystem</Value>
+</Value>
+<Value name="17">
+<Value>Svenne</Value>
+</Value>
+<Value name="18">
+<Value>processed</Value>
+</Value>
+<Value name="19">
+<Value>instance</Value>
+</Value>
+<Value name="20">
+<Value>ID</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

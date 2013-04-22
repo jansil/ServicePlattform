@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Message.CreateAlertReport.v1.CreateAlertReportRequest">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeCreated>62794,36585.822823</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>OLL.MonitoringService.AlertReportClient.Message.CreateAlertReport.v1.CreateAlertReportResponse</Default>
+</Parameter>
+
+<Property name="AlertReport">
+<Type>OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.core.AlertReportType</Type>
+</Property>
+
+<Property name="comment">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>CreateAlertReportRequestDefaultData</DefaultData>
+<Data name="CreateAlertReportRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"CreateAlertReportRequest"</Subscript>
+<Value name="1">
+<Value>AlertReport</Value>
+</Value>
+<Value name="2">
+<Value>comment</Value>
+</Value>
+<Value name="3">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Proxy.CreateAlertReportInteraction.itr.ServiceContractType">
+<Description>
+Type which describes a service contract. Used in interaction GetSupportedServiceContracts.
+Created from: d:/ensemble_instances/ensutv/db/monitoringservice/schemas/core_components/itintegration_registry_1.0.xsd</Description>
+<ClassType>persistent</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor</Super>
+<TimeCreated>62567,33037.303092</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:riv:itintegration:registry:1</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>ServiceContractType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="ServiceContractNamespace">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="ServiceContractNamespace"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^OLL.MonitoE788.ServiceCont486BD</DataLocation>
+<DefaultData>ServiceContractTypeDefaultData</DefaultData>
+<IdLocation>^OLL.MonitoE788.ServiceCont486BD</IdLocation>
+<IndexLocation>^OLL.MonitoE788.ServiceCont486BI</IndexLocation>
+<StreamLocation>^OLL.MonitoE788.ServiceCont486BS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="ServiceContractTypeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ServiceContractNamespace</Value>
+</Value>
+<Value name="3">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

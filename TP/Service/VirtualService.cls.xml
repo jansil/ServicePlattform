@@ -29,19 +29,110 @@
 		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
 		Set tSC=..resolveAndIndex(tRequest)
 		If ($$$ISERR(tSC)) { Quit }
-	
+		
+		set tUrl = tRequest.HTTPHeaders.GetAt("URL")
+		$$$LOGINFO(tUrl)
+		
 		//Get SOAP Header
 		//TODO: Check which RIV-TA version
 		#Dim txPath As %XML.XPATH.Document
 		#Dim txPathRes As %XML.XPATH.ValueResult
 		#Dim tList As %ListOfObjects
-	
-		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.EnvelopeStream, .txPath)
-		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/To", "text()", .tList)
-		Set txPathRes = tList.GetAt(1)
-		Set tRequest.To = txPathRes.Value
+		#Dim tSoapHeaderTo As %String
+		#Dim tSoapHeaderFrom As %String
+		#Dim tWsaTo As %String
+		#Dim tWsaFrom As %String
 		
-		$$$TRACE("Value from SOAP Header To: " _ tRequest.To)
+		Set tSoapHeaderTo = ""
+		Set tSoapHeaderFrom = ""
+		Set tWsaTo = ""
+		Set tWsaFrom = ""
+		Set tRequest.SOAPAction = ""
+		
+		//Get SOAP Action from HTTP header
+		If (tRequest.HTTPHeaders.GetAt("soapaction") '= "") {
+			Set tRequest.SOAPAction = $REPLACE(tRequest.HTTPHeaders.GetAt("soapaction"), $Char(34), "")
+			$$$TRACE("Value from HTTP Header soapaction: " _ tRequest.SOAPAction)
+		}
+		
+		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.EnvelopeStream, .txPath)
+		
+		//Get SOAP Header To
+		Set txPath.PrefixMappings = ""
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/To", "text()", .tList)
+		If (tList.Count() > 0) {
+			Set txPathRes = tList.GetAt(1)
+			Set tSoapHeaderTo = txPathRes.Value
+			
+			$$$TRACE("Value from SOAP Header To: " _ tSoapHeaderTo)
+		}
+		
+		//Get SOAP Header From
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/From", "text()", .tList)
+		If (tList.Count() > 0) {
+			Set txPathRes = tList.GetAt(1)
+			Set tSoapHeaderFrom = txPathRes.Value
+			
+			$$$TRACE("Value from SOAP Header From " _ tSoapHeaderFrom)
+		}
+		
+		//Get namespace
+		Set txPath.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope", "@xmlns:urn", .tList)
+		set ^aa1 = tList.Count()
+		If (tList.Count() > 0) {
+			Set txPathRes = tList.GetAt(1)
+			set ^aa2 = txPathRes.Value
+			Set tRequest.SOAPNamespace = txPathRes.Value
+			
+			$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)
+		}
+		
+		//Get WS-Addressing To SOAP Header
+		Set txPath.PrefixMappings = "wsa http://www.w3.org/2005/08/addressing"
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:To", "text()", .tList)
+		If (tList.Count() > 0) {
+			Set txPathRes = tList.GetAt(1)
+			Set tWsaTo = txPathRes.Value
+			Set tRequest.WSATo = tWsaTo
+			
+			$$$TRACE("Value from SOAP Header WSA-To: " _ tWsaTo)
+		}
+		
+		//Get WS-Addressing From SOAP Header
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:From/wsa:Address", "text()", .tList)
+		If (tList.Count() > 0) {
+			Set txPathRes = tList.GetAt(1)
+			Set tWsaFrom = txPathRes.Value
+			Set tRequest.WSAFrom = tWsaFrom
+			
+			$$$TRACE("Value from SOAP Header WSA-From: " _ tWsaFrom)
+		}
+		
+		//Get WS-Addressing SOAP action
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:Action", "text()", .tList)
+		If (tList.Count() > 0) {
+			Set txPathRes = tList.GetAt(1)
+			Set tRequest.SOAPAction = txPathRes.Value
+			
+			$$$TRACE("Value from SOAP Header WSA-Action: " _ tRequest.SOAPAction)
+		}
+		
+		//If WSA-To existed, use that for routing, otherwise old SOAP Header To field
+		If (tWsaTo '= "") {
+			Set tRequest.To = tWsaTo
+		}
+		Else {
+			Set tRequest.To = tSoapHeaderTo
+		}
+		
+		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
+		If (tWsaFrom '= "") {
+			Set tRequest.From = tWsaFrom
+		}
+		Else {
+			Set tRequest.From = tSoapHeaderFrom
+		}
 		
 		If (..OneWay) {
 			Set tSC = ..SendRequestAsync(..TargetConfigName,tRequest)

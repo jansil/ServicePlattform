@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertHandling.AlertRuleHandler">
+<Super>%RegisteredObject</Super>
+<TimeCreated>62557,31214.01062</TimeCreated>
+
+<Method name="GetAlertRule">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>alertObj:OLL.MonitoringService.ReportHandling.ResultResponder</FormalSpec>
+<ReturnType>OLL.MonitoringService.AlertHandling.AlertRule</ReturnType>
+<Implementation><![CDATA[
+ 	Set rset = ##class(%ResultSet).%New()
+ 	Set rset.ClassName = "OLL.MonitoringService.AlertHandling.AlertRule"
+ 	Set rset.QueryName = "GetAlertRule"
+ 	
+ 	Set alertRule = ""
+ 	
+ 	Do rset.Execute(alertObj.alertLevel,
+ 					alertObj.instance,
+ 					alertObj.alertMessage,
+ 					alertObj.namespace,
+ 					alertObj.businessHost,
+ 					alertObj.businessObjectId,
+ 					alertObj.businessObjectType,
+ 					alertObj.sourceSystem,
+ 					alertObj.targetSystem)
+ 	
+ 	Set id = -1 
+	
+	 While (rset.Next(.sc))
+     {
+        If ($SYSTEM.Status.IsOK(sc))
+            {
+	            Set id = rset.Data("ID")
+                Quit
+            }
+        Else
+            {
+                w !,"ERR: ",sc,!
+                Quit
+            }
+     }
+ If $SYSTEM.Status.IsError(sc)
+     {
+     	Write sc
+     }	     
+
+    if id = -1 {
+	} else {
+		Set alertRule = ##class(OLL.MonitoringService.AlertHandling.AlertRule).%OpenId(id)
+		
+	}
+	quit alertRule
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^OLL.Monito421E.AlertRuleHa998FD</DataLocation>
+<DefaultData>AlertRuleHandlerDefaultData</DefaultData>
+<IdLocation>^OLL.Monito421E.AlertRuleHa998FD</IdLocation>
+<IndexLocation>^OLL.Monito421E.AlertRuleHa998FI</IndexLocation>
+<StreamLocation>^OLL.Monito421E.AlertRuleHa998FS</StreamLocation>
+<Data name="AlertRuleHandlerDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>alertRuleId</Value>
+</Value>
+<Value name="3">
+<Value>rulePriority</Value>
+</Value>
+<Value name="4">
+<Value>ruleDescription</Value>
+</Value>
+<Value name="5">
+<Value>ruleAdditionalMessage</Value>
+</Value>
+<Value name="6">
+<Value>ruleGenerateSNMPTrap</Value>
+</Value>
+<Value name="7">
+<Value>ruleSendMail</Value>
+</Value>
+<Value name="8">
+<Value>ruleMailReceivers</Value>
+</Value>
+<Value name="9">
+<Value>alertLevel</Value>
+</Value>
+<Value name="10">
+<Value>alertMessage</Value>
+</Value>
+<Value name="11">
+<Value>alertTimeStamp</Value>
+</Value>
+<Value name="12">
+<Value>businessHost</Value>
+</Value>
+<Value name="13">
+<Value>businessObjectId</Value>
+</Value>
+<Value name="14">
+<Value>businessObjectType</Value>
+</Value>
+<Value name="15">
+<Value>jobId</Value>
+</Value>
+<Value name="16">
+<Value>keyProperties</Value>
+</Value>
+<Value name="17">
+<Value>method</Value>
+</Value>
+<Value name="18">
+<Value>namespace</Value>
+</Value>
+<Value name="19">
+<Value>sessionId</Value>
+</Value>
+<Value name="20">
+<Value>source</Value>
+</Value>
+<Value name="21">
+<Value>sourceSystem</Value>
+</Value>
+<Value name="22">
+<Value>targetSystem</Value>
+</Value>
+<Value name="23">
+<Value>matchAlertLevel</Value>
+</Value>
+<Value name="24">
+<Value>matchAlertMessage</Value>
+</Value>
+<Value name="25">
+<Value>matchNamespace</Value>
+</Value>
+<Value name="26">
+<Value>matchBusinessHost</Value>
+</Value>
+<Value name="27">
+<Value>matchBusinessObjectId</Value>
+</Value>
+<Value name="28">
+<Value>matchBusinessObjectType</Value>
+</Value>
+<Value name="29">
+<Value>matchJobId</Value>
+</Value>
+<Value name="30">
+<Value>matchMethod</Value>
+</Value>
+<Value name="31">
+<Value>matchSessionId</Value>
+</Value>
+<Value name="32">
+<Value>matchSource</Value>
+</Value>
+<Value name="33">
+<Value>matchSourceSystem</Value>
+</Value>
+<Value name="34">
+<Value>matchTargetSystem</Value>
+</Value>
+<Value name="35">
+<Value>alertRuleInstance</Value>
+</Value>
+<Value name="36">
+<Value>matchInstance</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

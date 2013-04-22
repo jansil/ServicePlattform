@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.Service.AlertProcessingTriggerService.ProcessingTriggerService">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.BusinessService</Super>
+<TimeCreated>62544,60414.595291</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.File.InboundAdapter</Default>
+</Parameter>
+
+<Property name="TargetConfigName">
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>TargetConfigName</Default>
+</Parameter>
+
+<Method name="OnProcessInput">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set tSC = $$$OK
+	// hämta/hantera ev alerts
+	/*set handler = ##class(OLL.MonitoringService.ReportHandling.AlertReportHandler).%New()
+	set tSC = handler.ProcessAlerts()
+	
+	If $$$ISERR(tSC) 
+	{
+		$$$sysTRACE("Kunde inte hantera alerts")
+	}*/
+	
+	set pRequest = ##class(Ens.Request).%New()
+		
+	set tSC = ..SendRequestAsync(..TargetConfigName,pRequest)
+	 
+	Quit tSC
+]]></Implementation>
+</Method>
+</Class>
+</Export>

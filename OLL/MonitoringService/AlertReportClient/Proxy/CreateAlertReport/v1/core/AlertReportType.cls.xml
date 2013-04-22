@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.core.AlertReportType">
+<Description>
+Created from: d:/ensemble_instances/ensutv/db/mvk/createalertreport_1.0/schemas/core_components/itintegration_monitoring_1.0.xsd</Description>
+<ClassType>persistent</ClassType>
+<CompileAfter/>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor</Super>
+<TimeCreated>62552,46040.822421</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:oll:itintegration:monitoring:1</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>AlertReportType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="AlertGUID">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="AlertGUID"/>
+</Property>
+
+<Property name="AlertTimeStamp">
+<Type>%TimeStamp</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="AlertTimeStamp"/>
+</Property>
+
+<Property name="AlertLevel">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="AlertLevel"/>
+</Property>
+
+<Property name="AlertMessage">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="AlertMessage"/>
+</Property>
+
+<Property name="Instance">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="Instance"/>
+</Property>
+
+<Property name="Namespace">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="Namespace"/>
+</Property>
+
+<Property name="BusinessHost">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="BusinessHost"/>
+</Property>
+
+<Property name="Source">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="Source"/>
+</Property>
+
+<Property name="Method">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="Method"/>
+</Property>
+
+<Property name="SessionId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="SessionId"/>
+</Property>
+
+<Property name="JobId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="JobId"/>
+</Property>
+
+<Property name="SourceSystem">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="SourceSystem"/>
+</Property>
+
+<Property name="TargetSystem">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="TargetSystem"/>
+</Property>
+
+<Property name="BusinessObjectType">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="BusinessObjectType"/>
+</Property>
+
+<Property name="BusinessObjectId">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="BusinessObjectId"/>
+</Property>
+
+<Property name="KeyProperties">
+<Type>OLL.MonitoringService.AlertReportClient.Proxy.CreateAlertReport.v1.core.KeyPropertiesType</Type>
+<Collection>list</Collection>
+<Parameter name="XMLNAME" value="KeyProperties"/>
+<Parameter name="XMLPROJECTION" value="ELEMENT"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^OLL.Monito2E41.AlertReport9054D</DataLocation>
+<DefaultData>AlertReportTypeDefaultData</DefaultData>
+<IdLocation>^OLL.Monito2E41.AlertReport9054D</IdLocation>
+<IndexLocation>^OLL.Monito2E41.AlertReport9054I</IndexLocation>
+<StreamLocation>^OLL.Monito2E41.AlertReport9054S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="AlertReportTypeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>AlertGUID</Value>
+</Value>
+<Value name="3">
+<Value>AlertTimeStamp</Value>
+</Value>
+<Value name="4">
+<Value>AlertLevel</Value>
+</Value>
+<Value name="5">
+<Value>AlertMessage</Value>
+</Value>
+<Value name="6">
+<Value>Instance</Value>
+</Value>
+<Value name="7">
+<Value>Namespace</Value>
+</Value>
+<Value name="8">
+<Value>BusinessHost</Value>
+</Value>
+<Value name="9">
+<Value>Source</Value>
+</Value>
+<Value name="10">
+<Value>Method</Value>
+</Value>
+<Value name="11">
+<Value>SessionId</Value>
+</Value>
+<Value name="12">
+<Value>JobId</Value>
+</Value>
+<Value name="13">
+<Value>SourceSystem</Value>
+</Value>
+<Value name="14">
+<Value>TargetSystem</Value>
+</Value>
+<Value name="15">
+<Value>BusinessObjectType</Value>
+</Value>
+<Value name="16">
+<Value>BusinessObjectId</Value>
+</Value>
+<Value name="17">
+<Value>KeyProperties</Value>
+</Value>
+<Value name="18">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
