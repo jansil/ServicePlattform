@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Message.SOAPException">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%RegisteredObject,%XML.Adaptor</Super>
+<TimeCreated>62937,38584.933726</TimeCreated>
+
+<Parameter name="XMLNAME">
+<Default>SoapException</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="ELEMENTQUALIFIED">
+</Parameter>
+
+<Property name="MessageId">
+<Type>%String</Type>
+<Parameter name="XMLNAME" value="MessageId"/>
+</Property>
+
+<Property name="Message">
+<Type>%String</Type>
+<Parameter name="XMLNAME" value="Message"/>
+</Property>
+</Class>
+</Export>

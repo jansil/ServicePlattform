@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Common.Exception">
+<Super>%Exception.AbstractException</Super>
+<TimeCreated>62927,47831.087178</TimeCreated>
+</Class>
+</Export>

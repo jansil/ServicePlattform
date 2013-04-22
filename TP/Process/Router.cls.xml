@@ -42,9 +42,30 @@ Configuration item to which to send messages</Description>
  		Set oVagval =##class(TK.Service.Vagval.SokVagval).%New()
 		Set oList = oVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPAction,pRequest.From,pRequest.To)
 		If (oList.Count() < 1) {
-	 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPAction _ " not found in service catalog.")
-	 		 		
-	 		$$$TRACE("No athorization records found in servicecatalog")
+	 		//Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPAction _ " not found in service catalog.")
+
+	 		$$$TRACE("No authorization records found in servicecatalog")
+			#Dim oSOAPMessage As TP.Message.SOAPException
+	 		Set oSOAPMessage=##class(TP.Message.SOAPException).%New()
+	 		Set oSOAPMessage.MessageId = "123456"
+	 		Set oSOAPMessage.Message = "You are not authorized to use the requested webservice!"
+	 			 		
+	 		#Dim oWriter as %XML.Writer
+			Set oWriter = ##class(%XML.Writer).%New()
+			Set oWriter.Indent = 1
+			Set oWriter.Charset = "ISO-8859-1"
+			Set tSC = oWriter.OutputToString()
+			Set tSC=oWriter.RootObject(oSOAPMessage)
+	 		
+	 		Set oSOAPResponse=##class(TP.Message.SOAPResponse).%New()
+	 		#dim sAckStream As %String
+	 		Set sAckStream = oWriter.GetXMLString()
+	 		
+	 		Set oSOAPResponse.EnvelopeStream = sAckStream
+	 		Set oSOAPResponse.Stream = sAckStream
+	 		$$$TRACE("SoapResponse1=" _ sAckStream)
+	 		
+	 		Set pResponse = oSOAPResponse
 	 		Quit
 	 		
  		}
@@ -65,7 +86,7 @@ Configuration item to which to send messages</Description>
 	 		Set tAddressURL = oList.GetAt(1).adress	
  		} 
  		Else {
-	 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPAction _ " not found in service catalog.")
+	 		Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPAction _ " not found in service catalog.")
 	 		
 	 		$$$TRACE("No virtialization records found in servicecatalog")
 	 		Quit
