@@ -33,12 +33,14 @@
  	#Dim auth As TK.Service.Vagval.tns.anropsBehorighetsInfoType
  	Set auth = ##class(TK.Service.Vagval.tns.anropsBehorighetsInfoType).%New()
     
+
     &sql(DECLARE C1 CURSOR FOR select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into 
     :anropsBehorighetsInfoId, :receiverId, :senderId, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from 
     TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where 
     a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and 
     t.HsaId = :sSenderId and k.Namnrymd = :sNameSpace and la.HsaId = :sReceiverId and 
     a.FromTidpunkt <= CURRENT_DATE and a.TomTidpunkt >= CURRENT_DATE)
+
 	    
 	&sql(OPEN C1)
 	&sql(FETCH C1)
