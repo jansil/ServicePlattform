@@ -36,8 +36,9 @@ List of table pane ids to apply preferences to</Description>
 	Set pTable.orderByClause = "HsaId"
 
 	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("HsaId")_"|width=25%|colName=HsaId|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Description")_"|width=30%|colName=Beskrivning|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("HsaId")_"|width=20%|colName=HsaId|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Description")_"|width=20%|colName=Beskrivning|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Address")_"|width=30%|colName=Adress|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=10%|colName=Version|filterType=text"
 	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this record for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
 	

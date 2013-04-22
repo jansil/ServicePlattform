@@ -4,7 +4,32 @@
 <Super>EnsLib.SOAP.GenericMessage</Super>
 <TimeCreated>62917,62690.145279</TimeCreated>
 
+<Property name="From">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
 <Property name="To">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="WSAFrom">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="WSATo">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="SOAPAction">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="SOAPNamespace">
 <Type>%String</Type>
 <Parameter name="MAXLEN" value="1000"/>
 </Property>
@@ -41,6 +66,21 @@
 </Value>
 <Value name="4">
 <Value>URL</Value>
+</Value>
+<Value name="5">
+<Value>WSATo</Value>
+</Value>
+<Value name="6">
+<Value>SOAPAction</Value>
+</Value>
+<Value name="7">
+<Value>From</Value>
+</Value>
+<Value name="8">
+<Value>SOAPNamespace</Value>
+</Value>
+<Value name="9">
+<Value>WSAFrom</Value>
 </Value>
 </Data>
 </Storage>
