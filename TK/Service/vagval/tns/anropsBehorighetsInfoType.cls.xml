@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Vagval.tns.anropsBehorighetsInfoType">
+<Description>
+Created from: D:\TrainingProjects\TP\SokVagvalsInfo_1.wsdl</Description>
+<CompileAfter>TK.Service.Vagval.tns.anropsBehorighetsInfoIdType</CompileAfter>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor</Super>
+<TimeCreated>62536,43263.233505</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:skl:tp:vagvalsinfo:v1</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>anropsBehorighetsInfoType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="anropsBehorighetsInfoId">
+<Type>TK.Service.Vagval.tns.anropsBehorighetsInfoIdType</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="anropsBehorighetsInfoId"/>
+</Property>
+
+<Property name="receiverId">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="receiverId"/>
+</Property>
+
+<Property name="senderId">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="senderId"/>
+</Property>
+
+<Property name="tjansteKontrakt">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="tjansteKontrakt"/>
+</Property>
+
+<Property name="fromTidpunkt">
+<Type>%TimeStamp</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="fromTidpunkt"/>
+</Property>
+
+<Property name="tomTidpunkt">
+<Type>%TimeStamp</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="tomTidpunkt"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^TK.Service578F.anropsBehorA1C6D</DataLocation>
+<DefaultData>anropsBehorighetsInfoTypeDefaultData</DefaultData>
+<IdLocation>^TK.Service578F.anropsBehorA1C6D</IdLocation>
+<IndexLocation>^TK.Service578F.anropsBehorA1C6I</IndexLocation>
+<StreamLocation>^TK.Service578F.anropsBehorA1C6S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="anropsBehorighetsInfoTypeDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>anropsBehorighetsInfoId</Value>
+</Value>
+<Value name="3">
+<Value>receiverId</Value>
+</Value>
+<Value name="4">
+<Value>senderId</Value>
+</Value>
+<Value name="5">
+<Value>tjansteKontrakt</Value>
+</Value>
+<Value name="6">
+<Value>fromTidpunkt</Value>
+</Value>
+<Value name="7">
+<Value>tomTidpunkt</Value>
+</Value>
+<Value name="8">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
