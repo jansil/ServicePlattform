@@ -42,9 +42,15 @@ Configuration item to which to send messages</Description>
  		Set oVagval =##class(TK.Service.Vagval.SokVagval).%New()
 		Set oList = oVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPAction,pRequest.From,pRequest.To)
 		If (oList.Count() < 1) {
+<<<<<<< .mine
 	 		//Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPAction _ " not found in service catalog.")
 
+=======
+	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPAction _ " not found in service catalog.")
+
+>>>>>>> .theirs
 	 		$$$TRACE("No authorization records found in servicecatalog")
+<<<<<<< .mine
 			#Dim oSOAPMessage As TP.Message.SOAPException
 	 		Set oSOAPMessage=##class(TP.Message.SOAPException).%New()
 	 		Set oSOAPMessage.MessageId = "123456"
@@ -66,6 +72,29 @@ Configuration item to which to send messages</Description>
 	 		$$$TRACE("SoapResponse1=" _ sAckStream)
 	 		
 	 		Set pResponse = oSOAPResponse
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
 	 		Quit
 	 		
  		}
