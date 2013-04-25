@@ -34,15 +34,45 @@ Configuration item to which to send messages</Description>
 		
 		//Get URL from service catalog
 		
+		#Dim oList As %ListOfObjects
+		#Dim oVagval As TK.Service.Vagval.SokVagval
+		//Check servicecatalog for authorization. Quit if not granted access rights.
+		
+		Set oList = ##class(%ListOfObjects).%New()
+ 		Set oVagval =##class(TK.Service.Vagval.SokVagval).%New()
+		Set oList = oVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPAction,pRequest.From,pRequest.To)
+		If (oList.Count() < 1) {
+	 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPAction _ " not found in service catalog.")
+	 		$$$TRACE("No authorization records found in servicecatalog")
+	 		Quit
+	 		
+ 		}
+		
+		
 		//Set tAddressURL = ##class(TK.Service.SearchService).GetAddress(pRequest.To)
 		
 		// New code. Stefan Kundel
-		#Dim oList As %ListOfObjects
-		#Dim oVagval As TK.Service.Vagval.SokVagval
+		$$$TRACE("Searching servicecatalog. SOAP action:" _ pRequest.SOAPAction _ " TO:" _ pRequest.To)
+		
 		Set oList = ##class(%ListOfObjects).%New()
  		Set oVagval =##class(TK.Service.Vagval.SokVagval).%New()
- 		Set oList = oVagval.hamtaAllaVirtualiseringar(pRequest.To)
- 		Set tAddressURL = oList.GetAt(1).adress
+ 		//Set oList = oVagval.hamtaAllaVirtualiseringar("urn:riv:crm:scheduling:GetAllTimeTypes:1:rivtabp20","",pRequest.To)
+ 		Set oList = oVagval.hamtaAllaVirtualiseringar(pRequest.SOAPAction,"",pRequest.To)
+ 		
+ 		If (oList.Count() > 0) {
+	 		$$$TRACE("Virtialization records found in servicecatalog")
+	 		Set tAddressURL = oList.GetAt(1).adress	
+ 		} 
+ 		Else {
+	 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPAction _ " not found in service catalog.")
+	 		
+	 		$$$TRACE("No virtialization records found in servicecatalog")
+	 		Quit
+	 		
+ 		}
+ 		
+ 		
+ 		
 		//
 		
 		
