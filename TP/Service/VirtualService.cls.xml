@@ -29,7 +29,6 @@
 		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
 		Set tSC=..resolveAndIndex(tRequest)
 		If ($$$ISERR(tSC)) { Quit }
-		
 		set tUrl = tRequest.HTTPHeaders.GetAt("URL")
 		$$$LOGINFO(tUrl)
 		
@@ -47,15 +46,18 @@
 		Set tSoapHeaderFrom = ""
 		Set tWsaTo = ""
 		Set tWsaFrom = ""
+		
 		Set tRequest.SOAPAction = ""
 		
 		//Get SOAP Action from HTTP header
 		If (tRequest.HTTPHeaders.GetAt("soapaction") '= "") {
+			$$$TRACE("Trying to get HTTP Header soapaction:")
 			Set tRequest.SOAPAction = $REPLACE(tRequest.HTTPHeaders.GetAt("soapaction"), $Char(34), "")
 			$$$TRACE("Value from HTTP Header soapaction: " _ tRequest.SOAPAction)
 		}
 		
 		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.EnvelopeStream, .txPath)
+		
 		
 		//Get SOAP Header To
 		Set txPath.PrefixMappings = ""
@@ -76,7 +78,16 @@
 			$$$TRACE("Value from SOAP Header From " _ tSoapHeaderFrom)
 		}
 		
+		//Get namespace from HTTP header
+		$$$TRACE("Trying to get HTTP Header targetNamespace:")
+		If (tRequest.HTTPHeaders.GetAt("targetnamespace") '= "") {
+			Set tRequest.SOAPNamespace = $REPLACE(tRequest.HTTPHeaders.GetAt("targetnamespace"), $Char(34), "")
+			$$$TRACE("Value from HTTP Header targetNamespace: " _ tRequest.SOAPNamespace)
+		}
+		
+		
 		//Get namespace
+		
 		Set txPath.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
 		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope", "@xmlns:urn", .tList)
 		set ^aa1 = tList.Count()
@@ -140,6 +151,8 @@
 		}
 		
 		Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)
+		
+		
 		If ($$$ISERR(tSC)) { Quit }
 		
 		#; Adapter will reassemble response stream from message envelope/header and body streams; here we prepare the streams
@@ -148,6 +161,7 @@
 			Set tSC=tResponse.EnvelopeDoc.OutputToLibraryStream(tEnvelopeStream,..%VDocFormat)
 			Do:$$$ISERR(tSC) ..ReturnMethodStatusFault(tSC)
 		} Else {
+			
 			Set tEnvelopeStream=tResponse.EnvelopeStream
 		}
 		If $IsObject(tResponse.Doc) && ('$IsObject(tResponse.Stream) || 'tResponse.Stream.Size) {

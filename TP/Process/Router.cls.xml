@@ -42,16 +42,9 @@ Configuration item to which to send messages</Description>
  		Set tVagval =##class(TK.Service.Vagval.SokVagval).%New()
 		Set tList = tVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPNamespace,pRequest.From,pRequest.To)
 		If (tList.Count() < 1) {
-		
-	 		//Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPAction _ " not found in service catalog.")
-
-
+			$$$TRACE("No authorization records found in servicecatalog")
 	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
-
-
-	 		$$$TRACE("No authorization records found in servicecatalog")
-
-			
+	
 	 		Quit
 	 		
  		}
