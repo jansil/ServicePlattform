@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Operation.DiscoveryOperation">
+<Super>EnsLib.HTTP.GenericOperation</Super>
+<TimeCreated>62938,51764.320802</TimeCreated>
+
+<Method name="OnMessage">
+<Description>
+Invoke a remote HTTP Service given a generic HTTP request</Description>
+<FormalSpec>pRequest:TP.Message.DiscoveryRequest,*pResponse:TP.Message.DiscoveryResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tSC=$$$OK, ..%HttpRequest.Location=""  Do ..%HttpRequest.SetHeader("HOST",""), ..%HttpRequest.Reset()
+
+	#; Pass along selected HTTP headers
+	Set (tReq,tURL,tCT,tLen)="",tDoNotPassThrough=","_$ZCVT(..%ExcludeOutboundHeaders,"L")_",content-length,host,content-type,url,httprequest,version,charencoding,translationtable,iparams,params,"
+	Set tHeaderKey="" For { Set tHeaderKey=pRequest.HTTPHeaders.Next(tHeaderKey)  Quit:""=tHeaderKey  Set tHeaderLwr=$ZCVT(tHeaderKey,"L")
+		Do:tDoNotPassThrough'[(","_tHeaderLwr_",") ..%HttpRequest.SetHeader(tHeaderKey,pRequest.HTTPHeaders.GetAt(tHeaderKey)) ; no need to handle multiple on one line
+		Set:tHeaderLwr="httprequest" tReq=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+		Set:tHeaderLwr="url" tURL=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+		Set:tHeaderLwr="content-type" tCT=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+		Set:tHeaderLwr="content-length" tLen=pRequest.HTTPHeaders.GetAt(tHeaderKey)
+	}
+	Set ..%HttpRequest.ContentType=tCT
+	Set tSC=..constructHTTPRequest(pRequest,tLen,tCT)  Quit:$$$ISERR(tSC) tSC
+	
+	Set ..Adapter.HTTPServer = pRequest.Host
+	Set ..Adapter.HTTPPort = pRequest.Port
+	Set tURL = pRequest.URL
+
+	#; Now send to the target address
+#dim tHttpResponse As %Net.HttpResponse
+	Set tSC=..Adapter.SendFormDataArray(.tHttpResponse,$S(""=tReq:"GET",1:tReq),..%HttpRequest,,,$Case(..Adapter.URL,"":tURL,"*":tURL,:..Adapter.URL))
+
+	#; Suppress HTTP status errors and just pass back the status, headers and body
+	Set:$$$ISERR(tSC)&&$$$StatusEquals(tSC,$$$EnsErrHTTPStatus) tSC=$$$OK
+	Quit ..constructResponse(tHttpResponse,.pResponse)
+]]></Implementation>
+</Method>
+</Class>
+</Export>

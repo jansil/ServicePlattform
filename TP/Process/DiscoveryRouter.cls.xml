@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Process.DiscoveryRouter">
+<ClassType>persistent</ClassType>
+<Super>Ens.BusinessProcess</Super>
+<TimeCreated>62938,51809.217748</TimeCreated>
+
+<Property name="TargetConfigName">
+<Description>
+Configuration item to which to send messages</Description>
+<Type>Ens.DataType.ConfigName</Type>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>TargetConfigName</Default>
+</Parameter>
+
+<Method name="OnRequest">
+<FormalSpec>pRequest:TP.Message.DiscoveryRequest,*pResponse:TP.Message.DiscoveryResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#Dim tSC As %Status
+	Set tSC = $$$OK
+	
+	//TODO: Get WSDL URL based on incoming URL
+	
+	//http://localhost:57773/csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl
+	Set pRequest.Host = "localhost"
+	Set pRequest.Port = "57773"
+	Set pRequest.URL = "csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl"
+	
+	Set tSC = ..SendRequestSync(..TargetConfigName, pRequest, .pResponse)
+	
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>DiscoveryRouterDefaultData</DefaultData>
+<Data name="DiscoveryRouterDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"DiscoveryRouter"</Subscript>
+<Value name="1">
+<Value>TargetConfigName</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
