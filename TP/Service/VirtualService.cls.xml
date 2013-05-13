@@ -87,9 +87,28 @@
 		
 		
 		//Get namespace
+		$$$TRACE("Trying to get SOAP header namespace:")
+		//Set txPath.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
+		//Set tSC = txPath.EvaluateExpression("/soapenv:Envelope", "@xmlns:urn", .tList)
+		//Set txPath.PrefixMappings = ""
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/.", "namespace::*", .tList)
 		
-		Set txPath.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
-		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope", "@xmlns:urn", .tList)
+		If tList.Count() > 0 {
+			For i=1:1:tList.Count() {
+				if $Find(tList.GetAt(i).Value,"urn:riv") > 0 {
+					Set tRequest.SOAPNamespace = tList.GetAt(i).Value
+					Continue
+				}
+			} 
+		$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)	
+		}
+		/*
+		$$$TRACE("tList.count=" _tList.Count())
+		$$$TRACE("tList1=" _tList.GetAt(1).Value)
+		$$$TRACE("tList2=" _tList.GetAt(2).Value)
+		$$$TRACE("tList3=" _tList.GetAt(3).Value)
+		$$$TRACE("tList1=" _tList.GetAt(4).Value)
+		
 		set ^aa1 = tList.Count()
 		If (tList.Count() > 0) {
 			Set txPathRes = tList.GetAt(1)
@@ -97,7 +116,7 @@
 			Set tRequest.SOAPNamespace = txPathRes.Value
 			
 			$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)
-		}
+		}*/
 		
 		//Get WS-Addressing To SOAP Header
 		Set txPath.PrefixMappings = "wsa http://www.w3.org/2005/08/addressing"
