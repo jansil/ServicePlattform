@@ -5,6 +5,17 @@
 <Super>EnsLib.SOAP.GenericService</Super>
 <TimeCreated>62341,81962.678718</TimeCreated>
 
+<UDLText name="T">
+<Content><![CDATA[
+// Parameter NAMESPACE = "ISC";
+
+]]></Content>
+</UDLText>
+
+<Parameter name="SERVICENAME">
+<Default>TP.Service.VirtualService</Default>
+</Parameter>
+
 <Parameter name="ADAPTER">
 <Default>EnsLib.SOAP.InboundAdapter</Default>
 </Parameter>
@@ -24,12 +35,23 @@
 	
 	Try {
 	 	#Dim tResponse As GenericMessage
-
+		/*
+		Set tSoapFault = ##class(%SOAP.Fault).%New()
+					Set tSoapFault.faultcode = $$$FAULTClient
+					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.detail = "kaka"
+					
+					Do ..ReturnFault(tSoapFault)
+		*/
+		//Set ^aa = "aa"
+		
 		Set pResponseBody=$$$NULLOREF
 		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
 		Set tSC=..resolveAndIndex(tRequest)
 		If ($$$ISERR(tSC)) { Quit }
+		
 		set tUrl = tRequest.HTTPHeaders.GetAt("URL")
+		//Set ^aa = tUrl _ " " _ $H
 		$$$LOGINFO(tUrl)
 		
 		//Get SOAP Header
@@ -41,23 +63,22 @@
 		#Dim tSoapHeaderFrom As %String
 		#Dim tWsaTo As %String
 		#Dim tWsaFrom As %String
+		#Dim tLogicalAddress As %String
 		
 		Set tSoapHeaderTo = ""
 		Set tSoapHeaderFrom = ""
 		Set tWsaTo = ""
 		Set tWsaFrom = ""
-		
 		Set tRequest.SOAPAction = ""
+		Set tLogicalAddress = ""
 		
 		//Get SOAP Action from HTTP header
 		If (tRequest.HTTPHeaders.GetAt("soapaction") '= "") {
-			$$$TRACE("Trying to get HTTP Header soapaction:")
 			Set tRequest.SOAPAction = $REPLACE(tRequest.HTTPHeaders.GetAt("soapaction"), $Char(34), "")
 			$$$TRACE("Value from HTTP Header soapaction: " _ tRequest.SOAPAction)
 		}
 		
 		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.EnvelopeStream, .txPath)
-		
 		
 		//Get SOAP Header To
 		Set txPath.PrefixMappings = ""
@@ -78,46 +99,43 @@
 			$$$TRACE("Value from SOAP Header From " _ tSoapHeaderFrom)
 		}
 		
-		//Get namespace from HTTP header
-		$$$TRACE("Trying to get HTTP Header targetNamespace:")
-		If (tRequest.HTTPHeaders.GetAt("targetnamespace") '= "") {
-			Set tRequest.SOAPNamespace = $REPLACE(tRequest.HTTPHeaders.GetAt("targetnamespace"), $Char(34), "")
-			$$$TRACE("Value from HTTP Header targetNamespace: " _ tRequest.SOAPNamespace)
-		}
-		
-		
-		//Get namespace
-		$$$TRACE("Trying to get SOAP header namespace:")
-		//Set txPath.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
-		//Set tSC = txPath.EvaluateExpression("/soapenv:Envelope", "@xmlns:urn", .tList)
-		//Set txPath.PrefixMappings = ""
-		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/.", "namespace::*", .tList)
-		
-		If tList.Count() > 0 {
-			For i=1:1:tList.Count() {
-				if $Find(tList.GetAt(i).Value,"urn:riv") > 0 {
-					Set tRequest.SOAPNamespace = tList.GetAt(i).Value
-					Continue
-				}
-			} 
-		$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)	
-		}
-		/*
-		$$$TRACE("tList.count=" _tList.Count())
-		$$$TRACE("tList1=" _tList.GetAt(1).Value)
-		$$$TRACE("tList2=" _tList.GetAt(2).Value)
-		$$$TRACE("tList3=" _tList.GetAt(3).Value)
-		$$$TRACE("tList1=" _tList.GetAt(4).Value)
-		
-		set ^aa1 = tList.Count()
+		//Get LogicalAddress from SOAP header
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/*[local-name()='LogicalAddress']", "text()", .tList)
 		If (tList.Count() > 0) {
 			Set txPathRes = tList.GetAt(1)
-			set ^aa2 = txPathRes.Value
-			Set tRequest.SOAPNamespace = txPathRes.Value
+			Set tLogicalAddress = txPathRes.Value
 			
-			$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)
-		}*/
+			$$$TRACE("Value from SOAP Header LogicalAddress: " _ tLogicalAddress)
+		}
 		
+		//Get prefix and namespace for root namespace from Body
+		#Dim txPathBody As %XML.XPATH.Document
+		#Dim txPathBodyRes As %XML.XPATH.ValueResult
+		#Dim tListBody As %ListOfObjects
+		#Dim tBodyPrefix As %String
+		#Dim tBodyNamespace As %String
+		
+		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.Stream, .txPathBody)
+		Set txPathBody.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
+		
+		//Get prefix
+		Set tSC = txPathBody.EvaluateExpression("/soapenv:Body/*", "name()", .tListBody)
+		If (tListBody.Count() > 0) {
+			Set txPathBodyRes = tListBody.GetAt(1)
+			Set tBodyPrefix = $PIECE(txPathBodyRes.Value, ":", 1)
+		}
+		
+		//Get namespace
+		Set tSC = txPathBody.EvaluateExpression("/soapenv:Body/*", "namespace::" _ tBodyPrefix, .tListBody)
+		If (tListBody.Count() > 0) {
+			Set txPathBodyRes = tListBody.GetAt(1)
+			Set tBodyNamespace = txPathBodyRes.Value
+			Set tRequest.SOAPNamespace = txPathBodyRes.Value
+			
+			$$$TRACE("Value from SOAP Body root namespace " _ tRequest.SOAPNamespace)
+		}
+		
+				
 		//Get WS-Addressing To SOAP Header
 		Set txPath.PrefixMappings = "wsa http://www.w3.org/2005/08/addressing"
 		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:To", "text()", .tList)
@@ -138,6 +156,16 @@
 			
 			$$$TRACE("Value from SOAP Header WSA-From: " _ tWsaFrom)
 		}
+		Else {
+			Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:From", "text()", .tList)
+			If (tList.Count() > 0) {
+				Set txPathRes = tList.GetAt(1)
+				Set tWsaFrom = txPathRes.Value
+				Set tRequest.WSAFrom = tWsaFrom
+			
+				$$$TRACE("Value from SOAP Header WSA-From: " _ tWsaFrom)
+			}
+		}
 		
 		//Get WS-Addressing SOAP action
 		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:Action", "text()", .tList)
@@ -148,12 +176,27 @@
 			$$$TRACE("Value from SOAP Header WSA-Action: " _ tRequest.SOAPAction)
 		}
 		
+		//If WSA-To is empty but we have value in LogicalAddress, use it
+		If ((tWsaTo = "") && (tLogicalAddress '= "")) { Set tWsaTo = tLogicalAddress }
+		
 		//If WSA-To existed, use that for routing, otherwise old SOAP Header To field
 		If (tWsaTo '= "") {
 			Set tRequest.To = tWsaTo
 		}
 		Else {
 			Set tRequest.To = tSoapHeaderTo
+		}
+		
+		//Get certificate from HTTP header (IIS)
+		If (tRequest.HTTPHeaders.GetAt("x-arr-clientcert") '= "") {
+			Set tCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-arr-clientcert"), $Char(34), "")
+			$$$TRACE("Value from HTTP Header x-arr-clientcert: " _ tCertificate)
+		}
+		
+		//Get certificate from HTTP header (Apache)
+		If (tRequest.HTTPHeaders.GetAt("x-Apache-clientcert") '= "") {
+			Set tCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-Apache-clientcert"), $Char(34), "")
+			$$$TRACE("Value from HTTP Header x-Apache-clientcert: " _ tCertificate)
 		}
 		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
@@ -170,9 +213,36 @@
 		}
 		
 		Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)
-		
-		
-		If ($$$ISERR(tSC)) { Quit }
+		If ($$$ISERR(tSC)) {
+			//set ^aa = "Error: " _ tSC
+			Do $system.Status.DecomposeStatus(tSC, .err)
+			//set ^aa1 = ""
+			For i=1:1:$Get(err) { set ^aa1 = ^aa1 _ "Error(" _ i _ ") = " _ err(i) _ " / " }
+			
+			If ($FIND(err(1), "ERROR #999") > 0) {
+				//Set ^aa = "FIND"
+				If (..SoapVersion = "1.2") {
+					Set tSoapFault = ##class(%SOAP.Fault12).%New()
+					Set tSoapFault.faultcode = $$$FAULTSender
+					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.detail = err(1)
+					
+					Do ..ReturnFault(tSoapFault)
+				}
+				Else {
+					Set tSoapFault = ##class(%SOAP.Fault).%New()
+					Set tSoapFault.faultcode = $$$FAULTClient
+					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.detail = err(1)
+					
+					//set ^aa = "FIND2222"
+					Do ..ReturnFault(tSoapFault)
+					//set ^aa = "FIND3"
+				}
+			}
+			
+			Quit
+		}
 		
 		#; Adapter will reassemble response stream from message envelope/header and body streams; here we prepare the streams
 		If $IsObject(tResponse.EnvelopeDoc) && ('$IsObject(tResponse.EnvelopeStream) || 'tResponse.EnvelopeStream.Size) {
@@ -180,7 +250,6 @@
 			Set tSC=tResponse.EnvelopeDoc.OutputToLibraryStream(tEnvelopeStream,..%VDocFormat)
 			Do:$$$ISERR(tSC) ..ReturnMethodStatusFault(tSC)
 		} Else {
-			
 			Set tEnvelopeStream=tResponse.EnvelopeStream
 		}
 		If $IsObject(tResponse.Doc) && ('$IsObject(tResponse.Stream) || 'tResponse.Stream.Size) {
@@ -225,6 +294,35 @@ Return non-zero to prevent default validation of the message (if any);</Descript
 	}
 	
 	Quit 0
+]]></Implementation>
+</Method>
+
+<Method name="OnRequestMessage">
+<Description><![CDATA[
+Callback when a SOAP request message has been received.  
+The OnRequestMessage callback is called after security processing has taken place.
+This callback will not be called in the case of a security error.<br><br>
+
+The mode argument specifies the type of SOAP request "SOAP" or "binary".<br>
+The action argument contains the value of SOAPAction header.<br>
+The request argument contains the SOAP request message in a stream.<br><br>
+The CSP %request object is available at the time of the call.
+The %request.Content property will contain the raw request message.
+For a MIME SOAP request, the individual MIME parts may be retrieved using the %request.NextMimeData method.<br>
+Various properties of the web service class that are set during initiaization may be useful:
+ImportHandler - DOM for parsed SOAP request message.<br>
+SecurityIn - Security header<br>
+SecurityNamespace - Namespace for Security header<br>
+SoapFault - set if SOAP faut has been generated.<br><br>
+
+If the SoapFault property is set by the OnRequestMessage callback, then a SOAP fault will be
+written instead of calling the web method.  The ReturnFaut method should not be called from OnRequestMessage.]]></Description>
+<FormalSpec>mode:%String,action:%String,request:%Stream.Object</FormalSpec>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	set ^aa = mode _ "/" _ action _ "/" 
+	
+	Quit
 ]]></Implementation>
 </Method>
 </Class>
