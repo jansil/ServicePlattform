@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="EnsembleCertificateHelper.Main">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>System.Object</Super>
+<TimeCreated>62957,54091</TimeCreated>
+
+<Parameter name="IMPORTTIMESTAMP">
+<Type>STRING</Type>
+<Default>2013-05-15 13:13:41</Default>
+</Parameter>
+
+<Method name="%OnNew">
+<FormalSpec><![CDATA[&p0:%ObjectHandle]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	If '$D(p0) If ($IO["TCP") { Quit $$$OK } Else { Set x=$$$ERROR($$$RemoteGatewayError,"Gateway instance must be supplied") Zt "JGTW" }
+	Quit ..%Constructor(p0,"EnsembleCertificateHelper.Main",0)
+]]></Implementation>
+</Method>
+
+<Method name="GetCertificateInfo">
+<FormalSpec><![CDATA[&p0:%ObjectHandle]]></FormalSpec>
+<ReturnType>%ObjectHandle</ReturnType>
+<Implementation><![CDATA[	Quit ..%IR("GetCertificateInfo",.p0)
+]]></Implementation>
+</Method>
+</Class>
+</Export>

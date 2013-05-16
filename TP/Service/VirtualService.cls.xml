@@ -189,14 +189,24 @@
 		
 		//Get certificate from HTTP header (IIS)
 		If (tRequest.HTTPHeaders.GetAt("x-arr-clientcert") '= "") {
-			Set tCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-arr-clientcert"), $Char(34), "")
-			$$$TRACE("Value from HTTP Header x-arr-clientcert: " _ tCertificate)
+			#Dim tCommonName As %String
+			#Dim tRawCertificate As %String
+			Set tRawCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-arr-clientcert"), $Char(34), "")
+			
+			$$$TRACE("tRawCertificate=" _ tRawCertificate)
+			Set CertAdapter = ##class(TP.Common.DotNetGateway).%New()
+			Set tSC = CertAdapter.CreateNETGateway()
+			Set tCommonName = $PIECE(CertAdapter.GetCertificateSubject(tRawCertificate),", ")
+			Set tLength = $LENGTH(tCommonName)
+			Set tCommonName = $EXTRACT(tCommonName,14,tLength)
+			Set tSC = CertAdapter.CloseNETGateway()
+			Set tSoapHeaderFrom = tCommonName
+			$$$TRACE("Value from HTTP Header x-arr-clientcert: " _ tCommonName)
 		}
 		
 		//Get certificate from HTTP header (Apache)
 		If (tRequest.HTTPHeaders.GetAt("x-Apache-clientcert") '= "") {
-			Set tCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-Apache-clientcert"), $Char(34), "")
-			$$$TRACE("Value from HTTP Header x-Apache-clientcert: " _ tCertificate)
+			
 		}
 		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
