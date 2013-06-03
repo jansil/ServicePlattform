@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Common.CertificateHelper">
+<Super>%RegisteredObject</Super>
+<TimeCreated>62959,48488.582296</TimeCreated>
+
+<Method name="GetSerialNumber">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>cert:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	#Dim tCertBin As %Binary
+	#Dim tTemp As %String
+	#Dim tSerialNumber As %String
+	Set tSerialNumber = ""
+	
+	Set tCertBin = ##class(%xsd.base64Binary).XSDToLogical(cert)
+	Set tCert = ##class(%SYS.X509Credentials).%New()
+	Set tCert.Certificate = tCertBin
+	
+	Set tTemp = $PIECE(tCert.SubjectDN, ",", 1)
+	If ($ZCONVERT($PIECE(tTemp, "=", 1), "l") = "serialnumber") {
+		Set tSerialNumber = $PIECE(tTemp, "=", 2)
+	}
+	Else {
+		Set list = $LISTFROMSTRING(tTemp, ",")
+		For i=1:1:$LISTLENGTH(list)
+		{
+			If ($ZCONVERT($PIECE($LIST(list, i), "=", 1), "l") = "serialnumber") {
+				Set tSerialNumber = $PIECE($LIST(list, i), "=", 2)
+			}
+		}
+	}
+	
+	Quit tSerialNumber
+]]></Implementation>
+</Method>
+
+<Method name="Test">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	Set cert = "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"
+	
+	set cerNo = ##class(TP.Common.CertificateHelper).GetSerialNumber(cert)
+	
+	w cerNo, !
+]]></Implementation>
+</Method>
+</Class>
+</Export>
