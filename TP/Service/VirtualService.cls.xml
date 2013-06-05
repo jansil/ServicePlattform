@@ -266,7 +266,10 @@
 		
 		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
-		If (tWsaFrom '= "") {
+		If (tCommonName '= "") {
+			Set tRequest.From = tCommonName
+		}
+		ElseIf (tWsaFrom '= "") {
 			Set tRequest.From = tWsaFrom
 		}
 		Else {
@@ -279,59 +282,61 @@
 		}
 		
 		Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)
-		If ($$$ISERR(tResponse.Status) || $$$ISERR(tSC)) {
-			//set ^aa = "Error: " _ tSC
-			If ($$$ISERR(tSC)) {
-				Do $system.Status.DecomposeStatus(tSC, .err)
-			}
-			Else {
-				Do $system.Status.DecomposeStatus(tResponse.Status, .err)
-			}
-			set s = ""
-			For i=1:1:$Get(err) { set s = s _ "Error(" _ i _ ") = " _ err(i) _ " / " }
-			//set ^aa1 = s
-			
-			If ($FIND(err(1), "ERROR #999") > 0) {
-				//Set ^aa = "FIND"
-				If (..SoapVersion = "1.2") {
-					Set tSoapFault = ##class(%SOAP.Fault12).%New()
-					Set tSoapFault.faultcode = $$$FAULTSender
-					Set tSoapFault.faultstring = "Address not found in service catalog."
-					Set tSoapFault.detail = err(1)
-					
-					Do ..ReturnFault(tSoapFault)
+		If ($$$ISERR(tSC)) {
+			If ($$$ISERR(tResponse.Status)) {
+				//set ^aa = "Error: " _ tSC
+				If ($$$ISERR(tSC)) {
+					Do $system.Status.DecomposeStatus(tSC, .err)
 				}
 				Else {
-					Set tSoapFault = ##class(%SOAP.Fault).%New()
-					Set tSoapFault.faultcode = $$$FAULTClient
-					Set tSoapFault.faultstring = "Address not found in service catalog."
-					Set tSoapFault.detail = err(1)
-					
-					//set ^aa = "FIND2222"
-					Do ..ReturnFault(tSoapFault)
-					//set ^aa = "FIND3"
+					Do $system.Status.DecomposeStatus(tResponse.Status, .err)
 				}
-			}
-			Else {
-				If (..SoapVersion = "1.2") {
-					Set tSoapFault = ##class(%SOAP.Fault12).%New()
-					Set tSoapFault.faultcode = $$$FAULTSender
-					Set tSoapFault.faultstring = "Exception"
-					Set tSoapFault.detail = err(1)
+				set s = ""
+				For i=1:1:$Get(err) { set s = s _ "Error(" _ i _ ") = " _ err(i) _ " / " }
+				//set ^aa1 = s
+			
+				If ($FIND(err(1), "ERROR #999") > 0) {
+					//Set ^aa = "FIND"
+					If (..SoapVersion = "1.2") {
+						Set tSoapFault = ##class(%SOAP.Fault12).%New()
+						Set tSoapFault.faultcode = $$$FAULTSender
+						Set tSoapFault.faultstring = "Address not found in service catalog."
+						Set tSoapFault.detail = err(1)
 					
-					Do ..ReturnFault(tSoapFault)
+						Do ..ReturnFault(tSoapFault)
+					}
+					Else {
+						Set tSoapFault = ##class(%SOAP.Fault).%New()
+						Set tSoapFault.faultcode = $$$FAULTClient
+						Set tSoapFault.faultstring = "Address not found in service catalog."
+						Set tSoapFault.detail = err(1)
+					
+						//set ^aa = "FIND2222"
+						Do ..ReturnFault(tSoapFault)
+						//set ^aa = "FIND3"
+					}
 				}
 				Else {
-					Set tSoapFault = ##class(%SOAP.Fault).%New()
-					Set tSoapFault.faultcode = $$$FAULTClient
-					Set tSoapFault.faultstring = "Exception"
-					Set tSoapFault.detail = err(1)
+					If (..SoapVersion = "1.2") {
+						Set tSoapFault = ##class(%SOAP.Fault12).%New()
+						Set tSoapFault.faultcode = $$$FAULTSender
+						Set tSoapFault.faultstring = "Exception"
+						Set tSoapFault.detail = err(1)
 					
-					Do ..ReturnFault(tSoapFault)
+						Do ..ReturnFault(tSoapFault)
+					}
+					Else {
+						Set tSoapFault = ##class(%SOAP.Fault).%New()
+						Set tSoapFault.faultcode = $$$FAULTClient
+						Set tSoapFault.faultstring = "Exception"
+						Set tSoapFault.detail = err(1)
+					
+						Do ..ReturnFault(tSoapFault)
+					}
 				}
-			}
 			
-			Quit
+				Quit
+			}
 		}
 		
 		#; Adapter will reassemble response stream from message envelope/header and body streams; here we prepare the streams
