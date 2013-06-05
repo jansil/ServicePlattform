@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Service.DiscoveryService">
+<Super>EnsLib.HTTP.GenericService</Super>
+<TimeCreated>62938,51672.870107</TimeCreated>
+
+<Method name="OnProcessInput">
+<FormalSpec><![CDATA[pRequestBody:%CharacterStream,pResponseBody:%CharacterStream,&pAction:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+ 	#Dim tResponse As GenericMessage
+
+	Set pResponseBody=$$$NULLOREF
+	Set tRequest=##class(TP.Message.DiscoveryRequest).%New(pRequestBody,,pRequestBody)
+	Set tSC=..resolveAndIndex(tRequest)  Quit:$$$ISERR(tSC) tSC
+	
+	Set ^aa = tRequest.HTTPHeaders.GetAt("URL")
+	
+	Quit:..OneWay ..SendRequestAsync(..TargetConfigName,tRequest)
+
+	Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)  Quit:$$$ISERR(tSC) tSC
+	Set pResponseBody=tResponse.Stream
+	Quit tSC
+]]></Implementation>
+</Method>
+</Class>
+</Export>
