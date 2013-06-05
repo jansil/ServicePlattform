@@ -105,7 +105,7 @@ Configuration item to which to send messages</Description>
 		Set tSC = ..SendRequestSync(..TargetConfigName, pRequest, .pResponse)
 	}
 	Catch tException {
-		Set tSC = tException.AsStatus()
+		Set pResponse.Status = tException.AsStatus()
 	}
 	
 	Quit tSC

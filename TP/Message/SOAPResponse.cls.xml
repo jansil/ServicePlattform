@@ -4,6 +4,11 @@
 <Super>EnsLib.SOAP.GenericMessage</Super>
 <TimeCreated>62917,62717.08324</TimeCreated>
 
+<Property name="Status">
+<Type>%Status</Type>
+<InitialExpression>$$$OK</InitialExpression>
+</Property>
+
 <Storage name="Default">
 <Type>%Library.CacheStorage</Type>
 </Storage>

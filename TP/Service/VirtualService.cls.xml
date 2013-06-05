@@ -275,12 +275,17 @@
 		}
 		
 		Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)
-		If ($$$ISERR(tSC)) {
+		If ($$$ISERR(tResponse.Status) || $$$ISERR(tSC)) {
 			//set ^aa = "Error: " _ tSC
-			Do $system.Status.DecomposeStatus(tSC, .err)
+			If ($$$ISERR(tSC)) {
+				Do $system.Status.DecomposeStatus(tSC, .err)
+			}
+			Else {
+				Do $system.Status.DecomposeStatus(tResponse.Status, .err)
+			}
 			set s = ""
 			For i=1:1:$Get(err) { set s = s _ "Error(" _ i _ ") = " _ err(i) _ " / " }
-			//Set ^aa1 = s
+			//set ^aa1 = s
 			
 			If ($FIND(err(1), "ERROR #999") > 0) {
 				//Set ^aa = "FIND"
@@ -301,6 +306,24 @@
 					//set ^aa = "FIND2222"
 					Do ..ReturnFault(tSoapFault)
 					//set ^aa = "FIND3"
+				}
+			}
+			Else {
+				If (..SoapVersion = "1.2") {
+					Set tSoapFault = ##class(%SOAP.Fault12).%New()
+					Set tSoapFault.faultcode = $$$FAULTSender
+					Set tSoapFault.faultstring = "Exception"
+					Set tSoapFault.detail = err(1)
+					
+					Do ..ReturnFault(tSoapFault)
+				}
+				Else {
+					Set tSoapFault = ##class(%SOAP.Fault).%New()
+					Set tSoapFault.faultcode = $$$FAULTClient
+					Set tSoapFault.faultstring = "Exception"
+					Set tSoapFault.detail = err(1)
+					
+					Do ..ReturnFault(tSoapFault)
 				}
 			}
 			
