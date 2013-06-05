@@ -252,6 +252,10 @@
 		ElseIf (tRequest.HTTPHeaders.GetAt("x-vp-auth-cert") '= "") {
 			//Apache
 			Set tRawCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-vp-auth-cert"), $Char(34), "")
+			Set pos = $FIND(tRawCertificate, "-----BEGIN CERTIFICATE----- ")
+			Set tRawCertificate = $EXTRACT(tRawCertificate, pos, *)
+			Set pos = $FIND(tRawCertificate, " -----END")
+			Set tRawCertificate = $EXTRACT(tRawCertificate, 1, pos-10)
 		}
 		$$$TRACE("tRawCertificate=" _ tRawCertificate)
 		
