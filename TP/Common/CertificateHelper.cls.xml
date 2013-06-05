@@ -23,7 +23,7 @@
 		Set tSerialNumber = $PIECE(tTemp, "=", 2)
 	}
 	Else {
-		Set list = $LISTFROMSTRING(tTemp, ",")
+		Set list = $LISTFROMSTRING(tCert.SubjectDN, ",")
 		For i=1:1:$LISTLENGTH(list)
 		{
 			If ($ZCONVERT($PIECE($LIST(list, i), "=", 1), "l") = "serialnumber") {
