@@ -43,7 +43,7 @@
 					
 					Do ..ReturnFault(tSoapFault)
 		*/
-		//Set ^aa = "aa"
+		Set ^aa = "aa"
 		
 		Set pResponseBody=$$$NULLOREF
 		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
@@ -55,7 +55,6 @@
 		$$$LOGINFO(tUrl)
 		
 		//Get SOAP Header
-		//TODO: Check which RIV-TA version
 		#Dim txPath As %XML.XPATH.Document
 		#Dim txPathRes As %XML.XPATH.ValueResult
 		#Dim tList As %ListOfObjects
@@ -135,7 +134,53 @@
 			$$$TRACE("Value from SOAP Body root namespace " _ tRequest.SOAPNamespace)
 		}
 		
-				
+		//Get namespace
+		/*
+		Set tSC = txPath.EvaluateExpression("/*", "namespace::*", .tList)
+		If (tList.Count() > 0) {
+			For i=1:1:tList.Count() {
+				Set txPathRes = tList.GetAt(i)
+				If (txPathRes.Value = tBodyNamespace) {
+					Set tRequest.SOAPNamespace = txPathRes.Value
+				}
+			}
+			
+			
+			$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)
+		}
+		*/
+		
+		/*************
+		
+		IIS
+		
+		**************/
+		
+		//Get original url from ARR x-original-url HTTP header
+		//This header is used to create the correct SOAP namespace
+		#Dim tOriginalURL As %String
+		#Dim tRivVersion As %String
+		Set tOriginalURL = ""
+		Set tRivVersion = ""
+		If (tRequest.HTTPHeaders.GetAt("x-original-url") '= "") {
+			//IIS, Apache
+			Set tOriginalURL = $REPLACE(tRequest.HTTPHeaders.GetAt("x-original-url"), $Char(34), "")
+			
+		        //Set tRequest.SOAPNamespace = $REPLACE($REPLACE(tOriginalURL,"/csp/","urn:riv:crm:"),"/",":")
+		        //$$$TRACE("Value from HTTP Header x-original-url: " _ tRequest.SOAPNamespace)
+		}
+		$$$LOGINFO("OrigURL: " _ tOriginalURL)
+		Set tRequest.OriginalURL = tOriginalURL
+		If (tOriginalURL '= "") {
+			Set list = $LISTFROMSTRING(tOriginalURL, "/")
+			For i=1:1:$LISTLENGTH(list) {
+				If ($ZCONVERT($EXTRACT($LIST(list, i), 1, 3), "L") = "riv") {
+					Set tRivVersion = $LIST(list, i)
+					Set tRequest.SOAPNamespace = tRequest.SOAPNamespace _ ":" _ tRivVersion
+				}
+			}
+		}
+		
 		//Get WS-Addressing To SOAP Header
 		Set txPath.PrefixMappings = "wsa http://www.w3.org/2005/08/addressing"
 		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/wsa:To", "text()", .tList)
@@ -187,27 +232,34 @@
 			Set tRequest.To = tSoapHeaderTo
 		}
 		
-		//Get certificate from HTTP header (IIS)
-		If (tRequest.HTTPHeaders.GetAt("x-arr-clientcert") '= "") {
-			#Dim tCommonName As %String
-			#Dim tRawCertificate As %String
-			Set tRawCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-arr-clientcert"), $Char(34), "")
-			
-			$$$TRACE("tRawCertificate=" _ tRawCertificate)
-			Set CertAdapter = ##class(TP.Common.DotNetGateway).%New()
-			Set tSC = CertAdapter.CreateNETGateway()
-			Set tCommonName = $PIECE(CertAdapter.GetCertificateSubject(tRawCertificate),", ")
-			Set tLength = $LENGTH(tCommonName)
-			Set tCommonName = $EXTRACT(tCommonName,14,tLength)
-			Set tSC = CertAdapter.CloseNETGateway()
-			Set tSoapHeaderFrom = tCommonName
-			$$$TRACE("Value from HTTP Header x-arr-clientcert: " _ tCommonName)
+		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
+		If (tWsaFrom '= "") {
+			Set tRequest.From = tWsaFrom
+		}
+		Else {
+			Set tRequest.From = tSoapHeaderFrom
 		}
 		
-		//Get certificate from HTTP header (Apache)
-		If (tRequest.HTTPHeaders.GetAt("x-Apache-clientcert") '= "") {
-			
+		//Get certificate from HTTP header
+		#Dim tCommonName As %String
+		#Dim tRawCertificate As %String
+		Set tRawCertificate = ""
+		Set tCommonName = ""
+		If (tRequest.HTTPHeaders.GetAt("x-arr-clientcert") '= "") {
+			//IIS
+			Set tRawCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-arr-clientcert"), $Char(34), "")
 		}
+		ElseIf (tRequest.HTTPHeaders.GetAt("x-vp-auth-cert") '= "") {
+			//Apache
+			Set tRawCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-vp-auth-cert"), $Char(34), "")
+		}
+		$$$TRACE("tRawCertificate=" _ tRawCertificate)
+		
+		If (tRawCertificate '= "") {
+			Set tCommonName = ##class(TP.Common.CertificateHelper).GetSerialNumber(tRawCertificate)
+			$$$TRACE("Value from HTTP Header Common Name: " _ tCommonName)
+		}
+		
 		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
 		If (tWsaFrom '= "") {
@@ -226,8 +278,9 @@
 		If ($$$ISERR(tSC)) {
 			//set ^aa = "Error: " _ tSC
 			Do $system.Status.DecomposeStatus(tSC, .err)
-			//set ^aa1 = ""
-			For i=1:1:$Get(err) { set ^aa1 = ^aa1 _ "Error(" _ i _ ") = " _ err(i) _ " / " }
+			set s = ""
+			For i=1:1:$Get(err) { set s = s _ "Error(" _ i _ ") = " _ err(i) _ " / " }
+			//Set ^aa1 = s
 			
 			If ($FIND(err(1), "ERROR #999") > 0) {
 				//Set ^aa = "FIND"
@@ -304,35 +357,6 @@ Return non-zero to prevent default validation of the message (if any);</Descript
 	}
 	
 	Quit 0
-]]></Implementation>
-</Method>
-
-<Method name="OnRequestMessage">
-<Description><![CDATA[
-Callback when a SOAP request message has been received.  
-The OnRequestMessage callback is called after security processing has taken place.
-This callback will not be called in the case of a security error.<br><br>
-
-The mode argument specifies the type of SOAP request "SOAP" or "binary".<br>
-The action argument contains the value of SOAPAction header.<br>
-The request argument contains the SOAP request message in a stream.<br><br>
-The CSP %request object is available at the time of the call.
-The %request.Content property will contain the raw request message.
-For a MIME SOAP request, the individual MIME parts may be retrieved using the %request.NextMimeData method.<br>
-Various properties of the web service class that are set during initiaization may be useful:
-ImportHandler - DOM for parsed SOAP request message.<br>
-SecurityIn - Security header<br>
-SecurityNamespace - Namespace for Security header<br>
-SoapFault - set if SOAP faut has been generated.<br><br>
-
-If the SoapFault property is set by the OnRequestMessage callback, then a SOAP fault will be
-written instead of calling the web method.  The ReturnFaut method should not be called from OnRequestMessage.]]></Description>
-<FormalSpec>mode:%String,action:%String,request:%Stream.Object</FormalSpec>
-<ServerOnly>1</ServerOnly>
-<Implementation><![CDATA[
-	set ^aa = mode _ "/" _ action _ "/" 
-	
-	Quit
 ]]></Implementation>
 </Method>
 </Class>
