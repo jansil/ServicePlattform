@@ -35,7 +35,7 @@ List of table pane ids to apply preferences to</Description>
 
 <Query name="AnropsbehorighetView">
 <Type>%SQLQuery</Type>
-<SqlQuery>SELECT a.Id, a.Integrationsavtal, a.FromTidpunkt,  a.TomTidpunkt, a.Version, l.HsaId LogiskAdressat, cm.HsaId Tjanstekonsument, ct.Namnrymd Tjanstekontrakt
+<SqlQuery>SELECT a.Id, a.Integrationsavtal Integrationsavtal, a.FromTidpunkt,  a.TomTidpunkt, a.Version, l.HsaId LogiskAdressat, cm.HsaId Tjanstekonsument, ct.Namnrymd Tjanstekontrakt
  			FROM TK.Anropsbehorighet a
  			INNER JOIN TK.Logiskadressat l ON a.LogiskAdressat_id = l.id
  			INNER JOIN TK.Tjanstekomponent cm ON a.Tjanstekonsument_id = cm.Id
@@ -49,10 +49,11 @@ List of table pane ids to apply preferences to</Description>
 <Implementation><![CDATA[
 	Set pTable.orderByClause = "LogiskAdressat"
 
-	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=5%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Name")_"|width=15%|colName=Integrationsavtal|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Address")_"|width=25%|colName=LogiskAdressat|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Contract")_"|width=25%|colName=Tjanstekontrakt|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Component")_"|width=25%|colName=Tjanstekonsument|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Component")_"|width=15%|colName=Tjanstekonsument|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=10%|colName=Version|filterType=text"
 	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this entry for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
 	
@@ -104,6 +105,7 @@ List of table pane ids to apply preferences to</Description>
 <ZenMethod>1</ZenMethod>
 <Implementation><![CDATA[
 		Do pPage.%SetValueById("id", pModel.Id)
+		Do pPage.%SetValueById("integrationsavtal", pModel.Integrationsavtal)
 		Do pPage.%SetValueById("datefrom", $ZD(pModel.FromTidpunkt,3))
 		Do pPage.%SetValueById("dateto", $ZD(pModel.TomTidpunkt,3))
 		Do pPage.%SetValueById("addressee", pModel.LogiskAdressatid)
@@ -118,6 +120,7 @@ List of table pane ids to apply preferences to</Description>
 <ZenMethod>1</ZenMethod>
 <Implementation><![CDATA[
 		Set:pPage.%GetValueById("id")="" pModel.Id = 0
+		Set pModel.Integrationsavtal = pPage.%GetValueById("integrationsavtal")
 		Set pModel.FromTidpunkt = $ZDH(pPage.%GetValueById("datefrom"),3)
 		Set pModel.TomTidpunkt = $ZDH(pPage.%GetValueById("dateto"),3)
 		Set pModel.LogiskAdressatid = pPage.%GetValueById("addressee")
