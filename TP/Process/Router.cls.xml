@@ -22,6 +22,7 @@ Configuration item to which to send messages</Description>
 	#Dim tSC As %Status
 	#Dim tException As %Exception.SystemException
 	Set tSC = $$$OK
+	Set pResponse = ##class(TP.Message.SOAPResponse).%New()
 	
 	Try {
 		#Dim tAddressURL As %String
