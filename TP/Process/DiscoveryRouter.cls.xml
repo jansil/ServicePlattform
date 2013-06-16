@@ -20,14 +20,60 @@ Configuration item to which to send messages</Description>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
 	#Dim tSC As %Status
+	#Dim tWSDLURL As %String
+	#Dim tURLPart As %String
 	Set tSC = $$$OK
+	Set tWSDLURL = ""
 	
-	//TODO: Get WSDL URL based on incoming URL
+	//Get WSDL URL based on incoming URL
+	//The URL needs to look like this:
+	// https://localhost:8888/csp/crm/scheduling/MakeBooking/1.1/rivtabp21/TP.Service.VirtualService.cls?wsdl
+	
+	// /csp/crm/scheduling/MakeBooking/1/rivtabp20/TP.Service.VirtualService.cls
+	// /CSP/tpens/services/crm/scheduling/1.0/schemas/interactions/MakeBookingInteraction/MakeBookingInteraction_1.0_rivtabp20.wsdl
+	Set tWSDLURL = "csp/" _ $NAMESPACE _ "/services/"
+	Set list = $LISTFROMSTRING(pRequest.OriginalURL, "/")
+	#Dim tArea As %String
+	#Dim tSubArea As %String
+	#Dim tAction As %String
+	#Dim tVersion As %String
+	#Dim tRIVVersion As %String
+	For i=1:1:$LISTLENGTH(list) {
+		Set tURLPart = $LIST(list, i)
+		If (i = 2) {
+			//Skip (csp)
+		}
+		ElseIf (i = 3) {
+			//crm
+			Set tArea = tURLPart
+		}
+		ElseIf (i = 4) {
+			//scheduling
+			Set tSubArea = tURLPart
+		}
+		ElseIf (i = 5) {
+			//MakeBooking
+			Set tAction = tURLPart
+		}
+		ElseIf (i = 6) {
+			//Version
+			Set tVersion = tURLPart
+			If ($LENGTH(tVersion) < 2) { Set tVersion = tVersion _ ".0" }
+		}
+		ElseIf (i = 7) {
+			//RIV version
+			Set tRIVVersion = tURLPart
+		}
+	}
+	
+	//Build URL
+	Set tWSDLURL = tWSDLURL _ tArea _ "/"_ tSubArea _ "/" _ $REPLACE(tVersion, ".", "") _ "/schemas/interactions/" _ tAction _ "Interaction" _ "/" _ tAction _ "Interaction_" _ tVersion _ "_" _ tRIVVersion _ ".wsdl"
 	
 	//http://localhost:57773/csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl
 	Set pRequest.Host = "localhost"
 	Set pRequest.Port = "57773"
-	Set pRequest.URL = "csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl"
+	//Set pRequest.URL = "csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl"
+	Set pRequest.URL = tWSDLURL
 	
 	Set tSC = ..SendRequestSync(..TargetConfigName, pRequest, .pResponse)
 	
