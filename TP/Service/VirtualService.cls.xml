@@ -264,6 +264,10 @@
 			$$$TRACE("Value from HTTP Header Common Name: " _ tCommonName)
 		}
 		
+		If (tRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid") '= "") {
+			//From National Service Platform, overwrite Common Name
+			Set tCommonName = tRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid")
+		}
 		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
 		If (tCommonName '= "") {
