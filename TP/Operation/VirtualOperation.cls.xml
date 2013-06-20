@@ -40,6 +40,9 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 		Set tSOAP12=tCT["application/soap+xml"
 		Set tSC=..constructHTTPRequest(pRequest,tLen,tCT,tSOAP12)
 		If ($$$ISERR(tSC)) { Quit }
+		
+		//Add x-rivta-original-serviceconsumer-hsaid to HTTP header
+		Do ..%HttpRequest.SetHeader("x-rivta-original-serviceconsumer-hsaid",pRequest.From)
 
 		#; Now send to the target address
 		#dim tHttpResponse As %Net.HttpResponse
