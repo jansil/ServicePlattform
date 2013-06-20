@@ -35,39 +35,85 @@ Configuration item to which to send messages</Description>
 	Set list = $LISTFROMSTRING(pRequest.OriginalURL, "/")
 	#Dim tArea As %String
 	#Dim tSubArea As %String
+	#Dim tSubSubArea As %String
 	#Dim tAction As %String
 	#Dim tVersion As %String
 	#Dim tRIVVersion As %String
-	For i=1:1:$LISTLENGTH(list) {
-		Set tURLPart = $LIST(list, i)
-		If (i = 2) {
-			//Skip (csp)
+	#Dim tCount As %Integer
+	Set tSubSubArea = ""
+	Set tCount = $LISTLENGTH(list)
+	
+	If (tCount = 8) {
+		For i=1:1:$LISTLENGTH(list) {
+			Set tURLPart = $LIST(list, i)
+			If (i = 2) {
+				//Skip (csp)
+			}
+			ElseIf (i = 3) {
+				//crm
+				Set tArea = tURLPart
+			}
+			ElseIf (i = 4) {
+				//scheduling
+				Set tSubArea = tURLPart
+			}
+			ElseIf (i = 5) {
+				//MakeBooking
+				Set tAction = tURLPart
+			}
+			ElseIf (i = 6) {
+				//Version
+				Set tVersion = tURLPart
+				If ($LENGTH(tVersion) < 2) { Set tVersion = tVersion _ ".0" }
+			}
+			ElseIf (i = 7) {
+				//RIV version
+				Set tRIVVersion = tURLPart
+			}
 		}
-		ElseIf (i = 3) {
-			//crm
-			Set tArea = tURLPart
-		}
-		ElseIf (i = 4) {
-			//scheduling
-			Set tSubArea = tURLPart
-		}
-		ElseIf (i = 5) {
-			//MakeBooking
-			Set tAction = tURLPart
-		}
-		ElseIf (i = 6) {
-			//Version
-			Set tVersion = tURLPart
-			If ($LENGTH(tVersion) < 2) { Set tVersion = tVersion _ ".0" }
-		}
-		ElseIf (i = 7) {
-			//RIV version
-			Set tRIVVersion = tURLPart
+	}
+	Else {
+		//The URL contains an additional level
+		For i=1:1:$LISTLENGTH(list) {
+			Set tURLPart = $LIST(list, i)
+			If (i = 2) {
+				//Skip (csp)
+			}
+			ElseIf (i = 3) {
+				//crm
+				Set tArea = tURLPart
+			}
+			ElseIf (i = 4) {
+				//scheduling
+				Set tSubArea = tURLPart
+			}
+			ElseIf (i = 5) {
+				//scheduling
+				Set tSubSubArea = tURLPart
+			}
+			ElseIf (i = 6) {
+				//MakeBooking
+				Set tAction = tURLPart
+			}
+			ElseIf (i = 7) {
+				//Version
+				Set tVersion = tURLPart
+				If ($LENGTH(tVersion) < 2) { Set tVersion = tVersion _ ".0" }
+			}
+			ElseIf (i = 8) {
+				//RIV version
+				Set tRIVVersion = tURLPart
+			}
 		}
 	}
 	
 	//Build URL
-	Set tWSDLURL = tWSDLURL _ tArea _ "/"_ tSubArea _ "/" _ $REPLACE(tVersion, ".", "") _ "/schemas/interactions/" _ tAction _ "Interaction" _ "/" _ tAction _ "Interaction_" _ tVersion _ "_" _ tRIVVersion _ ".wsdl"
+	If (tCount = 8) {
+		Set tWSDLURL = tWSDLURL _ tArea _ "/"_ tSubArea _ "/" _ $REPLACE(tVersion, ".", "") _ "/schemas/interactions/" _ tAction _ "Interaction" _ "/" _ tAction _ "Interaction_" _ tVersion _ "_" _ tRIVVersion _ ".wsdl"
+	}
+	Else {
+		Set tWSDLURL = tWSDLURL _ tArea _ "/"_ tSubArea _ "/" _ $REPLACE(tVersion, ".", "") _ "/schemas/interactions/" _ tSubSubArea _ "/" _ tAction _ "Interaction" _ "/" _ tAction _ "Interaction_" _ tVersion _ "_" _ tRIVVersion _ ".wsdl"
+	}
 	
 	//http://localhost:57773/csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl
 	Set pRequest.Host = "localhost"
