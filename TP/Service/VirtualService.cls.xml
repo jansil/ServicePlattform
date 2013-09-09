@@ -34,7 +34,8 @@
 	Set tSC = $$$OK
 	
 	Try {
-	 	#Dim tResponse As GenericMessage
+	 	#Dim tResponse As TP.Message.SOAPResponse
+	 	
 		/*
 		Set tSoapFault = ##class(%SOAP.Fault).%New()
 					Set tSoapFault.faultcode = $$$FAULTClient
@@ -269,6 +270,7 @@
 			Set tCommonName = tRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid")
 		}
 		
+		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
 		If (tCommonName '= "") {
 			Set tRequest.From = tCommonName
@@ -286,8 +288,10 @@
 		}
 		
 		Set tSC=..SendRequestSync(..TargetConfigName,tRequest,.tResponse)
-		If ($$$ISERR(tSC)) {
-			If ($$$ISERR(tResponse.Status)) {
+		$$$TRACE("SendRequestSync error: " _ tSC)
+		$$$TRACE("Response.Status: " _ tResponse.Status)
+		If ($$$ISERR(tSC) || $$$ISERR(tResponse.Status)) {
+			
 				//set ^aa = "Error: " _ tSC
 				If ($$$ISERR(tSC)) {
 					Do $system.Status.DecomposeStatus(tSC, .err)
@@ -300,8 +304,10 @@
 				//set ^aa1 = s
 			
 				If ($FIND(err(1), "ERROR #999") > 0) {
+					$$$TRACE("SOAP fault" _ err(1))
 					//Set ^aa = "FIND"
 					If (..SoapVersion = "1.2") {
+						$$$TRACE("Soap fault 1.2")
 						Set tSoapFault = ##class(%SOAP.Fault12).%New()
 						Set tSoapFault.faultcode = $$$FAULTSender
 						Set tSoapFault.faultstring = "Address not found in service catalog."
@@ -310,6 +316,7 @@
 						Do ..ReturnFault(tSoapFault)
 					}
 					Else {
+						$$$TRACE("Soap fault standard")
 						Set tSoapFault = ##class(%SOAP.Fault).%New()
 						Set tSoapFault.faultcode = $$$FAULTClient
 						Set tSoapFault.faultstring = "Address not found in service catalog."
@@ -340,7 +347,7 @@
 				}
 			
 				Quit
-			}
+			
 		}
 		
 		#; Adapter will reassemble response stream from message envelope/header and body streams; here we prepare the streams
@@ -375,24 +382,6 @@
 	}
 	
 	Quit tSC
-]]></Implementation>
-</Method>
-
-<Method name="OnValidate">
-<Description>
-Override this method to implement your own custom method for validating an incoming Document
-Return non-zero to prevent default validation of the message (if any);</Description>
-<FormalSpec>pMsg:EnsLib.SOAP.GenericMessage,pValSpec:%String,*pStatus:%Status</FormalSpec>
-<ReturnType>%Boolean</ReturnType>
-<Implementation><![CDATA[
-	If (..Validation = "WSDL") {
-		
-	}
-	ElseIf (..Validation = "Body") {
-		
-	}
-	
-	Quit 0
 ]]></Implementation>
 </Method>
 </Class>

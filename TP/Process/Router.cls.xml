@@ -32,11 +32,42 @@ Configuration item to which to send messages</Description>
 		#Dim tPort As %String
 		#Dim tURL As %String
 		#Dim url As %String
+		#Dim tList As %ListOfObjects
+		#Dim tVagval As TK.Service.Vagval.SokVagval
+		
+		// New code. Stefan Kundel
+		// Check if a service exists and if the service is available
+		$$$TRACE("Searching servicecatalog. SOAP action:" _ pRequest.SOAPNamespace _ " TO:" _ pRequest.To)
+		//#Dim tList2 As %ListOfObjects
+		Set tList = ##class(%ListOfObjects).%New()
+ 		Set tVagval =##class(TK.Service.Vagval.SokVagval).%New()
+ 		//Set oList = oVagval.hamtaAllaVirtualiseringar("urn:riv:crm:scheduling:GetAllTimeTypes:1:rivtabp20","",pRequest.To)
+ 		Set tList = tVagval.hamtaAllaVirtualiseringar(pRequest.SOAPNamespace,"",pRequest.To)
+ 		
+ 		If (tList.Count() > 0) {
+	 		if ((tList.GetAt(1).fromTidpunkt <= $H) & (tList.GetAt(1).tomTidpunkt >= $H)) {
+		 		$$$TRACE("Virtualization records found in servicecatalog")
+	 			Set tAddressURL = tList.GetAt(1).adress		
+	 		} else {
+		 		
+		 		$$$TRACE("The requested service has been set to be not available in the service catalog")
+		 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
+		 		Throw ##class(TP.Common.Exception).%New("ServiceNotAvilableError",999,"TP.Process.Router","The requested service has been set to be not available in the service catalog")		
+	 		}
+	 		
+ 		} 
+ 		Else {
+	 		$$$TRACE("The requested service does not exist in the Service Catalog")
+	 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
+	 		Throw ##class(TP.Common.Exception).%New("ServiceNotExistError",998,"TP.Process.Router","The requested service does not exist in the Service Catalog!")
+	 		
+	 		
+	 	}
+		
 		
 		//Get URL from service catalog
 		
-		#Dim tList As %ListOfObjects
-		#Dim tVagval As TK.Service.Vagval.SokVagval
+		
 		//Check servicecatalog for authorization. Quit if not granted access rights.
 		
 		Set tList = ##class(%ListOfObjects).%New()
@@ -45,38 +76,8 @@ Configuration item to which to send messages</Description>
 		If (tList.Count() < 1) {
 			$$$TRACE("No authorization records found in servicecatalog")
 	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
-	
-	 		Quit
-	 		
+		 		
  		}
-		
-		
-		//Set tAddressURL = ##class(TK.Service.SearchService).GetAddress(pRequest.To)
-		
-		// New code. Stefan Kundel
-		$$$TRACE("Searching servicecatalog. SOAP action:" _ pRequest.SOAPNamespace _ " TO:" _ pRequest.To)
-		
-		Set tList = ##class(%ListOfObjects).%New()
- 		Set tVagval =##class(TK.Service.Vagval.SokVagval).%New()
- 		//Set oList = oVagval.hamtaAllaVirtualiseringar("urn:riv:crm:scheduling:GetAllTimeTypes:1:rivtabp20","",pRequest.To)
- 		Set tList = tVagval.hamtaAllaVirtualiseringar(pRequest.SOAPNamespace,"",pRequest.To)
- 		
- 		If (tList.Count() > 0) {
-	 		$$$TRACE("Virtialization records found in servicecatalog")
-	 		Set tAddressURL = tList.GetAt(1).adress	
- 		} 
- 		Else {
-	 		Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
-	 		
-	 		$$$TRACE("No virtialization records found in servicecatalog")
-	 		Quit
-	 		
- 		}
- 		
- 		
- 		
-		//
-		
 		
 		$$$TRACE("URL from Service Catalog: " _ tAddressURL)
 		

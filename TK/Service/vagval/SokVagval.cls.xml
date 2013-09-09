@@ -40,7 +40,7 @@
     a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and 
     t.HsaId = :sSenderId and k.Namnrymd = :sNameSpace and la.HsaId = :sReceiverId and 
     a.FromTidpunkt <= CURRENT_DATE and a.TomTidpunkt >= CURRENT_DATE)
-
+    $$$TRACE("SQL=select a.Id, la.HsaId, t.HsaId, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt from  TK.Anropsbehorighet a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la where a.Tjanstekontrakt_id = k.Id and a.Tjanstekonsument_id = t.Id and a.LogiskAdressat_id = la.Id and t.HsaId = " _ sSenderId _ " and k.Namnrymd = " _ sNameSpace _ " and la.HsaId = " _ sReceiverId _ " and a.FromTidpunkt <= " _ $ZDateTime($H,3) _ " and a.TomTidpunkt >= " _ $ZDateTime($H,3))
 	    
 	&sql(OPEN C1)
 	&sql(FETCH C1)
@@ -87,6 +87,9 @@
  // Web Service Method Implementation Goes Here.
  //Input may look like this contract=urn:riv:crm:scheduling:CancelBooking:1:rivtabp20;ReceiverId=SE2321000172-2B4D;RIVTA=RIVTABP20
  
+ $$$TRACE("ServiceContract=" _ sServiceContract)
+ $$$TRACE("SenderId=" _ sSenderId)
+ $$$TRACE("ReceiverId=" _ sReceiverId)
  #Dim tException As %Exception.SystemException
  #Dim tStatus, tmpStatus As %Status
  Set tStatus = $$$OK
@@ -103,7 +106,14 @@
 	//&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :rivProfil, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id)
 	//Ny sql  med where villkor för contrakt,SenderId och ReceiverId
 	
-	&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into :virtualiseringsInfoId, :receiverId, :adress, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id and k.namnrymd = :sServiceContract and la.HsaId = :sReceiverId)
+	&sql(DECLARE C2 CURSOR FOR select a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt into 
+	:virtualiseringsInfoId, :receiverId, :adress, :tjansteKontrakt, :fromTidpunkt, :tomTidpunkt 
+	from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r 
+	where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and 
+	a.LogiskAdressat_id = la.Id and k.namnrymd = :sServiceContract and la.HsaId = :sReceiverId)
+	
+	$$$TRACE("SQL=a.Id, t.HsaId, t.Adress, k.Namnrymd, a.FromTidpunkt, a.TomTidpunkt from TK.LogiskAdress a, TK.Tjanstekontrakt k, TK.Tjanstekomponent t, TK.LogiskAdressat la, TK.RivVersion r where a.Tjanstekontrakt_id = k.Id and a.Tjansteproducent_id = t.Id and a.Rivversion_id = r.Id and a.LogiskAdressat_id = la.Id and k.namnrymd = " _ sServiceContract _ " and la.HsaId = " _ sReceiverId _ " and a.FromTidpunkt <= " _ $ZDateTime($H,3) _ " and a.TomTidpunkt >=" _ $ZDateTime($H,3))
+	
 	&sql(OPEN C2)
 	&sql(FETCH C2)
 	
