@@ -73,6 +73,48 @@
 ]]></Implementation>
 </Method>
 
+<Method name="constructResponse">
+<Description>
+Split response Envelope and Body into separate streams</Description>
+<Internal>1</Internal>
+<FormalSpec>pHttpResponse:%Net.HttpResponse,pResponse:EnsLib.SOAP.GenericMessage</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tSC=$$$OK
+	If $IsObject(pHttpResponse.Data) {
+		Set tStream=pHttpResponse.Data
+	} Else {
+		Set tStream=##class(%GlobalBinaryStream).%New()
+		Set tSC=tStream.Write(pHttpResponse.Data)  Quit:$$$ISERR(tSC) tSC
+	}
+	If ..%SplitResponseBody {
+		Set tEnvelopeStream=##class(%Library.GlobalBinaryStream).%New()
+		#; Find starting element
+		Do ..getStartTag(tStream,.tStartTag,.tPrefix,.tNSAttrs)
+		If tStartTag'="Envelope" {  Quit $$$ERROR($$$EnsErrGeneral,"No SOAP Envelope found in SOAP Response <"_tPrefix_tStartTag_">") }
+		#; read in whole header if any, and body start tag
+		Set tSC=..copyUntil(tStream,tEnvelopeStream,"<"_tPrefix_"Body",1)  Quit:$$$ISERR(tSC) tSC
+		#; start new body stream, omit body contents from EnvelopeStream
+		Set tBodyStream = ##class(%GlobalCharacterStream).%New()
+		Set tSC=tBodyStream.Write("<"_tPrefix_"Body")  Quit:$$$ISERR(tSC)
+		#; copy namespace declarations to Body element in new body stream
+		Set tSC=tBodyStream.Write(tNSAttrs)  Quit:$$$ISERR(tSC)
+		#; read remainder of body into body stream
+		Set tSC=..copyUntil(tStream,tBodyStream,"</"_tPrefix_"Body>",1)  Quit:$$$ISERR(tSC)
+		#; write body close
+		Set tSC=tEnvelopeStream.Write("></"_tPrefix_"Body>")  Quit:$$$ISERR(tSC)
+		#; finally copy envelope close onto tail of %iaStream
+		Set tSC = ..copyStream(tStream,tEnvelopeStream)  Quit:$$$ISERR(tSC) tSC
+	} Else {
+		Set tEnvelopeStream=tStream
+		Set tBodyStream=$$$NULLOREF
+	}
+	Set pResponse=##class(TP.Message.SOAPResponse).%New(tBodyStream,,pHttpResponse,tEnvelopeStream)
+	Do pResponse.HTTPHeaders.SetAt(pHttpResponse.StatusLine,"StatusLine")
+	Quit tSC
+]]></Implementation>
+</Method>
+
 <UDLText name="T">
 <Content><![CDATA[
 // Code for Ensemble 2013.2+
