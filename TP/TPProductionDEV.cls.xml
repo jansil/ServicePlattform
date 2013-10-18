@@ -31,6 +31,9 @@
   </Item>
   <Item Name="TP.Operation.DiscoveryOperation" Category="" ClassName="TP.Operation.DiscoveryOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
+  <Item Name="TP.Metric.BusinessMetrics" Category="" ClassName="TP.Metric.BusinessMetrics" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="CallInterval">5</Setting>
+  </Item>
 </Production>
 ]]></Data>
 </XData>

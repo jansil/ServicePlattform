@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Metric.BusinessMetrics">
+<Super>Ens.BusinessMetric</Super>
+<TimeCreated>63089,58933.251504</TimeCreated>
+
+<Property name="AvgResponseTime">
+<Type>Ens.DataType.Metric</Type>
+<MultiDimensional>1</MultiDimensional>
+<Parameter name="AUTOHISTORY" value="50"/>
+<Parameter name="RANGELOWER" value="0"/>
+<Parameter name="RANGEUPPER" value="200"/>
+<Parameter name="UNITS" value="ms"/>
+</Property>
+
+<Method name="OnCalculateMetrics">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set host = "TP.Service.VirtualService"
+	Set host2 = "TP.Operation.VirtualOperation"
+	
+	// Calculate actual performance
+	&sql(select avg(datediff('millisecond', h1.timecreated, h1.timeprocessed) - datediff('millisecond', h2.timecreated, h2.timeprocessed)) 
+	     into :responsetime 
+	     from ens.messageheader h1, ens.messageheader h2 
+	     where h1.SourceConfigName = :host and h1.SessionId = h2.SessionId 
+	        and h2.TargetConfigName = :host2 
+	        and datediff('second',h1.timecreated, {fn NOW}) < 7230
+	
+	)
+	
+	set ..AvgResponseTime = responsetime
+	
+	quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>
