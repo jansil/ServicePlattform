@@ -5,13 +5,6 @@
 <Super>EnsLib.SOAP.GenericService</Super>
 <TimeCreated>62341,81962.678718</TimeCreated>
 
-<UDLText name="T">
-<Content><![CDATA[
-// Parameter NAMESPACE = "ISC";
-
-]]></Content>
-</UDLText>
-
 <Parameter name="SERVICENAME">
 <Default>TP.Service.VirtualService</Default>
 </Parameter>
@@ -19,6 +12,13 @@
 <Parameter name="ADAPTER">
 <Default>EnsLib.SOAP.InboundAdapter</Default>
 </Parameter>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Parameter ADAPTER;
+
+]]></Content>
+</UDLText>
 
 <Parameter name="SETTINGS">
 <Default>Validation</Default>
@@ -35,25 +35,13 @@
 	
 	Try {
 	 	#Dim tResponse As TP.Message.SOAPResponse
-	 	
-		/*
-		Set tSoapFault = ##class(%SOAP.Fault).%New()
-					Set tSoapFault.faultcode = $$$FAULTClient
-					Set tSoapFault.faultstring = "Address not found in service catalog."
-					Set tSoapFault.detail = "kaka"
-					
-					Do ..ReturnFault(tSoapFault)
-		*/
-		Set ^aa = "aa"
 		
 		Set pResponseBody=$$$NULLOREF
 		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
 		Set tSC=..resolveAndIndex(tRequest)
 		If ($$$ISERR(tSC)) { Quit }
 		
-		set tUrl = tRequest.HTTPHeaders.GetAt("URL")
-		//Set ^aa = tUrl _ " " _ $H
-		$$$LOGINFO(tUrl)
+		Set tUrl = tRequest.HTTPHeaders.GetAt("URL")		
 		
 		//Get SOAP Header
 		#Dim txPath As %XML.XPATH.Document
@@ -135,26 +123,8 @@
 			$$$TRACE("Value from SOAP Body root namespace " _ tRequest.SOAPNamespace)
 		}
 		
-		//Get namespace
-		/*
-		Set tSC = txPath.EvaluateExpression("/*", "namespace::*", .tList)
-		If (tList.Count() > 0) {
-			For i=1:1:tList.Count() {
-				Set txPathRes = tList.GetAt(i)
-				If (txPathRes.Value = tBodyNamespace) {
-					Set tRequest.SOAPNamespace = txPathRes.Value
-				}
-			}
-			
-			
-			$$$TRACE("Value from SOAP Header namespace " _ tRequest.SOAPNamespace)
-		}
-		*/
-		
 		/*************
-		
 		IIS
-		
 		**************/
 		
 		//Get original url from ARR x-original-url HTTP header
@@ -291,8 +261,6 @@
 		$$$TRACE("SendRequestSync error: " _ tSC)
 		$$$TRACE("Response.Status: " _ tResponse.Status)
 		If ($$$ISERR(tSC) || $$$ISERR(tResponse.Status)) {
-			
-				//set ^aa = "Error: " _ tSC
 				If ($$$ISERR(tSC)) {
 					Do $system.Status.DecomposeStatus(tSC, .err)
 				}
@@ -301,49 +269,24 @@
 				}
 				set s = ""
 				For i=1:1:$Get(err) { set s = s _ "Error(" _ i _ ") = " _ err(i) _ " / " }
-				//set ^aa1 = s
 			
-				If ($FIND(err(1), "ERROR #999") > 0) {
-					$$$TRACE("SOAP fault" _ err(1))
-					//Set ^aa = "FIND"
-					If (..SoapVersion = "1.2") {
-						$$$TRACE("Soap fault 1.2")
-						Set tSoapFault = ##class(%SOAP.Fault12).%New()
-						Set tSoapFault.faultcode = $$$FAULTSender
-						Set tSoapFault.faultstring = "Address not found in service catalog."
-						Set tSoapFault.detail = err(1)
-					
-						Do ..ReturnFault(tSoapFault)
-					}
-					Else {
-						$$$TRACE("Soap fault standard")
-						Set tSoapFault = ##class(%SOAP.Fault).%New()
-						Set tSoapFault.faultcode = $$$FAULTClient
-						Set tSoapFault.faultstring = "Address not found in service catalog."
-						Set tSoapFault.detail = err(1)
-					
-						//set ^aa = "FIND2222"
-						Do ..ReturnFault(tSoapFault)
-						//set ^aa = "FIND3"
-					}
+				If (..SoapVersion = "1.2") {
+					Set tSoapFault = ##class(%SOAP.Fault12).%New()
+					Set tSoapFault.faultcode = $$$FAULTSender
+					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.detail = err(1)
+				
+					//Do ..ReturnFault(tSoapFault)
+					Set tSC = $$$ERROR($$$GeneralError,err(1))
 				}
 				Else {
-					If (..SoapVersion = "1.2") {
-						Set tSoapFault = ##class(%SOAP.Fault12).%New()
-						Set tSoapFault.faultcode = $$$FAULTSender
-						Set tSoapFault.faultstring = "Exception"
-						Set tSoapFault.detail = err(1)
+					Set tSoapFault = ##class(%SOAP.Fault).%New()
+					Set tSoapFault.faultcode = $$$FAULTClient
+					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.detail = err(1)
 					
-						Do ..ReturnFault(tSoapFault)
-					}
-					Else {
-						Set tSoapFault = ##class(%SOAP.Fault).%New()
-						Set tSoapFault.faultcode = $$$FAULTClient
-						Set tSoapFault.faultstring = "Exception"
-						Set tSoapFault.detail = err(1)
-					
-						Do ..ReturnFault(tSoapFault)
-					}
+					//Do ..ReturnFault(tSoapFault)
+					Set tSC = $$$ERROR($$$GeneralError,err(1))
 				}
 			
 				Quit
