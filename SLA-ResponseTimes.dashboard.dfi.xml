@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Document name="SLA-ResponseTimes.dashboard.DFI">
+<dashboard xmlns="http://www.intersystems.com/deepsee/library" name="ResponseTimes" folderName="SLA" title="" description="" keywords="" owner="" shared="true" public="true" locked="false" resource="" timeCreated="2013-09-24T14:07:58.443Z" createdBy="Janne" scheme="" worklistCount="0" snapTo="true" snapGrid="false" gridRows="2" gridCols="2" canResize="true" canModify="true">
+  <widget name="" type="pivot" subtype="lineChart" title="" dataSource="TP.TPProductionDEV/TP.Metric.BusinessMetrics.metric" dataLink="" drillDownDataSource="" top="16" left="14" width="997" height="314" sidebarContent="" showSidebar="false" sidebarWidth="" maximized="false">
+    <control name="" action="refresh" target="*" targetProperty="" location="widget" type="timer" controlClass="" timeout="2" label="" title="" value="" text="" readOnly="false" valueList="" displayList="" activeWhen=""></control>
+  </widget>
+</dashboard>
+</Document></Export>
