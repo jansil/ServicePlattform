@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<lookupTable>
+<entry table="AddressTranslation" key="/ensembleft/csp/CheckBlocks/2/rivtabp21">ehr/blocking/20/schemas/interactions/accesscontrol/CheckBlocksInteraction/CheckBlocksInteraction_2.0_RIVTABP21.wsdl</entry>
+<entry table="AddressTranslation" key="/ensembleft/csp/GetAllBlocks/2/rivtabp21">ehr/blocking/20/schemas/interactions/querying/GetAllBlocksInteraction/GetAllBlocksInteraction_2.0_RIVTABP21.wsdl</entry>
+<entry table="AddressTranslation" key="/ensembleft/csp/MakeBooking/1/rivtabp20">crm/scheduling/10/schemas/interactions/MakeBookingInteraction/MakeBookingInteraction_1.0_rivtabp20.wsdl</entry>
+<entry table="AddressTranslation" key="/ensembleft/csp/MakeBooking/1/rivtabp21">crm/scheduling/11/schemas/interactions/MakeBookingInteraction/MakeBookingInteraction_1.1_rivtabp21.wsdl</entry>
+<entry table="AddressTranslation" key="/ensembleft/csp/itintegration/monitoring/PingForConfiguration/1.0/rivtabp20/TP.Service.VirtualService.cls">itintegration/monitoring/10/schemas/interactions/PingForConfigurationInteraction/PingForConfigurationInteraction_1.0_RIVTABP20.wsdl</entry>
+</lookupTable>
