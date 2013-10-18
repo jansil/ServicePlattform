@@ -26,7 +26,7 @@
     <Setting Target="Adapter" Name="Port">9990</Setting>
     <Setting Target="Host" Name="TargetConfigName">TP.Process.DiscoveryRouter</Setting>
   </Item>
-  <Item Name="TP.Process.DiscoveryRouter" Category="" ClassName="TP.Process.DiscoveryRouter" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="TP.Process.DiscoveryRouter" Category="" ClassName="TP.Process.DiscoveryRouter" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="TargetConfigName">TP.Operation.DiscoveryOperation</Setting>
   </Item>
   <Item Name="TP.Operation.DiscoveryOperation" Category="" ClassName="TP.Operation.DiscoveryOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">

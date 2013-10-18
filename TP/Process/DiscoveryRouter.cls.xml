@@ -11,8 +11,36 @@ Configuration item to which to send messages</Description>
 <Type>Ens.DataType.ConfigName</Type>
 </Property>
 
+<Property name="Host">
+<Description>
+Host where WSDLs exist</Description>
+<Type>%String</Type>
+<InitialExpression>"localhost"</InitialExpression>
+</Property>
+
+<Property name="Port">
+<Description>
+Port for host where WSDLs exist</Description>
+<Type>%String</Type>
+<InitialExpression>"57772"</InitialExpression>
+</Property>
+
+<Property name="BasePath">
+<Description>
+Base path for WSDL location</Description>
+<Type>%String</Type>
+<InitialExpression>"/CSP/tpens/services/"</InitialExpression>
+</Property>
+
+<Property name="LookupTable">
+<Description>
+Which Lookup table to use for path to WSDL translation</Description>
+<Type>%String</Type>
+<InitialExpression>"AddressTranslation"</InitialExpression>
+</Property>
+
 <Parameter name="SETTINGS">
-<Default>TargetConfigName</Default>
+<Default>TargetConfigName,Host,Port,BasePath,LookupTable</Default>
 </Parameter>
 
 <Method name="OnRequest">
@@ -26,99 +54,73 @@ Configuration item to which to send messages</Description>
 	Set tWSDLURL = ""
 	
 	//Get WSDL URL based on incoming URL
-	//The URL needs to look like this:
-	// https://localhost:8888/csp/crm/scheduling/MakeBooking/1.1/rivtabp21/TP.Service.VirtualService.cls?wsdl
+	Set tURLPart = pRequest.OriginalURL
 	
-	// /csp/crm/scheduling/MakeBooking/1/rivtabp20/TP.Service.VirtualService.cls
-	// /CSP/tpens/services/crm/scheduling/1.0/schemas/interactions/MakeBookingInteraction/MakeBookingInteraction_1.0_rivtabp20.wsdl
-	Set tWSDLURL = "csp/" _ $NAMESPACE _ "/services/"
-	Set list = $LISTFROMSTRING(pRequest.OriginalURL, "/")
-	#Dim tArea As %String
-	#Dim tSubArea As %String
-	#Dim tSubSubArea As %String
-	#Dim tAction As %String
-	#Dim tVersion As %String
-	#Dim tRIVVersion As %String
-	#Dim tCount As %Integer
-	Set tSubSubArea = ""
-	Set tCount = $LISTLENGTH(list)
-	
-	If (tCount = 8) {
-		For i=1:1:$LISTLENGTH(list) {
-			Set tURLPart = $LIST(list, i)
-			If (i = 2) {
-				//Skip (csp)
-			}
-			ElseIf (i = 3) {
-				//crm
-				Set tArea = tURLPart
-			}
-			ElseIf (i = 4) {
-				//scheduling
-				Set tSubArea = tURLPart
-			}
-			ElseIf (i = 5) {
-				//MakeBooking
-				Set tAction = tURLPart
-			}
-			ElseIf (i = 6) {
-				//Version
-				Set tVersion = tURLPart
-				If ($LENGTH(tVersion) < 2) { Set tVersion = tVersion _ ".0" }
-			}
-			ElseIf (i = 7) {
-				//RIV version
-				Set tRIVVersion = tURLPart
-			}
+	#Dim i As %Integer
+	#Dim tPos As %Integer
+	#Dim tCoreComponent As %Integer
+	#Dim tCorePath As %String
+	Set tCoreComponent = 0
+	Set tCorePath = ""
+	Set tList = $LISTFROMSTRING(pRequest.OriginalURL, "/")
+	Set tPos = 0
+	For i=1:1:$LISTLENGTH(tList) {
+		If ($FIND($ZCONVERT($LIST(tList,i),"L"), "rivta") > 0) {
+			Set tPos = i
 		}
-	}
-	Else {
-		//The URL contains an additional level
-		For i=1:1:$LISTLENGTH(list) {
-			Set tURLPart = $LIST(list, i)
-			If (i = 2) {
-				//Skip (csp)
-			}
-			ElseIf (i = 3) {
-				//crm
-				Set tArea = tURLPart
-			}
-			ElseIf (i = 4) {
-				//scheduling
-				Set tSubArea = tURLPart
-			}
-			ElseIf (i = 5) {
-				//scheduling
-				Set tSubSubArea = tURLPart
-			}
-			ElseIf (i = 6) {
-				//MakeBooking
-				Set tAction = tURLPart
-			}
-			ElseIf (i = 7) {
-				//Version
-				Set tVersion = tURLPart
-				If ($LENGTH(tVersion) < 2) { Set tVersion = tVersion _ ".0" }
-			}
-			ElseIf (i = 8) {
-				//RIV version
-				Set tRIVVersion = tURLPart
-			}
+		ElseIf ($FIND($ZCONVERT($LIST(tList,i),"L"), "core_component") > 0) {
+			Set tCoreComponent = i
 		}
 	}
 	
-	//Build URL
-	If (tCount = 8) {
-		Set tWSDLURL = tWSDLURL _ tArea _ "/"_ tSubArea _ "/" _ $REPLACE(tVersion, ".", "") _ "/schemas/interactions/" _ tAction _ "Interaction" _ "/" _ tAction _ "Interaction_" _ tVersion _ "_" _ tRIVVersion _ ".wsdl"
+	//Remove everything after rivta in url
+	If (tPos > 0) {
+		Set tURLPart = $PIECE(pRequest.OriginalURL,"/",1,tPos)
 	}
-	Else {
-		Set tWSDLURL = tWSDLURL _ tArea _ "/"_ tSubArea _ "/" _ $REPLACE(tVersion, ".", "") _ "/schemas/interactions/" _ tSubSubArea _ "/" _ tAction _ "Interaction" _ "/" _ tAction _ "Interaction_" _ tVersion _ "_" _ tRIVVersion _ ".wsdl"
+	If (tCoreComponent > 0) {
+		Set tCorePath = $PIECE(pRequest.OriginalURL,"/",tCoreComponent,$LENGTH(pRequest.OriginalURL,"/"))
 	}
 	
-	//http://localhost:57773/csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl
-	Set pRequest.Host = "localhost"
-	Set pRequest.Port = "57773"
-	//Set pRequest.URL = "csp/tpens/services/AvailablePatient/schemas/interactions/AssertCareEngagementInteraction/AssertCareEngagementInteraction_1.0_RIVTABP20.wsdl"
+	//Check if this is a request for .xsd file
+	#Dim tXSD As %Boolean
+	#Dim tXSDFile As %String
+	Set tXSD = 0
+	Set tXSDFile = ""
+	If ($EXTRACT(pRequest.OriginalURL, *-3, *) = ".xsd") {
+		Set tXSD = 1
+		Set tXSDFile = $PIECE(pRequest.OriginalURL,"/",$LENGTH(pRequest.OriginalURL,"/"))
+	}
+	
+	//Get WSDL path from Lookup Table
+	Try {
+		Set tWSDLURL = ..BasePath _ ^Ens.LookupTable(..LookupTable, tURLPart)
+	}
+	Catch {
+		Throw ##class(TP.Common.Exception).%New("InterfaceNotPublished","9999","TP.Process.DiscoveryRouter","The requested interface has not been published in the service platform.")
+	}
+	
+	//Check if this was a request for .xsd file
+	If (tXSD && (tCoreComponent = 0)) {
+		Set tWSDLURL = $PIECE(tWSDLURL,"/",1,$LENGTH(tWSDLURL,"/")-1) _ "/" _ tXSDFile
+	}
+	ElseIf(tXSD && tCoreComponent) {
+		#Dim j As %Integer
+		#Dim tPosSchema As %Integer
+		Set tListWSDL = $LISTFROMSTRING(tWSDLURL, "/")
+		Set tPosSchema = 0
+		For j=1:1:$LISTLENGTH(tListWSDL) {
+			If ($FIND($ZCONVERT($LIST(tListWSDL,j),"L"), "schema") > 0) {
+				Set tPosSchema = j
+			}
+		}
+		//Remove everything after schemas in url
+		If (tPosSchema > 0) {
+			Set tWSDLURL = $PIECE(tWSDLURL,"/",1,tPosSchema) _ "/" _ tCorePath
+		}
+	}
+	
+	Set pRequest.Host = ..Host
+	Set pRequest.Port = ..Port
 	Set pRequest.URL = tWSDLURL
 	
 	Set tSC = ..SendRequestSync(..TargetConfigName, pRequest, .pResponse)
@@ -135,6 +137,18 @@ Configuration item to which to send messages</Description>
 <Subscript>"DiscoveryRouter"</Subscript>
 <Value name="1">
 <Value>TargetConfigName</Value>
+</Value>
+<Value name="2">
+<Value>Host</Value>
+</Value>
+<Value name="3">
+<Value>Port</Value>
+</Value>
+<Value name="4">
+<Value>BasePath</Value>
+</Value>
+<Value name="5">
+<Value>LookupTable</Value>
 </Value>
 </Data>
 </Storage>
