@@ -31,7 +31,7 @@ If there are multiple data columns displayed in the dropdown list,
 this optional property defines a comma-delimited list of the column numbers
 of the column that should be displayed.</Description>
 <Type>%ZEN.Datatype.csv</Type>
-<InitialExpression>"2"</InitialExpression>
+<InitialExpression>"3"</InitialExpression>
 <Parameter name="ZENSETTING" value="0"/>
 </Property>
 
@@ -55,7 +55,7 @@ create a <class>%ResultSet</class> object.<br>
 If defined, this takes precedence over 
 <property>queryClass</property> and <property>queryName</property>.]]></Description>
 <Type>%ZEN.Datatype.sql</Type>
-<InitialExpression>"SELECT Id, HsaId FROM TK.Tjanstekomponent"</InitialExpression>
+<InitialExpression>"SELECT Id, HsaId, (HsaId _ '  ' _ Beskrivning) As Description FROM TK.Tjanstekomponent"</InitialExpression>
 </Property>
 
 <Property name="sqlLookup">
@@ -72,7 +72,7 @@ For example:<br>
 sqlLookup="SELECT Name FROM MyApp.MyTable WHERE ID = ?" 
 </example>]]></Description>
 <Type>%ZEN.Datatype.sql</Type>
-<InitialExpression>"SELECT HsaId FROM TK.Tjanstekomponent WHERE Id = ?"</InitialExpression>
+<InitialExpression>"SELECT (HsaId _ '  ' _ Beskrivning) As Description FROM TK.Tjanstekomponent WHERE Id = ?"</InitialExpression>
 <Parameter name="ZENSETTING" value="0"/>
 </Property>
 
