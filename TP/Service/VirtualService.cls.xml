@@ -36,6 +36,9 @@
 	Try {
 	 	#Dim tResponse As TP.Message.SOAPResponse
 		
+		// Handling for chuncked
+		Set %SplitBody = 1
+		
 		Set pResponseBody=$$$NULLOREF
 		Set tRequest=##class(TP.Message.SOAPRequest).%New(pRequestBody,,"%iaHeader",pRequestBody.GetAttribute("EnvelopeStream"),,##class(EnsLib.EDI.XML.Document).%New(..ImportHandler))
 		Set tSC=..resolveAndIndex(tRequest)
@@ -313,8 +316,11 @@
 		Else { Set tEnvelopeStream=pResponseBody } ; just to attach headers to
 
 		#; Pass along Status line and selected response HTTP headers
-		Set tSL="",tDoNotPassThrough=","_$ZCVT(..%ExcludeResponseHttpHeaders,"L")_",content-length,"
-		Set tHeaderKey="" For { Set tHeaderKey=tResponse.HTTPHeaders.Next(tHeaderKey)  Quit:""=tHeaderKey  Set tHeaderLwr=$ZCVT(tHeaderKey,"L")
+		Set tSL=""
+		Set tDoNotPassThrough=","_$ZCVT(..%ExcludeResponseHttpHeaders,"L")_",content-length,"
+		Set tHeaderKey=""
+		For { 
+			Set tHeaderKey=tResponse.HTTPHeaders.Next(tHeaderKey)  Quit:""=tHeaderKey  Set tHeaderLwr=$ZCVT(tHeaderKey,"L")
 			Set:tDoNotPassThrough'[(","_tHeaderLwr_",") tEnvelopeStream.Attributes("HttpHeaders",tHeaderKey)=tResponse.HTTPHeaders.GetAt(tHeaderKey) ; no need to handle multiple on one line
 			Set:tHeaderLwr="statusline" tSL=tResponse.HTTPHeaders.GetAt(tHeaderKey)
 		}

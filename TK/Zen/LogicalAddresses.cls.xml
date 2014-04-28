@@ -50,13 +50,13 @@ List of table pane ids to apply preferences to</Description>
 <Implementation><![CDATA[
 	Set pTable.orderByClause = "LogiskAdressat"
 
-	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Addressee")_"|width=20%|colName=LogiskAdressat|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Contract")_"|width=20%|colName=Tjanstekontrakt|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=5%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Addressee")_"|width=15%|colName=LogiskAdressat|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Contract")_"|width=40%|colName=Tjanstekontrakt|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Component")_"|width=20%|colName=Tjansteproducentid|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Riv Version")_"|width=10%|colName=RivVersion|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=10%|colName=Version|filterType=text"
-	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this RIV-TA profile for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=5%|colName=Version|filterType=text"
+	Set tCols($Increment(tCols))="|header=|width=5%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this RIV-TA profile for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
 	
 	For i=1:1:tCols {
 		Set tColumn = ##class(%ZEN.Auxiliary.column).%New()
@@ -77,10 +77,10 @@ List of table pane ids to apply preferences to</Description>
 <dateText id="datefrom" label="Date from"/>
 <dateText id="dateto" label="Date to"/>
 </hgroup>
-<c:addressee id="addressee" label="Addressee" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
-<c:rivVersion id="rivversion" label="Riv Version" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
-<c:tjansteKontrakt id="tjanstekontrakt" label="Contract" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
-<c:tjansteKomponent id="tjansteproducent" label="Component" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:addressee id="addressee" label="Addressee" size="100" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:rivVersion id="rivversion" label="Riv Version" size="100" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:tjansteKontrakt id="tjanstekontrakt" label="Contract" size="100" title="Define packages as a comma separated list of beginnings of package names"/>
+<c:tjansteKomponent id="tjansteproducent" label="Component" size="100" title="Define packages as a comma separated list of beginnings of package names"/>
 <text id="version" label="Version" size="8" />
 </pane>
 ]]></Data>
