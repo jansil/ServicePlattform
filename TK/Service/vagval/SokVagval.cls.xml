@@ -99,7 +99,7 @@
  	#Dim ret As %ListOfObjects
 	Set ret = ##class(%ListOfObjects).%New()
  
- 	#Dim virt As TK.Service.Vagval.tns.virtualiseringsInfoType
+ 	#Dim virt As TK.Service.Vagval.tns.virtualiseringsInfoTypeExtra
  	//Set virt = ##class(TK.Service.Vagval.tns.virtualiseringsInfoType).%New()
 	
 	//Orginal utan where villkor för contrakt,SenderId och ReceiverId
@@ -119,13 +119,14 @@
 	
 	While (SQLCODE = 0) {
     	
-    	Set virt = ##class(TK.Service.Vagval.tns.virtualiseringsInfoType).%New()
+    	Set virt = ##class(TK.Service.Vagval.tns.virtualiseringsInfoTypeExtra).%New()
     	Set virt.fromTidpunkt = fromTidpunkt
     	Set virt.receiverId = receiverId
     	Set virt.tjansteKontrakt = tjansteKontrakt
     	Set virt.tomTidpunkt = tomTidpunkt
     	Set virt.adress = adress
     	Set virt.virtualiseringsInfoId = virtualiseringsInfoId
+    	Set virt.sslconfig = sslconfig
     	Do ret.Insert(virt)
     	
     	

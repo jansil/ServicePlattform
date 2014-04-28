@@ -36,9 +36,10 @@ List of table pane ids to apply preferences to</Description>
 	Set pTable.orderByClause = "HsaId"
 
 	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("HsaId")_"|width=20%|colName=HsaId|filterType=text"
-	Set tCols($Increment(tCols))="|header="_$$$Text("Description")_"|width=20%|colName=Beskrivning|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("HsaId")_"|width=15%|colName=HsaId|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("Description")_"|width=15%|colName=Beskrivning|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Address")_"|width=30%|colName=Adress|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("SSLConfig")_"|width=10%|colName=SSLConfig|filterType=text"
 	Set tCols($Increment(tCols))="|header="_$$$Text("Version")_"|width=10%|colName=Version|filterType=text"
 	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this record for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
 	
@@ -60,6 +61,7 @@ List of table pane ids to apply preferences to</Description>
 </hgroup>
 <text id="description" label="Description" size="64" title="Define packages as a comma separated list of beginnings of package names"/>
 <text id="adress" label="Address" size="64" title="Address"/>
+<text id="sslconfig" label="SSLConfig" size="40" title="SSLConfig"/>
 <text id="version" label="Version" size="8" />
 </pane>
 ]]></Data>
@@ -82,6 +84,7 @@ List of table pane ids to apply preferences to</Description>
 		Do pPage.%SetValueById("hsaid", pModel.HsaId)
 		Do pPage.%SetValueById("description", pModel.Beskrivning)
 		Do pPage.%SetValueById("adress", pModel.Adress)
+		Do pPage.%SetValueById("sslconfig", pModel.SSLConfig)
 		Do pPage.%SetValueById("version", pModel.Version)
 ]]></Implementation>
 </Method>
@@ -94,6 +97,7 @@ List of table pane ids to apply preferences to</Description>
 		Set pModel.HsaId = pPage.%GetValueById("hsaid")
 		Set pModel.Beskrivning = pPage.%GetValueById("description")
 		Set pModel.Adress = pPage.%GetValueById("adress")
+		Set pModel.SSLConfig = pPage.%GetValueById("sslconfig")
 		Set pModel.Version = pPage.%GetValueById("version")
 ]]></Implementation>
 </Method>

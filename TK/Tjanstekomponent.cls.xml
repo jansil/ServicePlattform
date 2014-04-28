@@ -56,6 +56,11 @@ DDL Primary Key Specification</Description>
 <Parameter name="MAXLEN" value="255"/>
 </Property>
 
+<Property name="SSLConfig">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="100"/>
+</Property>
+
 <Property name="Version">
 <Type>%Library.Integer</Type>
 <Collection/>

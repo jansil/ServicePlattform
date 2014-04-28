@@ -47,7 +47,8 @@ Configuration item to which to send messages</Description>
  		If (tList.Count() > 0) {
 	 		if ((tList.GetAt(1).fromTidpunkt <= $H) & (tList.GetAt(1).tomTidpunkt >= $H)) {
 		 		$$$TRACE("Virtualization records found in servicecatalog")
-	 			Set tAddressURL = tList.GetAt(1).adress		
+	 			Set tAddressURL = tList.GetAt(1).adress
+	 			Set tSSLConfig = tList.GetAt(1).sslconfig
 	 		} else {
 		 		
 		 		$$$TRACE("The requested service has been set to be not available in the service catalog")
@@ -101,6 +102,7 @@ Configuration item to which to send messages</Description>
 		Set pRequest.Host = tHost
 		Set pRequest.Port = tPort
 		Set pRequest.URL = tURL
+		Set pRequest.SSLConfig = tSSLConfig
 	
 		$$$TRACE("Info from Service Catalog split:" _ $Char(13) _ $Char(10) _ "Host: " _ tHost _ "/Port: " _ tPort _ "/URL: " _ tURL)
 	

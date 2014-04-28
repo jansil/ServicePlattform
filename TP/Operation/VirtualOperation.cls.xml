@@ -19,7 +19,9 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 	Set tSC=$$$OK
 	
 	Try {
-		Set ..%HttpRequest.Location=""  Do ..%HttpRequest.SetHeader("HOST",""), ..%HttpRequest.Reset()
+		Set tSC=$$$OK, ..%HttpRequest.Location="", ..%HttpRequest.AcceptGzip=0, ..%HttpRequest.FollowRedirect=0, ..%HttpRequest.ReadRawMode=1
+		Do ..%HttpRequest.Reset()
+		Do ..%HttpRequest.RemoveHeader("HOST"), ..%HttpRequest.RemoveHeader("USER-AGENT"), ..%HttpRequest.RemoveHeader("REFERER")
 
 		#; Pass along selected HTTP headers
 		Set (tReq,tURL,tCT,tLen)="",tDoNotPassThrough=","_$ZCVT(..%ExcludeRequestHttpHeaders,"L")_",host,httprequest,url,version,content-length,content-type,"
@@ -34,10 +36,15 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 		}
 		Set ..Adapter.HTTPServer = pRequest.Host
 		Set ..Adapter.HTTPPort = pRequest.Port
+		If pRequest.SSLConfig '= "" {
+			Set ..Adapter.SSLConfig = pRequest.SSLConfig
+		}
+		
 		Set tURL = pRequest.URL
 		
 		Set ..%HttpRequest.ContentType=tCT
 		Set tSOAP12=tCT["application/soap+xml"
+		Set tLen = 1
 		Set tSC=..constructHTTPRequest(pRequest,tLen,tCT,tSOAP12)
 		If ($$$ISERR(tSC)) { Quit }
 		
@@ -53,6 +60,11 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 			Do ##class(%SYSTEM.Status).DecomposeStatus(tSC, .Err)
 			For i=1:1:$Get(Err) { set s = s _ "Err(" _ i _ ") = " _ Err(i) _ " / "}
 		 	$$$LOGERROR("Error: " _ tHttpResponse _ " / " _ s)
+		}
+		
+		//Ta bort SSLConfig efter anrop för att det ska fungera från icke SSL connections
+		If pRequest.SSLConfig '= "" {
+	   		Set ..Adapter.SSLConfig = ""
 		}
 		
 		#; Suppress HTTP status errors and just pass back the status, headers and body
