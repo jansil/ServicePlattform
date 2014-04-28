@@ -8,126 +8,12 @@
 <Default>EnsLib.HTTP.OutboundAdapter</Default>
 </Parameter>
 
-<UDLText name="T">
-<Content><![CDATA[
-// Code for Ensemble 2012.2.x - 2013.1.x
-
-]]></Content>
-</UDLText>
-
 <Method name="OnMessage">
+<Description>
+Invoke a remote SOAP Service given a generic SOAP request</Description>
 <FormalSpec>pRequest:TP.Message.SOAPRequest,*pResponse:TP.Message.SOAPResponse</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
-	#Dim tSC As %Status
-	#Dim tException As %Exception.SystemException
-	Set tSC=$$$OK
-	
-	Try {
-		Set ..%HttpRequest.Location=""  Do ..%HttpRequest.SetHeader("HOST",""), ..%HttpRequest.Reset()
-
-		#; Pass along selected HTTP headers
-		Set (tReq,tURL,tCT,tLen)="",tDoNotPassThrough=","_$ZCVT(..%ExcludeRequestHttpHeaders,"L")_",host,httprequest,url,version,content-length,content-type,"
-		Set tHeaderKey="" For { Set tHeaderKey=pRequest.HTTPHeaders.Next(tHeaderKey)  Quit:""=tHeaderKey  Set tHeaderLwr=$ZCVT(tHeaderKey,"L")
-			Do:tDoNotPassThrough'[(","_tHeaderLwr_",") ..%HttpRequest.SetHeader(tHeaderKey,pRequest.HTTPHeaders.GetAt(tHeaderKey)) ; no need to handle multiple on one line
-			Set:tHeaderLwr="httprequest" tReq=pRequest.HTTPHeaders.GetAt(tHeaderKey)
-			Set:tHeaderLwr="url" tURL=pRequest.HTTPHeaders.GetAt(tHeaderKey)
-			Set:tHeaderLwr="host" tHost=pRequest.HTTPHeaders.GetAt(tHeaderKey)
-			Set:tHeaderLwr="port" tPort=pRequest.HTTPHeaders.GetAt(tHeaderKey)
-			Set:tHeaderLwr="content-type" tCT=pRequest.HTTPHeaders.GetAt(tHeaderKey)
-			Set:tHeaderLwr="content-length" tLen=pRequest.HTTPHeaders.GetAt(tHeaderKey)
-		}
-		Set ..Adapter.HTTPServer = pRequest.Host
-		Set ..Adapter.HTTPPort = pRequest.Port
-		Set tURL = pRequest.URL
-	
-		Set ..%HttpRequest.ContentType=tCT
-		Set tSOAP12=tCT["application/soap+xml"
-		Set tSC=..constructHTTPRequest(pRequest,tLen,tCT,tSOAP12)
-		If ($$$ISERR(tSC)) { Quit }
-		
-		//Add x-rivta-original-serviceconsumer-hsaid to HTTP header
-		Do ..%HttpRequest.SetHeader("x-rivta-original-serviceconsumer-hsaid",pRequest.From)
-
-		#; Now send to the target address
-		#dim tHttpResponse As %Net.HttpResponse
-		Set tSC=..Adapter.SendFormDataArray(.tHttpResponse,$S(""=tReq:"POST",1:tReq),..%HttpRequest,,,$Case(..Adapter.URL,"":tURL,"*":tURL,:..Adapter.URL))
-	
-		If ($$$ISERR(tSC)) {
-			Set s = ""
-			Do ##class(%SYSTEM.Status).DecomposeStatus(tSC, .Err)
-			For i=1:1:$Get(Err) { set s = s _ "Err(" _ i _ ") = " _ Err(i) _ " / "}
-		 	$$$LOGERROR("Error: " _ tHttpResponse _ " / " _ s)
-		}
-	
-		#; Suppress HTTP status errors and just pass back the status, headers and body
-		Set:$$$ISERR(tSC)&&$$$StatusEquals(tSC,$$$EnsErrHTTPStatus) tSC=$$$OK
-
-		Set tSC = ..constructResponse(tHttpResponse,.pResponse)
-	}
-	Catch tException {
-		Set tSC = tException.AsStatus()
-	}
-	
-	Quit tSC
-]]></Implementation>
-</Method>
-
-<Method name="constructResponse">
-<Description>
-Split response Envelope and Body into separate streams</Description>
-<Internal>1</Internal>
-<FormalSpec>pHttpResponse:%Net.HttpResponse,pResponse:EnsLib.SOAP.GenericMessage</FormalSpec>
-<ReturnType>%Status</ReturnType>
-<Implementation><![CDATA[
-	Set tSC=$$$OK
-	If $IsObject(pHttpResponse.Data) {
-		Set tStream=pHttpResponse.Data
-	} Else {
-		Set tStream=##class(%GlobalBinaryStream).%New()
-		Set tSC=tStream.Write(pHttpResponse.Data)  Quit:$$$ISERR(tSC) tSC
-	}
-	If ..%SplitResponseBody {
-		Set tEnvelopeStream=##class(%Library.GlobalBinaryStream).%New()
-		#; Find starting element
-		Do ..getStartTag(tStream,.tStartTag,.tPrefix,.tNSAttrs)
-		If tStartTag'="Envelope" {  Quit $$$ERROR($$$EnsErrGeneral,"No SOAP Envelope found in SOAP Response <"_tPrefix_tStartTag_">") }
-		#; read in whole header if any, and body start tag
-		Set tSC=..copyUntil(tStream,tEnvelopeStream,"<"_tPrefix_"Body",1)  Quit:$$$ISERR(tSC) tSC
-		#; start new body stream, omit body contents from EnvelopeStream
-		Set tBodyStream = ##class(%GlobalCharacterStream).%New()
-		Set tSC=tBodyStream.Write("<"_tPrefix_"Body")  Quit:$$$ISERR(tSC)
-		#; copy namespace declarations to Body element in new body stream
-		Set tSC=tBodyStream.Write(tNSAttrs)  Quit:$$$ISERR(tSC)
-		#; read remainder of body into body stream
-		Set tSC=..copyUntil(tStream,tBodyStream,"</"_tPrefix_"Body>",1)  Quit:$$$ISERR(tSC)
-		#; write body close
-		Set tSC=tEnvelopeStream.Write("></"_tPrefix_"Body>")  Quit:$$$ISERR(tSC)
-		#; finally copy envelope close onto tail of %iaStream
-		Set tSC = ..copyStream(tStream,tEnvelopeStream)  Quit:$$$ISERR(tSC) tSC
-	} Else {
-		Set tEnvelopeStream=tStream
-		Set tBodyStream=$$$NULLOREF
-	}
-	Set pResponse=##class(TP.Message.SOAPResponse).%New(tBodyStream,,pHttpResponse,tEnvelopeStream)
-	Do pResponse.HTTPHeaders.SetAt(pHttpResponse.StatusLine,"StatusLine")
-	Quit tSC
-]]></Implementation>
-</Method>
-
-<UDLText name="T">
-<Content><![CDATA[
-// Code for Ensemble 2013.2+
-
-]]></Content>
-</UDLText>
-
-<UDLText name="T">
-<Content><![CDATA[
-/*
-/// Invoke a remote SOAP Service given a generic SOAP request
-Method OnMessage(pRequest As TP.Message.SOAPRequest, Output pResponse As TP.Message.SOAPResponse) As %Status
-{
 	#Dim tSC As %Status
 	#Dim tException As %Exception.SystemException
 	Set tSC=$$$OK
@@ -194,9 +80,7 @@ Method OnMessage(pRequest As TP.Message.SOAPRequest, Output pResponse As TP.Mess
 	}
 	
 	Quit tSC
-}
-*/
-]]></Content>
-</UDLText>
+]]></Implementation>
+</Method>
 </Class>
 </Export>
