@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Vagval.tns.virtualiseringsInfoTypeExtra">
+<Super>TK.Service.Vagval.tns.virtualiseringsInfoType</Super>
+<TimeCreated>63305,43313.807553</TimeCreated>
+
+<Property name="sslconfig">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="sslconfig"/>
+</Property>
+</Class>
+</Export>
