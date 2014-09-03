@@ -110,14 +110,24 @@
 		Set txPathBody.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/"
 		
 		//Get prefix
+		Set tBodyPrefix = ""
 		Set tSC = txPathBody.EvaluateExpression("/soapenv:Body/*", "name()", .tListBody)
 		If (tListBody.Count() > 0) {
 			Set txPathBodyRes = tListBody.GetAt(1)
-			Set tBodyPrefix = $PIECE(txPathBodyRes.Value, ":", 1)
+			If ($FIND(txPathBodyRes, ":") > 0) {
+				Set tBodyPrefix = $PIECE(txPathBodyRes.Value, ":", 1)
+			}
+			
+			$$$TRACE("Value from SOAP Body prefix " _ tBodyPrefix)
 		}
 		
 		//Get namespace
-		Set tSC = txPathBody.EvaluateExpression("/soapenv:Body/*", "namespace::" _ tBodyPrefix, .tListBody)
+		If (tBodyPrefix '= "") {
+			Set tSC = txPathBody.EvaluateExpression("/soapenv:Body/*", "namespace::" _ tBodyPrefix, .tListBody)
+		}
+		Else {
+			Set tSC = txPathBody.EvaluateExpression("/soapenv:Body/*", "namespace-uri()", .tListBody)
+		}
 		If (tListBody.Count() > 0) {
 			Set txPathBodyRes = tListBody.GetAt(1)
 			Set tBodyNamespace = txPathBodyRes.Value
