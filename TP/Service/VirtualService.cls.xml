@@ -70,10 +70,10 @@
 		}
 		
 		Set tSC = ##class(%XML.XPATH.Document).CreateFromStream(tRequest.EnvelopeStream, .txPath)
+		Set txPath.PrefixMappings = "soapenv http://schemas.xmlsoap.org/soap/envelope/,add http://www.w3.org/2005/08/addressing"
 		
 		//Get SOAP Header To
-		Set txPath.PrefixMappings = ""
-		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/To", "text()", .tList)
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/add:To", "text()", .tList)
 		If (tList.Count() > 0) {
 			Set txPathRes = tList.GetAt(1)
 			Set tSoapHeaderTo = txPathRes.Value
@@ -82,7 +82,7 @@
 		}
 		
 		//Get SOAP Header From
-		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/From", "text()", .tList)
+		Set tSC = txPath.EvaluateExpression("/soapenv:Envelope/soapenv:Header/add:From", "text()", .tList)
 		If (tList.Count() > 0) {
 			Set txPathRes = tList.GetAt(1)
 			Set tSoapHeaderFrom = txPathRes.Value
