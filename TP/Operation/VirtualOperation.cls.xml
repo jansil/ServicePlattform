@@ -19,7 +19,7 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 	Set tSC=$$$OK
 	
 	Try {
-		Set tSC=$$$OK, ..%HttpRequest.Location="", ..%HttpRequest.AcceptGzip=0, ..%HttpRequest.FollowRedirect=0, ..%HttpRequest.ReadRawMode=1
+		Set tSC=$$$OK, ..%HttpRequest.Location="", ..%HttpRequest.AcceptGzip=0, ..%HttpRequest.FollowRedirect=0, ..%HttpRequest.ReadRawMode=1, ..%HttpRequest.WriteRawMode=1
 		Do ..%HttpRequest.Reset()
 		Do ..%HttpRequest.RemoveHeader("HOST"), ..%HttpRequest.RemoveHeader("USER-AGENT"), ..%HttpRequest.RemoveHeader("REFERER")
 
