@@ -26,6 +26,7 @@ Id of the menu item that should be current when displaying this page</Descriptio
 
 <Property name="TKVersion">
 <Type>%ZEN.Datatype.string</Type>
+<InitialExpression>1.1</InitialExpression>
 </Property>
 
 <XData name="Style">
