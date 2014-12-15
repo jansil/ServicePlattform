@@ -100,9 +100,9 @@ Loads the actual About box content. All these guys are translatable.</Descriptio
 <ClientMethod>1</ClientMethod>
 <Implementation><![CDATA[
 	zenSetProp('lTK', 'value', 'Service Catalog<br>Version ' + this.TKVersion)
-	zenSetProp('lBrowsers1', 'value', 'The visual appearance of this software<br>has been developed with the following browsers:<br>Safari 5.1<br>Firefox 8.0')
-	zenSetProp('lBrowsers2', 'value', 'It is known, that this software does not look as intended with Internet Explorer.')
-	zenSetProp('lDisclaimer', 'value', 'Disclaimer: Please make sure that you understand that this specific software, SEA - Storage Evolution Analyzer, is being provided freely, and that no kind of agreement or contract is created between you and the developers of this software and anyone else who is in any way connected with this software subject to your claims against them directly. Granting a rigth to use this software does not create or imply any contractual or extracontractual liability on the part of the developers of this software.')
+	zenSetProp('lBrowsers1', 'value', 'The visual appearance of this software<br>has been developed with the following browsers:<br>Safari 5.1+<br>Firefox 8.0+<br>Chrome 35+<br>Internet Explorer 8+')
+	zenSetProp('lBrowsers2', 'value', '')
+	zenSetProp('lDisclaimer', 'value', 'Disclaimer: Please make sure that you understand that this specific software, Service Catalog, is being provided freely, and that no kind of agreement or contract is created between you and the developers of this software and anyone else who is in any way connected with this software subject to your claims against them directly. Granting a rigth to use this software does not create or imply any contractual or extracontractual liability on the part of the developers of this software.')
 	zenSetProp('lBlames', 'value', 'All blames about this software may be addressed to janne.sillanpaa@intersystems.com')
 	this.invokeSuper('onloadHandler');
 ]]></Implementation>
