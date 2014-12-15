@@ -11,6 +11,14 @@
 
 <Storage name="Default">
 <Type>%Library.CacheStorage</Type>
+<DefaultData>SOAPResponseDefaultData</DefaultData>
+<Data name="SOAPResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"SOAPResponse"</Subscript>
+<Value name="1">
+<Value>Status</Value>
+</Value>
+</Data>
 </Storage>
 </Class>
 </Export>

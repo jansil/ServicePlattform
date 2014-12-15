@@ -9,5 +9,17 @@
 <Parameter name="MAXLEN"/>
 <Parameter name="XMLNAME" value="sslconfig"/>
 </Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>virtualiseringsInfoTypeExtraDefaultData</DefaultData>
+<Data name="virtualiseringsInfoTypeExtraDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"virtualiseringsInfoTypeExtra"</Subscript>
+<Value name="1">
+<Value>sslconfig</Value>
+</Value>
+</Data>
+</Storage>
 </Class>
 </Export>

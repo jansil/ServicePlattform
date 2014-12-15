@@ -95,6 +95,9 @@
 <Value name="10">
 <Value>OriginalURL</Value>
 </Value>
+<Value name="11">
+<Value>SSLConfig</Value>
+</Value>
 </Data>
 </Storage>
 </Class>

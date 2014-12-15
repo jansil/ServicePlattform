@@ -96,6 +96,9 @@ DDL Primary Key Specification</Description>
 <Value name="5">
 <Value>Version</Value>
 </Value>
+<Value name="6">
+<Value>SSLConfig</Value>
+</Value>
 </Data>
 </Storage>
 </Class>
