@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Publiceradetjanster">
+<ClassType>persistent</ClassType>
+<DdlAllowed>1</DdlAllowed>
+<Owner>UnknownUser</Owner>
+<ProcedureBlock>1</ProcedureBlock>
+<SqlRowIdPrivate>1</SqlRowIdPrivate>
+<SqlTableName>Publiceradetjanster</SqlTableName>
+<Super>%Persistent</Super>
+<TimeCreated>63536,50142.188145</TimeCreated>
+
+<Property name="Id">
+<Type>%Library.Integer</Type>
+<Required>1</Required>
+<Identity>1</Identity>
+<Parameter name="MAXVAL" value="2147483647"/>
+<Parameter name="MINVAL" value="-2147483648"/>
+</Property>
+
+<Property name="OriginalURL">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="WSDLSokvag">
+<Type>%Library.String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+</Class>
+</Export>

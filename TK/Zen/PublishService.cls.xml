@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Zen.PublishService">
+<Description>
+Created using the page template: Default</Description>
+<Super>TK.Zen.FormTemplate</Super>
+<TimeCreated>63536,49990.324118</TimeCreated>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>PublishService</Default>
+</Parameter>
+
+<Parameter name="CURRENTMENUITEM">
+<Description>
+Id of the menu item that should be current when displaying this page</Description>
+<Default>menuItemPublish</Default>
+</Parameter>
+
+<Parameter name="TABLEPANES">
+<Description>
+List of table pane ids to apply preferences to</Description>
+<Type>%String</Type>
+<Default>RIVTATable:tableSetup</Default>
+</Parameter>
+
+<Parameter name="MODELCLASS">
+<Default>TK.Publiceradetjanster</Default>
+</Parameter>
+
+<Method name="tableSetup">
+<FormalSpec>pTable:%ZEN.Component.tablePane</FormalSpec>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	Set pTable.orderByClause = "OriginalURL"
+
+	Set tCols($Increment(tCols))="|header="_$$$Text("ID")_"|width=10%|colName=Id|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("OriginalURL")_"|width=35%|colName=OriginalURL|filterType=text"
+	Set tCols($Increment(tCols))="|header="_$$$Text("WSDLSokvag")_"|width=35%|colName=WSDLSokvag|filterType=text"
+	Set tCols($Increment(tCols))="|header=|width=10%|linkCaption="_$$$Text("Open")_"|cellTitle="_$$$Text("Open this Published Service profile for viewing and editing")_"|link=javascript:zenPage.viewSoftware('#(%query.Id)#');"
+	For i=1:1:tCols {
+		Set tColumn = ##class(%ZEN.Auxiliary.column).%New()
+		Do ..setPropertySet(tColumn, tCols(i))
+		Do pTable.columns.Insert(tColumn)
+		Do %page.%AddComponent(tColumn)
+	}
+]]></Implementation>
+</Method>
+
+<XData name="FormContent">
+<Data><![CDATA[
+<pane>
+<hgroup>
+<text id="id" label="ID:" size="2" readOnly="true" controlClass="textro" />
+<text id="originalurl" label="Original URL:" size="88" />
+</hgroup>
+<text id="wsdlpath" label="WSDL Path:" size="88" />
+</pane>
+]]></Data>
+</XData>
+
+<UDLText name="T">
+<Content><![CDATA[
+/* --------------------------------------------------------------------------------
+ *	Load & Save
+ * --------------------------------------------------------------------------------
+ */
+]]></Content>
+</UDLText>
+
+<Method name="toView">
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+		Do pPage.%SetValueById("id", pModel.Id)
+		Do pPage.%SetValueById("originalurl", pModel.OriginalURL)
+		Do pPage.%SetValueById("wsdlpath", pModel.WSDLSokvag)
+]]></Implementation>
+</Method>
+
+<Method name="toModel">
+<FormalSpec>pPage,pModel</FormalSpec>
+<ZenMethod>1</ZenMethod>
+<Implementation><![CDATA[
+		Set:pPage.%GetValueById("id")="" pModel.Id = 0
+		Set pModel.OriginalURL = pPage.%GetValueById("originalurl")
+		Set pModel.WSDLSokvag = pPage.%GetValueById("wsdlpath")
+]]></Implementation>
+</Method>
+</Class>
+</Export>

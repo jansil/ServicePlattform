@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Publisher.Util">
+<Super>%RegisteredObject</Super>
+<TimeCreated>63536,50397.679192</TimeCreated>
+
+<Method name="NormalizeXSDRefsInWSDL">
+<Description>
+This method reads a WSDL file, identifies the XSD references that live further down the tree, 
+moves these files to a level above the WSDL file, and edits the references in the WSDL.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pWSDLFile:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim tOriginalFile As %File
+	#dim tNewFile As %File
+	
+	do {
+		if '##class(%File).Exists(pWSDLFile) set tSC = $$$ERROR(5001, "File does not exist.")
+		
+		// get the 'current' directory and file names
+		set tWSDLPath = ##class(%File).GetDirectory(pWSDLFile)
+		
+		// rename the file to make way for the edited version
+		do ##class(%File).Rename(pWSDLFile, pWSDLFile _ ".unedited")
+		
+		// directory separator varies by O/S, so keep track of it
+		set tSlash = $extract(tWSDLPath, $length(tWSDLPath))
+		
+		// open the original file, and create a new one
+		set tOriginalFile = ##class(%File).%New(pWSDLFile _ ".unedited")
+		set tSC = tOriginalFile.Open("R") if $$$ISERR(tSC) quit
+		set tNewFile = ##class(%File).%New(pWSDLFile)
+		set tSC = tNewFile.Open("WSN") if $$$ISERR(tSC) quit
+		
+		// we need to handle the case where the file is huge and has no line breaks
+		set tOriginalFile.LineTerminator = ">"
+		
+		// read the first line
+		set tLen = 32000, tLine = tOriginalFile.ReadLine(.tLen,.tSC,.tEOL)
+		while ($$$ISOK(tSC) && (tLen >= 0)) {
+
+			// using ">" as line terminator means we have to add it to the line, if it's eaten
+			if (tEOL) set tLine = tLine _ ">"
+			
+			// is this line one we care about?
+			if (tLine[":import " && (tLine[" schemaLocation=")) {	
+			
+				// get the file name and path from the line (and keep front & tail for later)
+				set tLinePart1 = $piece(tLine, " schemaLocation=", 1)		
+				set tLinePart2 = $piece(tLine, " schemaLocation=", 2)
+				set tQuotationMark = $extract(tLinePart2)
+				set tLinePart1 = tLinePart1 _ " schemaLocation=" _ tQuotationMark
+				set tXSDFile = $piece(tLinePart2, tQuotationMark, 2)
+				set $extract(tLinePart2, 1, $length(tXSDFile) + 1) = ""
+								
+				// how far down the file system tree does the file live?
+				set tMoveDownCount = $length(tXSDFile, "../") - 1
+				
+				// we're only interested in the files that live in a different branch
+				if tMoveDownCount {
+		
+					// get rid of the "../" and the filename
+					set tXSDPath = $piece(tXSDFile, "/", tMoveDownCount + 1, $length(tXSDFile, "/") - 1)
+					
+					// add to array of directories to be copied
+					set tFullXSDPath = $piece(tWSDLPath, tSlash, 1, $length(tWSDLPath, tSlash) - (tMoveDownCount + 1)) _ tSlash _ tXSDPath
+					set tCopyTheseDirectories(tFullXSDPath) = tWSDLPath _ tXSDPath
+					
+					// create new file reference and substitute it in the WSDL
+					set tModifiedXSDFile = $piece(tXSDFile, "/", tMoveDownCount + 1, $length(tXSDFile, "/"))
+					set tLine = tLinePart1 _ tModifiedXSDFile _ tLinePart2
+					
+				}
+			}
+			// write line to new file, using a little trickery to keep all formatting from the original, including blank lines
+			set tSC = $select((tLen && tEOL): tNewFile.Write(tLine), 1: tNewFile.WriteLine(tLine))
+			
+			// read the next line
+			set tLen = 32000, tLine = tOriginalFile.ReadLine(.tLen,.tSC,.tEOL)
+		}
+		if $$$ISERR(tSC) quit
+						
+		// close both files
+		do tOriginalFile.Close(), tNewFile.Close()
+		
+		// ...and, finally, copy the relevant directories up the tree
+		set tPath = $order(tCopyTheseDirectories(""))
+		while ($$$ISOK(tSC) && (tPath '= "")) {
+			set tSC = ##class(%File).CopyDir(tPath, tCopyTheseDirectories(tPath), 1, , 1)
+			set tPath = $order(tCopyTheseDirectories(tPath))
+		}
+		if $$$ISERR(tSC) quit
+		
+	} while 0
+	
+	quit tSC
+]]></Implementation>
+</Method>
+
+<Method name="GetWSDLPath">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>originalURL:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	Set wsdlpath = ""
+	
+	&sql(SELECT WSDLSokvag INTO :wsdlpath FROM TK.Publiceradetjanster WHERE OriginalURL = :originalURL)
+	
+	Quit wsdlpath
+]]></Implementation>
+</Method>
+</Class>
+</Export>
