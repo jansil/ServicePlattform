@@ -96,6 +96,7 @@ This XML block defines the contents of this page.</Description>
 <menuItem id="menuItemLogicalAddressees" caption="Logical addressees" link="TK.Zen.LogicalAddressees.cls" title="Manage logical addressees" />
 <menuItem id="menuItemLogicalAddresses" caption="Logical addresses" link="TK.Zen.LogicalAddresses.cls" title="Manage logical addresses" />
 <menuItem id="menuItemAccessRights" caption="Access rights" link="TK.Zen.AccessRights.cls" title="Manage access rights" />
+<menuItem id="menuItemPublish" caption="Publish Service" link="TK.Zen.PublishService.cls" title="Publish services" />
 <menuItem id="menuItemAbout" caption="About" link="TK.Zen.About.cls" title="About Service catalog" />
 </hmenu>
 </pane>

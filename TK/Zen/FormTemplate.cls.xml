@@ -321,6 +321,14 @@ Signature of the view to model transformation. Each page must implement it.</Des
 		Set tStatus = tModel.%Save()
 		If $$$ISERR(tStatus) Throw ##class(%Exception.StatusException).CreateFromStatus(tStatus)
 		Set ..modelId = tModel.%Id()
+		
+		//Check which model
+		If (tModel.%ClassName() = "Publiceradetjanster") {
+			//Publish service
+			Set tStatus = ##class(TP.Publisher.Util).NormalizeXSDRefsInWSDL(tModel.WSDLSokvag)
+			If $$$ISERR(tStatus) Throw ##class(%Exception.StatusException).CreateFromStatus(tStatus)
+		}
+				
 		Do ..LoadModel()
 	}
 	Catch(ex) {

@@ -251,7 +251,7 @@ a.menuItem {
 a.menuItemCurrent, a.menuItem:hover {
     color:			#993400;
 	font-weight:	700;
-	// background-image:		url("sea/up_red.jpg");
+	/* background-image:		url("sea/up_red.jpg"); */
 	background-repeat:		repeat-x;
 	background-position:	50% 0;
 	background-attachment:	scroll;
@@ -304,9 +304,9 @@ form {
 }
 
 .text, .comboboxInput, .password {
-	//background-color:		#F7F6F0;
+	/* background-color:		#F7F6F0; */
 	background-color:		#FFFEFB;
-	//background-image:		url("sea/down_red.gif");
+	/* background-image:		url("sea/down_red.gif"); */
 	background-repeat:		repeat-x;
 	background-position:	0 0;
 	background-attachment:	scroll;
@@ -318,15 +318,15 @@ form {
 }
 
 .textarea {
-	//background-color:		#F7F6F0;
+	/* background-color:		#F7F6F0; */
 	background-color:		#FFFEFB;
-	// background-image:		url("sea/up_red.jpg");
-	// background-image:		url("sea/down_red.gif");
+	/* background-image:		url("sea/up_red.jpg"); */
+	/* background-image:		url("sea/down_red.gif"); */
 	background-repeat:		repeat-x;
-	//background-position:	0 bottom;
+	/* background-position:	0 bottom; */
 	background-position:	0 0;
 	background-attachment:	scroll;
-	//opacity:				20%					;
+	/* opacity:				20%; */
 }
 
 .button, .comboboxTextButton {
@@ -335,7 +335,7 @@ form {
 	color:			#983500;
 	text-align:		center;
 	vertical-align:	middle;
-	// background-image:		url("sea/down_red.gif");
+	/* background-image:		url("sea/down_red.gif"); */
 	background-repeat:		repeat-x;
 	background-position:	0 50%;
 	background-attachment:	scroll;
@@ -520,7 +520,7 @@ table.tpTable tr.tpSelected {
 	background-color:		#F7F6F0;
 	*/
 	background-color:		#FEFDFB;
-	// background-image:	url("sea/up_red.jpg");
+	/* background-image:	url("sea/up_red.jpg"); */
 }
 
 table.tpTable tr.tpSelected td {
@@ -548,7 +548,7 @@ table.tpTable tr.tpSelected td {
 .tpAction a:link {
 	text-decoration: none;
 	color:			#A43708;
-	//background-image: url(icon/light/appbar.book.open.png);
+	/* background-image: url(icon/light/appbar.book.open.png); */
 	background-repeat: no-repeat;
 	background-position: left center;
 	background-size: 20px 20px;
@@ -604,6 +604,9 @@ div#menu.tiny div[id^=menuItem] a, div#menu.tiny div[id^=menuItem] a.menuItemCur
 #menuItemLogicalAddresses a {
 	background-image:url(icon/light/appbar.stamp.at.png);
 }
+#menuItemPublish a {
+	background-image:url(icon/light/appbar.book.open.png);
+}
 #addSoftware input {
 	
 	width: 140px;
@@ -632,16 +635,16 @@ div[id^=tableNavigator] input[type=button]:disabled{
 	opacity:0.5;
 }
 div[id^=tableNavigator][id$=btnNext] input[type=button]{
-	//background-image:url(icon/light/appbar.list.reorder.down.png);
+	/* background-image:url(icon/light/appbar.list.reorder.down.png); */
 }
 div[id^=tableNavigator][id$=btnPrev] input[type=button]{
-	//background-image:url(icon/light/appbar.list.reorder.up.png);
+	/*background-image:url(icon/light/appbar.list.reorder.up.png); */
 }
 div[id^=tableNavigator][id$=btnFirst] input[type=button]{
-	//background-image:url(icon/light/appbar.list.one.png);
+	/* background-image:url(icon/light/appbar.list.one.png); */
 }
 div[id^=tableNavigator][id$=btnLast] input[type=button]{
-	//background-image:url(icon/light/appbar.list.png);
+	/* background-image:url(icon/light/appbar.list.png); */
 }
 table.tpTable th.tpHdrSelected {
 	background-size: 24px 24px;

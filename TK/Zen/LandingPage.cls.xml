@@ -28,7 +28,7 @@ This XML block defines the contents of this pane.</Description>
 <pane xmlns="http://www.intersystems.com/zen"
 	xmlns:tk="http://www.intersystems.com/sweden/TK">
 <vgroup id="aboutGroup" width="480">
-<label id="lTK" label="Welcome to the house of fun..."/>
+<label id="lTK" label="Service catalog administration"/>
 <label id="lText1" /><label id="lText2" />
 </vgroup>
 </pane>
@@ -50,8 +50,8 @@ Loads the actual About box content. All these guys are translatable.</Descriptio
 <Language>javascript</Language>
 <ClientMethod>1</ClientMethod>
 <Implementation><![CDATA[
-	zenSetProp('lText1', 'value', 'To publish a service, goto ')
-	zenSetProp('lText2', 'value', '<a href="./EnsPortal.LookupSettings.zen?$NAMESPACE=TPENS&$NAMESPACE=TPENS">Lookup Table</a>.')
+	//zenSetProp('lText1', 'value', 'To publish a service, goto ')
+	//zenSetProp('lText2', 'value', '<a href="./EnsPortal.LookupSettings.zen?$NAMESPACE=TPENS&$NAMESPACE=TPENS">Lookup Table</a>.')
 	this.invokeSuper('onloadHandler');
 ]]></Implementation>
 </Method>
