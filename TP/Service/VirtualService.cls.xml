@@ -401,6 +401,14 @@ Control the type and content of error returned to the SOAP caller</Description>
 	{
 		Set tFaultString = "Ingen adress angiven i tjänsteproducenten i Tjänstekatalogen"
 	}
+	ElseIf tFaultCode = "VP011"
+	{
+		Set tFaultString = "Anropande konsument är inte betrodd att göra http-anrop till VP."
+	}
+	ElseIf tFaultCode = "VP012"
+	{
+		Set tFaultString = "Nödvändiga resurser saknas för att VP skall fungera."
+	}
 	ElseIf tFaultCode = "VP999"
 	{
 		Set tFaultString = "Tekniskt fel"
