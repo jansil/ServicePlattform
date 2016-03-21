@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TP.Service.RestService">
+<Super>EnsLib.REST.Service</Super>
+<TimeCreated>63998,70339.307966</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.HTTP.InboundAdapter</Default>
+</Parameter>
+
+<XData name="UrlMap">
+<XMLNamespace>http://www.intersystems.com/urlmap</XMLNamespace>
+<Data><![CDATA[
+<Routes>
+<Route Url="/ping/:domain" Method="GET" Call="PingServices"/>
+</Routes>
+]]></Data>
+</XData>
+
+<Parameter name="EnsServicePrefix">
+<Default>|services</Default>
+</Parameter>
+
+<Method name="PingServices">
+<Description>
+Retrieve</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pInput:%Library.AbstractStream,*pOutput:%Stream.Object,pDomain:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tSC = $$$OK
+	Set tDomain = $ZConvert(pDomain,"I","URL")
+	
+	Set tDomain = $ZConvert(tDomain,"L")
+	//Quit:$Case(tDomain,"urn:riv:itintegration:monitoring":0, "":0, :1) $$$ERROR($$$EnsErrGeneral,"Domain "_..#EnsServicePrefix_"/"_tDomain_"/ not supported.")
+	
+	//'urn:riv:itintegration:monitoring:PingForConfigurationResponder'
+	&sql(DECLARE C1 CURSOR FOR
+		 SELECT tkk.HsaId, tkk.Adress, tkk.Beskrivning, tk.Namnrymd INTO :hsaid,:adress,:beskrivning,:namnrymd
+		 FROM TK.Tjanstekontrakt tk, TK.Logiskadress la, TK.Tjanstekomponent tkk 
+		 WHERE tk.Namnrymd %startswith :tDomain 
+		 	AND tk.Id = la.Tjanstekontrakt_id 
+		 	AND la.Tjansteproducent_id = tkk.Id)
+	
+	&sql(OPEN C1)
+  	&sql(FETCH C1)
+  	
+  	Set mydata = {}
+  	Set mydata.domain = ..Alter(tDomain)
+  	Set mydata.services = []
+  	WHILE (SQLCODE = 0) {
+	  	Set mydata1 = {}
+		Set mydata1.service = {}
+		Set mydata1.service.hsaid = ..Alter(hsaid)
+		Set mydata1.service.address = ..Alter(adress)
+		Set mydata1.service.description = ..Alter(beskrivning)
+		Set mydata1.service.namespace = ..Alter(namnrymd)
+		Set mydata1.service.alive = ..Alter("true")
+		Set mydata1.service.ping = ..Alter("unknown")
+		Do mydata.services.$push(mydata1)
+	  	&sql(FETCH C1)
+	}
+	&sql(CLOSE C1)
+	
+	Set s = mydata.$toJSON()
+	
+	Do pOutput.Write(s)
+	
+	Do:$$$ISOK(tSC) pOutput.SetAttribute("Content-Type","application/json")
+	
+	Quit tSC
+]]></Implementation>
+</Method>
+
+<Method name="Alter">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>string</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    set newstring=$REPLACE(string,"\","\\")
+    set newstring=$REPLACE(string,"""","\""")
+    set returnstring=""_newstring_""
+    quit returnstring
+]]></Implementation>
+</Method>
+
+<Method name="OnErrorStream">
+<Description>
+Control the type and content of error returned to the REST caller</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pStatus:%Status</FormalSpec>
+<Implementation><![CDATA[
+ 	Set tStream = ##class(%GlobalBinaryStream).%New()  $$$ASSERT($IsObject(tStream))
+	Do tStream.Write($ZConvert($$$StatusDisplayString(pStatus)_$C(13,10),"O","UTF8"))
+	Set tStream.Attributes("Content-Type")=" text/plain; charset=""UTF-8"""
+	Set tStream.Attributes("ResponseCode")="500 Internal Server Error"
+ 	Quit tStream
+]]></Implementation>
+</Method>
+</Class>
+</Export>
