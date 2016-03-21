@@ -13,13 +13,31 @@
 <Parameter name="UNITS" value="ms"/>
 </Property>
 
+<Property name="Count">
+<Type>Ens.DataType.Metric</Type>
+<MultiDimensional>1</MultiDimensional>
+<Parameter name="AUTOHISTORY" value="50"/>
+<Parameter name="RANGELOWER" value="0"/>
+<Parameter name="RANGEUPPER" value="400"/>
+<Parameter name="UNITS" value="count"/>
+</Property>
+
+<Property name="CallsPerMinute">
+<Type>Ens.DataType.Metric</Type>
+<MultiDimensional>1</MultiDimensional>
+<Parameter name="AUTOHISTORY" value="50"/>
+<Parameter name="RANGELOWER" value="0"/>
+<Parameter name="RANGEUPPER" value="400"/>
+<Parameter name="UNITS" value="count"/>
+</Property>
+
 <Method name="OnCalculateMetrics">
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
 	Set host = "TP.Service.VirtualService"
 	Set host2 = "TP.Operation.VirtualOperation"
 	
-	// Calculate actual performance
+	//Response times for calls during the last hour
 	&sql(select avg(datediff('millisecond', h1.timecreated, h1.timeprocessed) - datediff('millisecond', h2.timecreated, h2.timeprocessed)) 
 	     into :responsetime 
 	     from ens.messageheader h1, ens.messageheader h2 
@@ -29,7 +47,20 @@
 	
 	)
 	
+	//Number of calls during the last 10 seconds
+	&sql(select count(*) into :count
+		 from ens.messageheader 
+		 where SourceConfigName = :host and datediff('second',timecreated, {fn NOW}) <= 3610)
+	
+	//Average number of calls per minute during the last hour
+	&sql(select (count(*)/60) into :callspermin
+		 from ens.messageheader 
+		 where SourceConfigName = :host and datediff('second',timecreated, {fn NOW}) <= 7200)
+		 
+	
 	set ..AvgResponseTime = responsetime
+	set ..Count = count
+	set ..CallsPerMinute = callspermin
 	
 	quit $$$OK
 ]]></Implementation>
