@@ -53,14 +53,14 @@ Configuration item to which to send messages</Description>
 		 		
 		 		$$$TRACE("The requested service has been set to be not available in the service catalog")
 		 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
-		 		Throw ##class(TP.Common.Exception).%New("ServiceNotAvilableError",999,"TP.Process.Router","The requested service has been set to be not available in the service catalog")		
+		 		Throw ##class(TP.Common.Exception).%New("ServiceNotAvilableError","VP004","TP.Process.Router","The requested service has been set to be not available in the service catalog")		
 	 		}
 	 		
  		} 
  		Else {
 	 		$$$TRACE("The requested service does not exist in the Service Catalog")
 	 		//Throw ##class(TP.Common.Exception).%New("VirtualizationNotFoundError",999,"TP.Process.Router","Virtualization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
-	 		Throw ##class(TP.Common.Exception).%New("ServiceNotExistError",998,"TP.Process.Router","The requested service does not exist in the Service Catalog!")
+	 		Throw ##class(TP.Common.Exception).%New("ServiceNotExistError","VP004","TP.Process.Router","The requested service does not exist in the Service Catalog!")
 	 		
 	 		
 	 	}
@@ -76,15 +76,17 @@ Configuration item to which to send messages</Description>
 		Set tList = tVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPNamespace,pRequest.FromSystem,pRequest.ToSystem)
 		If (tList.Count() < 1) {
 			$$$TRACE("No authorization records found in servicecatalog")
-	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
+	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError","VP007","TP.Process.Router","Authorization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
 		 		
  		}
+		
+		// Create errors VP001, VP005, VP006 (need to execute sql queries)
 		
 		$$$TRACE("URL from Service Catalog: " _ tAddressURL)
 		
 		If (tAddressURL = "") {
 			// Create exception
-			Throw ##class(TP.Common.Exception).%New("AddressNotFoundError",999,"TP.Process.Router","Address for " _ pRequest.ToSystem _ " not found in service catalog.")
+			Throw ##class(TP.Common.Exception).%New("AddressNotFoundError","VP010","TP.Process.Router","Address for " _ pRequest.ToSystem _ " not found in service catalog.")
 		}
 	
 		//Set URL

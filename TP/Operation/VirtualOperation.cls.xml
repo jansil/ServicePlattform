@@ -92,6 +92,10 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 	}
 	Catch tException {
 		Set tSC = tException.AsStatus()
+		$$$TRACE(tSC)
+		// Create error VP009
+		Set exc = ##class(TP.Common.Exception).%New("ProducerCommError","VP009","TP.Operation.VirtualOperation","Error when contacting service producer.")
+		Set tSC = exc.AsStatus()
 	}
 	
 	Quit tSC

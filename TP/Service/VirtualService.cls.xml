@@ -216,6 +216,11 @@
 			Set tRequest.ToSystem = tSoapHeaderTo
 		}
 		
+		If (tRequest.ToSystem	= "") {
+			// Create error VP003
+			Throw ##class(TP.Common.Exception).%New("ReceiverIdMissing","VP003","TP.Service.VirtualService","ReceiverId missing.")
+		}
+		
 		//Get certificate from HTTP header
 		#Dim tCommonName As %String
 		#Dim tRawCertificate As %String
@@ -238,6 +243,11 @@
 		If (tRawCertificate '= "") {
 			Set tCommonName = ##class(TP.Common.CertificateHelper).GetSerialNumber(tRawCertificate)
 			$$$TRACE("Value from HTTP Header Common Name: " _ tCommonName)
+			
+			If (tCommonName = "") {
+				// Create error VP002
+				Throw ##class(TP.Common.Exception).%New("SerialNoMissing","VP002","TP.Service.VirtualService","SerialNumber missing in client certificate.")
+			}
 		}
 		
 		If (tRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid") '= "") {
@@ -277,20 +287,18 @@
 				If (..SoapVersion = "1.2") {
 					Set tSoapFault = ##class(%SOAP.Fault12).%New()
 					Set tSoapFault.faultcode = $$$FAULTSender
-					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.faultstring = "Exception"
 					Set tSoapFault.detail = err(1)
 				
 					//Do ..ReturnFault(tSoapFault)
-					Set tSC = $$$ERROR($$$GeneralError,err(1))
 				}
 				Else {
 					Set tSoapFault = ##class(%SOAP.Fault).%New()
 					Set tSoapFault.faultcode = $$$FAULTClient
-					Set tSoapFault.faultstring = "Address not found in service catalog."
+					Set tSoapFault.faultstring = "Exception"
 					Set tSoapFault.detail = err(1)
 					
 					//Do ..ReturnFault(tSoapFault)
-					Set tSC = $$$ERROR($$$GeneralError,err(1))
 				}
 			
 				Quit
@@ -331,7 +339,90 @@
 		Set tSC = tException.AsStatus()
 	}
 	
+	//Create SOAP fault
+	If $$$ISERR(tSC) {
+		Set pResponseBody = ..OnErrorStream(tSC, $this, "1.0")
+		Set pResponseBody.Attributes("StatusLine")="HTTP/1.1 500"
+	}
+	
 	Quit tSC
+]]></Implementation>
+</Method>
+
+<Method name="OnErrorStream">
+<Description>
+Control the type and content of error returned to the SOAP caller</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>pStatus:%Status,pInstance:EnsLib.SOAP.Service,pSOAPVer:%String="1.0"</FormalSpec>
+<Implementation><![CDATA[
+	Set tStream = ##class(%GlobalBinaryStream).%New() $$$ASSERT($IsObject(tStream))
+    
+	Do $system.Status.DecomposeStatus(pStatus, .err)
+	Set pos = $FIND(err(1), "ERROR #")
+	Set tFaultCode = $EXTRACT(err(1), pos, pos+4)
+	
+	If tFaultCode = "VP001"
+	{
+		Set tFaultString = "Riv-version inte konfigurerad för den anslutningspunkt som den virtualiserade tjänsten publicerar."
+	}
+	ElseIf tFaultCode = "VP002"
+	{
+		Set tFaultString = "SERIALNUMBER ej tillgängligt i konsumentens certifikat i namn-attributet."
+	}
+	ElseIf tFaultCode = "VP003"
+	{
+		Set tFaultString = "ReceiverId ej ifylld i RivHeadern i inkommande meddelande."
+	}
+	ElseIf tFaultCode = "VP004"
+	{
+		Set tFaultString = "Det finns ingen tjänsteproducent definierad i Tjänstekatalogen som matchar ReceiverId, Tjänstekontrakt och dagens datum."
+	}
+	ElseIf tFaultCode = "VP005"
+	{
+		Set tFaultString = "Det finns ingen tjänsteproducent definierad i Tjänstekatalogen som matchar Riv-version, konvertering mellan rivversioner inte implementerat."
+	}
+	ElseIf tFaultCode = "VP006"
+	{
+		Set tFaultString = "Det finns mer än 1 tjänsteproducent definierad i Tjänstekatalogen som matchar ReceiverId, Tjänstekontrakt och dagens datum. Tyder på att Tjänstekatalogen är felkonfigurerad."
+	}
+	ElseIf tFaultCode = "VP007"
+	{
+		Set tFaultString = "Den finns ingen behörighet för den tjänstekonsument som anropar att samverka med tjänsteproducenten. Avser behörigheter definierade i Tjänstekatalogen."
+	}
+	ElseIf tFaultCode = "VP008"
+	{
+		Set tFaultString = "Ingen kontakt med Tjänstekatalogen."
+	}
+	ElseIf tFaultCode = "VP009"
+	{
+		Set tFaultString = "Fel vid kontakt med tjänsteproducenten."
+	}
+	ElseIf tFaultCode = "VP010"
+	{
+		Set tFaultString = "Ingen adress angiven i tjänsteproducenten i Tjänstekatalogen"
+	}
+	ElseIf tFaultCode = "VP999"
+	{
+		Set tFaultString = "Tekniskt fel"
+	}
+	Else
+	{
+		Set tFaultString = "Okänt fel"
+	}
+	                           
+	Set tSoapFault = "<?xml version='1.0' encoding='UTF-8' standalone='no' ?>" _ $Char(13) _
+	" <SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:s='http://www.w3.org/2001/XMLSchema' >" _ $Char(13) _
+	" <SOAP-ENV:Body>" _ $Char(13) _
+	" <SOAP-ENV:Fault>" _ $Char(13) _
+	" <faultcode>" _ tFaultCode _  "</faultcode>" _  $Char(13) _
+	" <faultstring>" _ tFaultString _  "</faultstring>" _  $Char(13) _
+	//" <detail></detail>" _ $Char(13) _
+	" </SOAP-ENV:Fault>" _ $Char(13) _
+	" </SOAP-ENV:Body>" _ $Char(13) _
+	" </SOAP-ENV:Envelope>"
+
+	Do tStream.Write(tSoapFault)
+	Quit tStream
 ]]></Implementation>
 </Method>
 </Class>
