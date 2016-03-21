@@ -63,6 +63,12 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 			Do ##class(%SYSTEM.Status).DecomposeStatus(tSC, .Err)
 			For i=1:1:$Get(Err) { set s = s _ "Err(" _ i _ ") = " _ Err(i) _ " / "}
 		 	$$$LOGERROR("Error: " _ tHttpResponse _ " / " _ s)
+		 	
+		 	If ($FIND(s, "ERROR #6059") > 0) || ($FIND(s, "ERROR #6029") > 0) {
+				//ERROR #6059 = Unable to open TCP/IP socket to server %1
+				//ERROR #6029 = Timed out waiting for response.
+				Throw ##class(TP.Common.Exception).%New("FailureTimeout","VP009","TP.Operation.VirtualOperation", "FailureTimeout")
+			}
 		}
 		
 		//Ta bort SSLConfig efter anrop för att det ska fungera från icke SSL connections
