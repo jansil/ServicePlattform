@@ -44,8 +44,8 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 		
 		//Add x-rivta-original-serviceconsumer-hsaid to HTTP header
 		If (pRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid") = "") {
-			$$$TRACE("Set HTTP header x-rivta-original-serviceconsumer-hsaid to " _ pRequest.From)
-			Do ..%HttpRequest.SetHeader("x-rivta-original-serviceconsumer-hsaid",pRequest.From)
+			$$$TRACE("Set HTTP header x-rivta-original-serviceconsumer-hsaid to " _ pRequest.FromSystem)
+			Do ..%HttpRequest.SetHeader("x-rivta-original-serviceconsumer-hsaid",pRequest.FromSystem)
 		}
 		
 		Set ..%HttpRequest.ContentType=tCT

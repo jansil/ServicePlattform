@@ -37,12 +37,12 @@ Configuration item to which to send messages</Description>
 		
 		// New code. Stefan Kundel
 		// Check if a service exists and if the service is available
-		$$$TRACE("Searching servicecatalog. SOAP action:" _ pRequest.SOAPNamespace _ " TO:" _ pRequest.To)
+		$$$TRACE("Searching servicecatalog. SOAP action:" _ pRequest.SOAPNamespace _ " TO:" _ pRequest.ToSystem)
 		//#Dim tList2 As %ListOfObjects
 		Set tList = ##class(%ListOfObjects).%New()
  		Set tVagval =##class(TK.Service.Vagval.SokVagval).%New()
- 		//Set oList = oVagval.hamtaAllaVirtualiseringar("urn:riv:crm:scheduling:GetAllTimeTypes:1:rivtabp20","",pRequest.To)
- 		Set tList = tVagval.hamtaAllaVirtualiseringar(pRequest.SOAPNamespace,"",pRequest.To)
+ 		//Set oList = oVagval.hamtaAllaVirtualiseringar("urn:riv:crm:scheduling:GetAllTimeTypes:1:rivtabp20","",pRequest.ToSystem)
+ 		Set tList = tVagval.hamtaAllaVirtualiseringar(pRequest.SOAPNamespace,"",pRequest.ToSystem)
  		
  		If (tList.Count() > 0) {
 	 		if ((tList.GetAt(1).fromTidpunkt <= $H) & (tList.GetAt(1).tomTidpunkt >= $H)) {
@@ -73,7 +73,7 @@ Configuration item to which to send messages</Description>
 		
 		Set tList = ##class(%ListOfObjects).%New()
  		Set tVagval =##class(TK.Service.Vagval.SokVagval).%New()
-		Set tList = tVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPNamespace,pRequest.From,pRequest.To)
+		Set tList = tVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPNamespace,pRequest.FromSystem,pRequest.ToSystem)
 		If (tList.Count() < 1) {
 			$$$TRACE("No authorization records found in servicecatalog")
 	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError",999,"TP.Process.Router","Authorization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
@@ -84,7 +84,7 @@ Configuration item to which to send messages</Description>
 		
 		If (tAddressURL = "") {
 			// Create exception
-			Throw ##class(TP.Common.Exception).%New("AddressNotFoundError",999,"TP.Process.Router","Address for " _ pRequest.To _ " not found in service catalog.")
+			Throw ##class(TP.Common.Exception).%New("AddressNotFoundError",999,"TP.Process.Router","Address for " _ pRequest.ToSystem _ " not found in service catalog.")
 		}
 	
 		//Set URL
@@ -120,7 +120,6 @@ Configuration item to which to send messages</Description>
 <Type>%Library.CacheStorage</Type>
 <DefaultData>RouterDefaultData</DefaultData>
 <Data name="RouterDefaultData">
-<Structure>listnode</Structure>
 <Subscript>"Router"</Subscript>
 <Value name="1">
 <Value>TargetConfigName</Value>

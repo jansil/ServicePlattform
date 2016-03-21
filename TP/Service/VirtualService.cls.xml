@@ -153,7 +153,7 @@
 		        //Set tRequest.SOAPNamespace = $REPLACE($REPLACE(tOriginalURL,"/csp/","urn:riv:crm:"),"/",":")
 		        //$$$TRACE("Value from HTTP Header x-original-url: " _ tRequest.SOAPNamespace)
 		}
-		$$$LOGINFO("OrigURL: " _ tOriginalURL)
+		$$$TRACE("OrigURL: " _ tOriginalURL)
 		Set tRequest.OriginalURL = tOriginalURL
 		If (tOriginalURL '= "") {
 			Set list = $LISTFROMSTRING(tOriginalURL, "/")
@@ -210,18 +210,10 @@
 		
 		//If WSA-To existed, use that for routing, otherwise old SOAP Header To field
 		If (tWsaTo '= "") {
-			Set tRequest.To = tWsaTo
+			Set tRequest.ToSystem = tWsaTo
 		}
 		Else {
-			Set tRequest.To = tSoapHeaderTo
-		}
-		
-		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
-		If (tWsaFrom '= "") {
-			Set tRequest.From = tWsaFrom
-		}
-		Else {
-			Set tRequest.From = tSoapHeaderFrom
+			Set tRequest.ToSystem = tSoapHeaderTo
 		}
 		
 		//Get certificate from HTTP header
@@ -253,16 +245,15 @@
 			Set tCommonName = tRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid")
 		}
 		
-		
 		//If WSA-From existed, use that for routing, otherwise old SOAP Header From field
 		If (tCommonName '= "") {
-			Set tRequest.From = tCommonName
+			Set tRequest.FromSystem = tCommonName
 		}
 		ElseIf (tWsaFrom '= "") {
-			Set tRequest.From = tWsaFrom
+			Set tRequest.FromSystem = tWsaFrom
 		}
 		Else {
-			Set tRequest.From = tSoapHeaderFrom
+			Set tRequest.FromSystem = tSoapHeaderFrom
 		}
 		
 		If (..OneWay) {

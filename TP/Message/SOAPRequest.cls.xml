@@ -4,12 +4,12 @@
 <Super>EnsLib.SOAP.GenericMessage</Super>
 <TimeCreated>62917,62690.145279</TimeCreated>
 
-<Property name="From">
+<Property name="FromSystem">
 <Type>%String</Type>
 <Parameter name="MAXLEN" value="1000"/>
 </Property>
 
-<Property name="To">
+<Property name="ToSystem">
 <Type>%String</Type>
 <Parameter name="MAXLEN" value="1000"/>
 </Property>
@@ -54,16 +54,10 @@
 <Parameter name="MAXLEN" value="2000"/>
 </Property>
 
-<Property name="SSLConfig">
-<Type>%String</Type>
-<Parameter name="MAXLEN" value="100"/>
-</Property>
-
 <Storage name="Default">
 <Type>%Library.CacheStorage</Type>
 <DefaultData>SOAPRequestDefaultData</DefaultData>
 <Data name="SOAPRequestDefaultData">
-<Structure>listnode</Structure>
 <Subscript>"SOAPRequest"</Subscript>
 <Value name="1">
 <Value>To</Value>
@@ -100,5 +94,10 @@
 </Value>
 </Data>
 </Storage>
+
+<Property name="SSLConfig">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="100"/>
+</Property>
 </Class>
 </Export>
