@@ -36,6 +36,7 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 		}
 		Set ..Adapter.HTTPServer = pRequest.Host
 		Set ..Adapter.HTTPPort = pRequest.Port
+		
 		If pRequest.SSLConfig '= "" {
 			Set ..Adapter.SSLConfig = pRequest.SSLConfig
 		}
