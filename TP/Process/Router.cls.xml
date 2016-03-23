@@ -45,6 +45,11 @@ Configuration item to which to send messages</Description>
  		Set tList = tVagval.hamtaAllaVirtualiseringar(pRequest.SOAPNamespace,"",pRequest.ToSystem)
  		
  		If (tList.Count() > 0) {
+	 		If (tList.Count() > 1) {
+	 			//Create error VP006
+	 			Throw ##class(TP.Common.Exception).%New("AuthorizationError","VP006","TP.Process.Router","More than 1 service producer found, service catalog most likely not configured correctly.")
+ 			}
+ 			
 	 		if ((tList.GetAt(1).fromTidpunkt <= $H) & (tList.GetAt(1).tomTidpunkt >= $H)) {
 		 		$$$TRACE("Virtualization records found in servicecatalog")
 	 			Set tAddressURL = tList.GetAt(1).adress
@@ -67,10 +72,7 @@ Configuration item to which to send messages</Description>
 		
 		
 		//Get URL from service catalog
-		
-		
 		//Check servicecatalog for authorization. Quit if not granted access rights.
-		
 		Set tList = ##class(%ListOfObjects).%New()
  		Set tVagval =##class(TK.Service.Vagval.SokVagval).%New()
 		Set tList = tVagval.hamtaAllaAnropsBehorigheter(pRequest.SOAPNamespace,pRequest.FromSystem,pRequest.ToSystem)
@@ -79,8 +81,12 @@ Configuration item to which to send messages</Description>
 	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError","VP007","TP.Process.Router","Authorization for " _ pRequest.SOAPNamespace _ " not found in service catalog.")
 		 		
  		}
+ 		ElseIf (tList.Count() > 1) {
+	 		//Create error VP006
+	 		Throw ##class(TP.Common.Exception).%New("AuthorizationError","VP006","TP.Process.Router","More than 1 service producer found, service catalog most likely not configured correctly.")
+ 		}
 		
-		// Create errors VP001, VP005, VP006 (need to execute sql queries)
+		//TODO:Create errors VP001, VP005 (need to execute sql queries)
 		
 		$$$TRACE("URL from Service Catalog: " _ tAddressURL)
 		
