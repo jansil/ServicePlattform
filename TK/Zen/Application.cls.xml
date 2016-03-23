@@ -20,7 +20,7 @@ This is the URL of the main starting page of this application.</Description>
 
 <Parameter name="TKVERSION">
 <Type>%String</Type>
-<Default>0.9</Default>
+<Default>1.1</Default>
 </Parameter>
 
 <XData name="Style">

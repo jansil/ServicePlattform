@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.GetSupportedServiceContractsResponderPort">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SOAP.WebService</Super>
+<TimeCreated>63998,58302.576872</TimeCreated>
+
+<Method name="GetSupportedServiceContracts">
+<Final>1</Final>
+<FormalSpec><![CDATA[serviceConsumerHsaId:TK.Service.Proxy.riv.HsaIdType,logicalAdress:TK.Service.Proxy.riv.LogicalAddressType(REQUIRED=1),*serviceContractNamespace:%ListOfObjects(ELEMENTTYPE="TK.Service.Proxy.riv.ServiceContractNamespaceType",XMLPROJECTION="element",XMLNAME="serviceContractNamespace"),&any:%ListOfDataTypes(ELEMENTTYPE="%XML.String",XMLNAME="any",XMLPROJECTION="any")]]></FormalSpec>
+<ProcedureBlock>1</ProcedureBlock>
+<WebMethod>1</WebMethod>
+<SoapBindingStyle>document</SoapBindingStyle>
+<SoapBodyUse>literal</SoapBodyUse>
+<SoapAction>urn:riv:infrastructure:itintegration:registry:GetSupportedServiceContractsResponder:2:GetSupportedServiceContracts</SoapAction>
+<Implementation><![CDATA[ // Web Service Method Implementation Goes Here.
+]]></Implementation>
+</Method>
+
+<Parameter name="NAMESPACE">
+<Description>
+This is the namespace used by the Service</Description>
+<Default>urn:riv:infrastructure:itintegration:registry:GetSupportedServiceContracts:2:rivtabp21</Default>
+</Parameter>
+
+<Parameter name="OUTPUTTYPEATTRIBUTE">
+<Description>
+Use xsi:type attribute for literal types.</Description>
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="SECURITYIN">
+<Description>
+Determines handling of Security header.</Description>
+<Default>ALLOW</Default>
+</Parameter>
+
+<Parameter name="SERVICENAME">
+<Description>
+This is the name of the Service</Description>
+<Default>GetSupportedServiceContractsResponderService</Default>
+</Parameter>
+
+<Parameter name="SOAPVERSION">
+<Description>
+This is the SOAP version supported by the service.</Description>
+<Default>1.1</Default>
+</Parameter>
+
+<Parameter name="TYPENAMESPACE">
+<Description>
+This is the namespace used for types by the Service</Description>
+<Default>urn:riv:infrastructure:itintegration:registry:GetSupportedServiceContractsResponder:2</Default>
+</Parameter>
+
+<Parameter name="USECLASSNAMESPACES">
+<Description>
+Namespaces of referenced classes will be used in the WSDL.</Description>
+<Default>1</Default>
+</Parameter>
+</Class>
+</Export>

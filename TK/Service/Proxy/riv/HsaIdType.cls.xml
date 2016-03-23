@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Proxy.riv.HsaIdType">
+<Description>
+Created from: d:/trainingprojects/tp/tjänstekatalog/schemas/core_components/itintegration_registry_2.0.xsd</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%String</Super>
+<TimeCreated>63998,58302.579969</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="MAXLEN">
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:riv:infrastructure:itintegration:registry:2</Default>
+</Parameter>
+</Class>
+</Export>

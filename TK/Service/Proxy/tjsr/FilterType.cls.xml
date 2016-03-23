@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Proxy.tjsr.FilterType">
+<Description>
+Created from: d:/trainingprojects/tp/tjänstekatalog/schemas/interactions/getlogicaladdresseesbyservicecontractinteraction/getlogicaladdresseesbyservicecontractresponder_2.0.xsd</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeCreated>63998,58220.908334</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:riv:infrastructure:itintegration:registry:GetLogicalAddresseesByServiceContractResponder:2</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>FilterType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="serviceDomain">
+<Type>%xsd.anyURI</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="serviceDomain"/>
+</Property>
+
+<Property name="categorization">
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="categorization"/>
+<Parameter name="XMLPROJECTION" value="ELEMENT"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>FilterTypeState</State>
+<StreamLocation>^TK.Service.Prox8799.FilterTypeS</StreamLocation>
+<Data name="FilterTypeState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>serviceDomain</Value>
+</Value>
+<Value name="2">
+<Value>categorization</Value>
+</Value>
+<Value name="3">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

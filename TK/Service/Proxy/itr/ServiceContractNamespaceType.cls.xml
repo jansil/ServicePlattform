@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Proxy.itr.ServiceContractNamespaceType">
+<Description>
+Type which describes a service contract.
+Created from: d:/trainingprojects/tp/tjänstekatalog/schemas/core_components/itintegration_registry_2.0.xsd</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeCreated>63998,58220.902591</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:riv:infrastructure:itintegration:registry:2</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>ServiceContractNamespaceType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="ServiceContractNamespace">
+<Type>%xsd.anyURI</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="ServiceContractNamespace"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>ServiceContractNamespaceTypeState</State>
+<StreamLocation>^TK.ServiceFEDE.ServiceCont3BD0S</StreamLocation>
+<Data name="ServiceContractNamespaceTypeState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>ServiceContractNamespace</Value>
+</Value>
+<Value name="2">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

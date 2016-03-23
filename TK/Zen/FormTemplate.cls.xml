@@ -303,7 +303,7 @@ Signature of the view to model transformation. Each page must implement it.</Des
 		Set tOk = 0
 		&js<alert('Error in Server method:\n#($ZCVT(..MakeUserMessage(ex, "The entry was not saved because: "),"O","JS"))#');>
 	}
-
+	
 	Quit tOk
 ]]></Implementation>
 </Method>

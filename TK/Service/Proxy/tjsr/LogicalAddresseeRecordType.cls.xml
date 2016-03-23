@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25">
+<Class name="TK.Service.Proxy.tjsr.LogicalAddresseeRecordType">
+<Description>
+Created from: d:/trainingprojects/tp/tjänstekatalog/schemas/interactions/getlogicaladdresseesbyservicecontractinteraction/getlogicaladdresseesbyservicecontractresponder_2.0.xsd</Description>
+<CompileAfter>TK.Service.Proxy.itr.LogicalAddressType</CompileAfter>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeCreated>63998,58220.910359</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>urn:riv:infrastructure:itintegration:registry:GetLogicalAddresseesByServiceContractResponder:2</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>LogicalAddresseeRecordType</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="logicalAddress">
+<Type>TK.Service.Proxy.itr.LogicalAddressType</Type>
+<Required>1</Required>
+<Parameter name="XMLNAME" value="logicalAddress"/>
+</Property>
+
+<Property name="filter">
+<Type>TK.Service.Proxy.tjsr.FilterType</Type>
+<Collection>list</Collection>
+<Parameter name="XMLNAME" value="filter"/>
+<Parameter name="XMLPROJECTION" value="ELEMENT"/>
+</Property>
+
+<Property name="any">
+<Type>%XML.String</Type>
+<Collection>list</Collection>
+<SqlFieldName>_any</SqlFieldName>
+<Parameter name="XMLNAME" value="any"/>
+<Parameter name="XMLPROJECTION" value="ANY"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>LogicalAddresseeRecordTypeState</State>
+<StreamLocation>^TK.Service8799.LogicalAddrDC4FS</StreamLocation>
+<Data name="LogicalAddresseeRecordTypeState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>logicalAddress</Value>
+</Value>
+<Value name="2">
+<Value>filter</Value>
+</Value>
+<Value name="3">
+<Value>any</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

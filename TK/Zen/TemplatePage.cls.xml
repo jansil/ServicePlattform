@@ -86,7 +86,7 @@ This XML block defines the contents of this page.</Description>
 <Data><![CDATA[
 <pane>
 <hgroup>
-<label id="titleLabel" value="Tjänstekatalog" />
+<label id="titleLabel" value="Service Catalog" />
 <link id="titleUserName" caption="#(%page.userName)#" title="Logout" href="TK.Zen.Logout.cls"/>
 </hgroup>
 <hmenu id="menu">
