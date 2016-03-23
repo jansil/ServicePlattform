@@ -20,8 +20,23 @@
 ]]></Content>
 </UDLText>
 
+<Property name="WebServerFront">
+<Description>
+Which web server is in front of the production.</Description>
+<Type>%String</Type>
+<InitialExpression>"Apache"</InitialExpression>
+<Parameter name="VALUELIST" value=",Apache,IIS"/>
+</Property>
+
+<Property name="AllowedConsumers">
+<Description>
+Comma-separated list of allowed consumers. If blank, this setting is ignored.</Description>
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="200"/>
+</Property>
+
 <Parameter name="SETTINGS">
-<Default>Validation</Default>
+<Default>Validation,WebServerFront,AllowedConsumers</Default>
 </Parameter>
 
 <Method name="OnProcessInput">
@@ -233,10 +248,20 @@
 		ElseIf (tRequest.HTTPHeaders.GetAt("x-vp-auth-cert") '= "") {
 			//Apache
 			Set tRawCertificate = $REPLACE(tRequest.HTTPHeaders.GetAt("x-vp-auth-cert"), $Char(34), "")
-			Set pos = $FIND(tRawCertificate, "-----BEGIN CERTIFICATE----- ")
-			Set tRawCertificate = $EXTRACT(tRawCertificate, pos, *)
-			Set pos = $FIND(tRawCertificate, " -----END")
-			Set tRawCertificate = $EXTRACT(tRawCertificate, 1, pos-10)
+			
+			//Apache or IIS
+			If (..WebServerFront = "Apache") {
+				Set pos = $FIND(tRawCertificate, "-----BEGIN CERTIFICATE----- ")
+				Set tRawCertificate = $EXTRACT(tRawCertificate, pos, *)
+				Set pos = $FIND(tRawCertificate, " -----END")
+				Set tRawCertificate = $EXTRACT(tRawCertificate, 1, pos-10)
+			}
+			ElseIf (..WebServerFront = "IIS") {
+				Set pos = $FIND(tRawCertificate, "-----BEGIN CERTIFICATE-----")
+				Set tRawCertificate = $EXTRACT(tRawCertificate, pos, *)
+				Set pos = $FIND(tRawCertificate, "-----END")
+				Set tRawCertificate = $EXTRACT(tRawCertificate, 1, pos-9)
+			}
 		}
 		$$$TRACE("tRawCertificate=" _ tRawCertificate)
 		
@@ -248,6 +273,12 @@
 				// Create error VP002
 				Throw ##class(TP.Common.Exception).%New("SerialNoMissing","VP002","TP.Service.VirtualService","SerialNumber missing in client certificate.")
 			}
+		}
+		
+		If ((..AllowedConsumers '= "") && ($FIND(..AllowedConsumers, tCommonName) = 0)) {
+			$$$TRACE("Consumer " _ tCommonName _ " is not allowed to make calls to RTjP.")
+			// Create error VP011 - Anropande konsument är inte betrodd att göra http-anrop till VP.
+			Throw ##class(TP.Common.Exception).%New("ConsumerNotAllowed","VP011","TP.Service.VirtualService","Consumer " _ tCommonName _ " is not allowed to make calls to RTjP.")
 		}
 		
 		If (tRequest.HTTPHeaders.GetAt("x-rivta-original-serviceconsumer-hsaid") '= "") {
