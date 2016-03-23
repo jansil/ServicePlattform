@@ -36,10 +36,19 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 		}
 		Set ..Adapter.HTTPServer = pRequest.Host
 		Set ..Adapter.HTTPPort = pRequest.Port
-		
 		If pRequest.SSLConfig '= "" {
 			Set ..Adapter.SSLConfig = pRequest.SSLConfig
 		}
+		
+		//Modify bad content-type to new accepted value
+        If ($FIND(pRequest.HTTPHeaders.GetAt("content-type"),"charset=""utf-8""") > 0) {
+	        $$$TRACE("HTTP header content-type contains invalid value")
+	        Do ..%HttpRequest.SetHeader("content-type","text/xml;charset=UTF-8") 
+	        //Do ..%HttpRequest.SetHeader("content-type","text/xml;charset=iso-8859-1") 
+	        $$$TRACE("HTTP header content-type chaged to text/xml;charset=UTF-8")
+        } Else {
+	        Set ..%HttpRequest.ContentType=tCT          
+        }
 		
 		Set tURL = pRequest.URL
 		
