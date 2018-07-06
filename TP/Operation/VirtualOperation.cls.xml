@@ -87,7 +87,12 @@ Invoke a remote SOAP Service given a generic SOAP request</Description>
 		}
 		
 		#; Suppress HTTP status errors and just pass back the status, headers and body
-		Set:$$$ISERR(tSC)&&$$$StatusEquals(tSC,$$$EnsErrHTTPStatus) tSC=$$$OK
+		//Bug in line below
+		//Set:$$$ISERR(tSC)&&$$$StatusEquals(tSC,$$$EnsErrHTTPStatus) tSC=$$$OK
+		
+		#; Suppress HTTP status errors and just pass back the status, headers and body
+		If $$$ISERR(tSC)&&'$$$StatusEquals(tSC,$$$EnsErrHTTPStatus) { Set ..%HttpRequest=##class(%Net.HttpRequest).%New()  Quit }
+		Set tSC=$$$OK
 		
 		If $IsObject(tHttpResponse.Data) {
 			Set tStream=tHttpResponse.Data
