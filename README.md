@@ -1,10 +1,13 @@
-ServicePlattform
-================
+Service Platform
+=================
 
-Ensemble implementation of the Swedish service platform
+Implementation of the Swedish service platform for healthcare (https://www.inera.se/tjanster/infrastrukturtjanster/nationella-tjansteplattformen/) based on InterSystems' platforms.
 
-The implementation includes both the Service Catalog (Tjänstekatalog) and Virtualization Platform (Virtualiseringsplattform). These combined are the Service Platform.
+The implementation includes both the Service Catalog (Tjänstekatalog) and Virtualization Platform (Virtualiseringsplattform).
 
-The Service Platform on Ensemble is a joint project between ÖLL, LTV and ISC.
+The Service Platform on is a joint project between Region Västmanland, Regioin Örebro Län, and InterSystems.
 
-The Service Platform implementation requires Ensemble version 2014.2 or later.
+The Service Platform implementation runs on these InterSystems platforms:
+- IRIS for Health
+- HealthShare Health Connect
+- Ensemble (version 2014.2 or later)
